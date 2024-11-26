@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "", 
-    database: "test_rabaat", // Replace with your database name
+    database: "rabaat", // Replace with your database name
 });
 
 db.connect((err) => {
@@ -80,5 +80,5 @@ app.get("/api/branches/:merchantId/:cityId", (req, res) => {
   
 
 // Start Server
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
