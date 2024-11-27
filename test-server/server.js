@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "", 
-    database: "rabaat", // Replace with your database name
+    database: "test_rabaat_db", // Replace with your database name
 });
 
 db.connect((err) => {
@@ -76,9 +76,27 @@ app.get("/api/branches/:merchantId/:cityId", (req, res) => {
       res.json(results);
     });
 });
-  
-  
+
+// Fetch Discounts for a Merchant in a City and Bank
+app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
+  const { merchantId, bankId, cityId } = req.params;
+  const query = `
+      SELECT 
+          d.id, 
+          d.percentage, 
+          d.title, 
+          d.image_path, 
+          GROUP_CONCAT(c.card_name SEPARATOR ', ') AS card_names 
+      FROM discounts d
+      LEFT JOIN cards c ON d.card_id = c.id
+      WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ?
+      GROUP BY d.id`;
+  db.query(query, [merchantId, bankId, cityId], (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json(results);
+  });
+});
 
 // Start Server
-const PORT = 5001;
+const PORT = 8081;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

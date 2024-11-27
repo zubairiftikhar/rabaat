@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: "http://localhost:5001/api", // Update with your server's base URL
+    baseURL: "http://localhost:8081/api", // Update with your server's base URL
 });
 
 // Fetch all cities
@@ -30,5 +30,11 @@ export const fetchBranchesForMerchant = async (merchantId, cityId) => {
 
 export const fetchMerchantsByBankAndCity = async (bankId, cityId) => {
   const response = await api.get(`/merchants/${bankId}/${cityId}`);
+  return response.data;
+};
+
+// Fetch Discounts for a Merchant in a City and Bank
+export const fetchDiscountsForMerchant = async (merchantId, bankId, cityId) => {
+  const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}`);
   return response.data;
 };

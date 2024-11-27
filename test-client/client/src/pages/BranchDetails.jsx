@@ -1,30 +1,33 @@
-// src/pages/BranchDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
-  fetchCardsForMerchant,
   fetchBranchesForMerchant,
+  fetchDiscountsForMerchant,
 } from "../services/api";
-import DiscountCard from "../components/DiscountCard";
 import BranchCard from "../components/BranchCard";
+import DiscountCard from "../components/DiscountCard";
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
-  const [cards, setCards] = useState([]);
+  const [discounts, setDiscounts] = useState([]);
   const [branches, setBranches] = useState([]);
 
   useEffect(() => {
-    // Fetch cards for merchant, bank, and city
-    const getCards = async () => {
+    // Fetch discounts
+    const getDiscounts = async () => {
       try {
-        const data = await fetchCardsForMerchant(merchantId, bankId, cityId);
-        setCards(data);
+        const data = await fetchDiscountsForMerchant(
+          merchantId,
+          bankId,
+          cityId
+        );
+        setDiscounts(data);
       } catch (error) {
-        console.error("Error fetching cards:", error);
+        console.error("Error fetching discounts:", error);
       }
     };
 
-    // Fetch branches for merchant and city
+    // Fetch branches
     const getBranches = async () => {
       try {
         const data = await fetchBranchesForMerchant(merchantId, cityId);
@@ -34,17 +37,17 @@ const BranchDetails = () => {
       }
     };
 
-    getCards();
+    getDiscounts();
     getBranches();
   }, [merchantId, bankId, cityId]);
 
   return (
     <div className="container">
-      <h2>Cards Offering Discounts</h2>
+      <h2>Discounts</h2>
       <div className="row">
-        {cards.map((card) => (
-          <div className="col-md-4" key={card.id}>
-            <DiscountCard card={card} />
+        {discounts.map((discount) => (
+          <div className="col-12 mb-3" key={discount.id}>
+            <DiscountCard discount={discount} />
           </div>
         ))}
       </div>
