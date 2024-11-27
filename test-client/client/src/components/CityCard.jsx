@@ -15,16 +15,14 @@ const CityCard = ({ city }) => {
     <div
       className="card"
       onClick={handleCityClick}
-      style={{ cursor: "pointer" }}
+      style={{ cursor: "pointer", borderradius: "10px" }}
     >
       <img
         src={`../src/assets/img/cities/${city.image}`}
         className="card-img-top std-img"
         alt={city.name}
       />
-      <div className="card-body">
-        <h5 className="card-title">{city.name}</h5>
-      </div>
+      <h5 className="card-title card_city_name">{city.name}</h5>
     </div>
   );
 };

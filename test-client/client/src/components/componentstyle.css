@@ -1,0 +1,61 @@
+/* HERE IS CSS FOR ALL COMPONENTS */
+.main_heading{
+    text-align: center;
+    color: red;
+    font-size: 60px;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+/* START ALLCITIES CSS */
+.side_border_dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: black;
+    margin: 20px 0;
+    margin-left: auto;
+    width: 700px;
+    text-align: center;
+    margin-right: auto;
+  }
+  
+  .side_border_dots .line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: red;
+    position: relative;
+  }
+  
+  .side_border_dots .line::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 8px;
+    height: 8px;
+    background-color: red;
+    border-radius: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .side_border_dots .line:last-child::before {
+    left: auto;
+    right: 0;
+  }
+  @media (max-width: 768px) {
+    .side_border_dots {
+      flex-direction: column;
+      gap: 5px;
+    }
+  
+    .side_border_dots .line {
+      flex-grow: 0;
+      width: 50%;
+    }
+  }
+    
+/* END ALLCITIES CSS */
