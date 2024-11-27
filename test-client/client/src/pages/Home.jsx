@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { fetchCities } from "../services/api";
 import CityCard from "../components/CityCard";
+import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
 
 const Home = () => {
   const [cities, setCities] = useState([]);
@@ -20,15 +21,18 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="container">
-      <div className="row">
-        {cities.map((city) => (
-          <div className="col-md-4" key={city.id}>
-            <CityCard city={city} />
-          </div>
-        ))}
+    <>
+      <Mainsecsearch />
+      <div className="container">
+        <div className="row">
+          {cities.map((city) => (
+            <div className="col-md-4" key={city.id}>
+              <CityCard city={city} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

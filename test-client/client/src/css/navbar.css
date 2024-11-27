@@ -1,3 +1,26 @@
-body{
-    background-color: aquamarine;
+.rabaat_nav_bg {
+    background-color: rgba(0, 0, 0, 0.589);
+}
+
+.navbar-nav {
+    margin-left: auto;
+    /* Push links to the right */
+}
+.navbar-nav li a {
+    color: #f0f0f0;
+    font-weight: 600;
+    padding: 8px 16px;
+
+}
+.navbar-nav li a:hover {
+    color: #fff;
+}
+.navbar-nav li a:focus {
+    color: #fff;
+}
+.rabaat_login_btn {
+    background-color: red;
+    color: #fff;
+    font-weight: 700;
+    border: 2px solid black;
 }
