@@ -30,6 +30,16 @@ app.get("/api/cities", (req, res) => {
     });
 });
 
+// 1. Fetch city by ID
+app.get("/api/cities/:cityId", (req, res) => {
+  const { cityId } = req.params;
+  const query = "SELECT id, name, image_path FROM cities WHERE id = ?";
+  db.query(query, [cityId], (err, result) => {
+      if (err) return res.status(500).json(err);
+      res.json(result[0]); // Return single city object
+  });
+});
+
 // 2. Fetch banks for a specific city
 app.get("/api/banks/:cityId", (req, res) => {
     const { cityId } = req.params;
@@ -40,15 +50,60 @@ app.get("/api/banks/:cityId", (req, res) => {
     });
 });
 
-// 3. Fetch merchants for a specific bank and city
+// 3. Fetch merchants and bank for a specific bank and city
 app.get("/api/merchants/:bankId/:cityId", (req, res) => {
-    const { bankId, cityId } = req.params;
-    const query = "SELECT id, name, category, image_path FROM merchants WHERE bank_id = ? AND city_id = ?";
-    db.query(query, [bankId, cityId], (err, results) => {
+  const { bankId, cityId } = req.params;
+
+  // Query to fetch bank data and associated merchants
+  const query = `
+    SELECT 
+      b.id AS bank_id, 
+      b.name AS bank_name, 
+      b.image_path AS bank_image, 
+      m.id AS merchant_id, 
+      m.name AS merchant_name, 
+      m.category AS merchant_category, 
+      m.image_path AS merchant_image 
+    FROM merchants m
+    JOIN banks b ON m.bank_id = b.id
+    WHERE m.bank_id = ? AND m.city_id = ?
+  `;
+
+  db.query(query, [bankId, cityId], (err, results) => {
       if (err) return res.status(500).json(err);
-      res.json(results);
-    });
+
+      // Format the response to include bank data and merchants
+      if (results.length > 0) {
+          const bankData = {
+              id: results[0].bank_id,
+              name: results[0].bank_name,
+              image: results[0].bank_image,
+          };
+
+          const merchants = results.map(row => ({
+              id: row.merchant_id,
+              name: row.merchant_name,
+              category: row.merchant_category,
+              image: row.merchant_image,
+          }));
+
+          res.json({ bank: bankData, merchants });
+      } else {
+          res.json({ bank: null, merchants: [] });
+      }
+  });
 });
+
+// Fetch merchant by merchant id
+app.get("/api/merchant/:merchantId", (req, res) => {
+  const { merchantId } = req.params;
+  const query = "SELECT id, name, image_path FROM merchants WHERE id = ?";
+  db.query(query, [merchantId], (err, result) => {
+      if (err) return res.status(500).json(err);
+      res.json(result[0]); // Return single city object
+  });
+});
+
 
 // Fetch Cards for a Merchant in a City and Bank
 app.get("/api/cards/:merchantId/:bankId/:cityId", (req, res) => {

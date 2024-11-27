@@ -11,9 +11,13 @@ const MerchantCard = ({ merchant, bankId, cityId }) => {
   };
 
   return (
-    <div className="card" onClick={handleClick} style={{ cursor: "pointer" }}>
+    <div
+      className="card  std-img"
+      onClick={handleClick}
+      style={{ cursor: "pointer" }}
+    >
       <img
-        src={`/assets/img/merchants/${merchant.image_path}`}
+        src={`/src/assets/img/merchants/${merchant.image}`}
         className="card-img-top"
         alt={merchant.name}
       />

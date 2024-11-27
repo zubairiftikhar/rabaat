@@ -7,12 +7,14 @@ import MerchantCard from "../components/MerchantCard";
 const Merchants = () => {
   const { bankId, cityId } = useParams(); // Get bankId and cityId from URL params
   const [merchants, setMerchants] = useState([]);
+  const [bank, setBank] = useState([]);
 
   useEffect(() => {
     const getMerchants = async () => {
       try {
         const data = await fetchMerchantsByBankAndCity(bankId, cityId); // Fetch merchants based on bankId and cityId
-        setMerchants(data);
+        setBank(data.bank); // Set bank data
+        setMerchants(data.merchants); // Set merchants data
       } catch (error) {
         console.error("Error fetching merchants:", error);
       }
@@ -22,7 +24,14 @@ const Merchants = () => {
 
   return (
     <div className="container">
-      <h2>Merchants for the Bank</h2>
+      <img
+        src={`/src/assets/img/banks/${bank.image}`}
+        alt={bank.name}
+        style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
+      />
+      <div>
+        <h4>Merchants in {bank.name}</h4>
+      </div>
       <div className="row">
         {merchants.map((merchant) => (
           <div className="col-md-4" key={merchant.id}>
