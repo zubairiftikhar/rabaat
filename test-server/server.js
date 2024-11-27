@@ -97,6 +97,71 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
   });
 });
 
+app.get("/api/discounts/:discountId/details", (req, res) => {
+  const { discountId } = req.params;
+
+  const discountQuery = `
+    SELECT d.id, d.title, d.description, d.percentage, d.expiration_date, d.image_path 
+    FROM discounts d
+    WHERE d.id = ?;
+  `;
+
+  const cardsQuery = `
+    SELECT c.id, c.card_name, c.card_type, c.image_path, b.name AS bank_name 
+    FROM cards c 
+    JOIN banks b ON c.bank_id = b.id 
+    WHERE c.id IN (SELECT card_id FROM discounts WHERE id = ?);
+  `;
+
+  const branchesQuery = `
+    SELECT b.id, b.name, b.address, b.image_path 
+    FROM branches b 
+    WHERE b.id IN (SELECT branch_id FROM discounts WHERE id = ?);
+  `;
+
+  const queries = [discountQuery, cardsQuery, branchesQuery];
+
+  Promise.all(
+    queries.map((query) =>
+      new Promise((resolve, reject) =>
+        db.query(query, [discountId], (err, results) => {
+          if (err) return reject(err);
+          resolve(results);
+        })
+      )
+    )
+  )
+    .then(([discount, cards, branches]) => {
+      res.json({ ...discount[0], cards, branches });
+    })
+    .catch((error) => {
+      res.status(500).json({ error: error.message });
+    });
+});
+
+
+// Fetch Discounts for a specific Branch in a Merchant, City, and Bank
+app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res) => {
+  const { merchantId, bankId, cityId, branchId } = req.params;
+  const query = `
+    SELECT 
+      d.id, 
+      d.percentage, 
+      d.title, 
+      d.image_path, 
+      GROUP_CONCAT(c.card_name SEPARATOR ', ') AS card_names 
+    FROM discounts d
+    LEFT JOIN cards c ON d.card_id = c.id
+    WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ? AND d.branch_id = ?
+    GROUP BY d.id
+  `;
+  db.query(query, [merchantId, bankId, cityId, branchId], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
+
 // Start Server
 const PORT = 8081;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

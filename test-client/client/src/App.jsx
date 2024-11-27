@@ -8,6 +8,8 @@ import Deals from "./pages/Deals";
 import BranchDetails from "./pages/BranchDetails";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import DiscountDetail from "./pages/DiscountDetails";
+import BranchDiscount from "./pages/BranchDiscount";
 
 const App = () => {
   return (
@@ -21,6 +23,11 @@ const App = () => {
         <Route
           path="/branches/:merchantId/:bankId/:cityId"
           element={<BranchDetails />}
+        />
+        <Route path="/discounts/:discountId" element={<DiscountDetail />} />
+        <Route
+          path="/branchdiscount/:branchId/:merchantId/:bankId/:cityId"
+          element={<BranchDiscount />}
         />
       </Routes>
       <Footer />

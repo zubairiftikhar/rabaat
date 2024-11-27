@@ -38,3 +38,15 @@ export const fetchDiscountsForMerchant = async (merchantId, bankId, cityId) => {
   const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}`);
   return response.data;
 };
+
+
+export const fetchDiscountDetail = async (discountId) => {
+  const response = await api.get(`/discounts/${discountId}/details`);
+  return response.data;
+};
+
+// Fetch Discounts for a Branch
+export const fetchDiscountsForBranch = async (branchId, merchantId, bankId, cityId) => {
+  const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}/branch/${branchId}`);
+  return response.data;
+};

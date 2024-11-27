@@ -56,7 +56,12 @@ const BranchDetails = () => {
       <div className="row">
         {branches.map((branch) => (
           <div className="col-md-6" key={branch.id}>
-            <BranchCard branch={branch} />
+            <BranchCard
+              branch={branch}
+              merchantId={merchantId}
+              bankId={bankId}
+              cityId={cityId}
+            />
           </div>
         ))}
       </div>
