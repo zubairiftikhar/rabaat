@@ -10,6 +10,12 @@ export const fetchCities = async () => {
   return response.data; // Return the cities data
 };
 
+// Fetch city details by cityId
+export const fetchCityById = async (cityId) => {
+  const response = await api.get(`/cities/${cityId}`);
+  return response.data;
+};
+
 // Fetch banks for a specific city
 export const fetchBanksByCity = async (cityId) => {
     const response = await api.get(`/banks/${cityId}`);
@@ -47,6 +53,11 @@ export const fetchDiscountDetail = async (discountId) => {
 
 // Fetch Discounts for a Branch
 export const fetchDiscountsForBranch = async (branchId, merchantId, bankId, cityId) => {
-  const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}/branch/${branchId}`);
+  const response = await api.get(`/branch-discounts/${merchantId}/${bankId}/${cityId}/${branchId}`);
+  return response.data;
+};
+
+export const fetchMerchantByMerchantId = async (merchantId) => {
+  const response = await api.get(`/merchant/${merchantId}`);
   return response.data;
 };

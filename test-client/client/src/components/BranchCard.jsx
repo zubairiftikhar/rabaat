@@ -8,9 +8,9 @@ const BranchCard = ({ branch, merchantId, bankId, cityId }) => {
       to={`/branchdiscount/${branch.id}/${merchantId}/${bankId}/${cityId}`} // Link to the BranchDiscount page
       className="text-decoration-none" // Removes underline
     >
-      <div className="card">
+      <div className="card std-img">
         <img
-          src={`/assets/img/branches/${branch.image_path}`}
+          src={`/src/assets/img/merchants/${branch.image_path}`}
           className="card-img-top"
           alt={branch.name}
         />
