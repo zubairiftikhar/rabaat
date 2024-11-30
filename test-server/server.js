@@ -11,7 +11,7 @@ const db = mysql.createConnection({
     host: "localhost",
     user: "root",
     password: "", 
-    database: "test_rabaat_db", // Replace with your database name
+    database: "rabaat", // Replace with your database name
 });
 
 db.connect((err) => {
@@ -37,6 +37,15 @@ app.get("/api/cities/:cityId", (req, res) => {
   db.query(query, [cityId], (err, result) => {
       if (err) return res.status(500).json(err);
       res.json(result[0]); // Return single city object
+  });
+});
+
+// 1. Fetch all Banks
+app.get("/api/allbanks", (req, res) => {
+  const query = "SELECT id, name,bank_short_code, image_path AS image FROM banks"; // Removed description
+  db.query(query, (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json(results);
   });
 });
 
