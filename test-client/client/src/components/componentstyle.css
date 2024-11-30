@@ -1,61 +1,137 @@
 /* HERE IS CSS FOR ALL COMPONENTS */
-.main_heading{
-    text-align: center;
-    color: red;
-    font-size: 60px;
-    text-transform: uppercase;
-    font-weight: 700;
+.main_heading {
+  text-align: center;
+  color: red;
+  font-size: 60px;
+  text-transform: uppercase;
+  font-weight: 700;
 }
+
 /* START ALLCITIES CSS */
 .side_border_dots {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
-    font-family: Arial, sans-serif;
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
-    margin: 20px 0;
-    margin-left: auto;
-    width: 700px;
-    text-align: center;
-    margin-right: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: black;
+  margin: 20px 0;
+  margin-left: auto;
+  width: 700px;
+  text-align: center;
+  margin-right: auto;
+}
+
+.side_border_dots .line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: red;
+  position: relative;
+}
+
+.side_border_dots .line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: red;
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.side_border_dots .line:last-child::before {
+  left: auto;
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .side_border_dots {
+    flex-direction: column;
+    gap: 5px;
   }
-  
+
   .side_border_dots .line {
-    flex-grow: 1;
-    height: 2px;
-    background-color: red;
-    position: relative;
+    flex-grow: 0;
+    width: 50%;
   }
-  
-  .side_border_dots .line::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 8px;
-    height: 8px;
-    background-color: red;
-    border-radius: 50%;
-    transform: translateY(-50%);
-  }
-  
-  .side_border_dots .line:last-child::before {
-    left: auto;
-    right: 0;
-  }
-  @media (max-width: 768px) {
-    .side_border_dots {
-      flex-direction: column;
-      gap: 5px;
-    }
-  
-    .side_border_dots .line {
-      flex-grow: 0;
-      width: 50%;
-    }
-  }
-    
+}
+
 /* END ALLCITIES CSS */
+
+
+/* START ALLBANKS CSS */
+.bank_bg {
+  background-image: url(../assets/img/banks/bank_bg.jpg);
+  background-size: cover;
+  background-repeat: no-repeat;
+  width: 100%;
+}
+
+.main_heading_bank_landing {
+  text-align: center;
+  color: rgb(255, 255, 255);
+  font-size: 60px;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+/* START ALLCITIES CSS */
+.side_border_dots_bank_landing {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: red;
+  margin: 20px 0;
+  margin-left: auto;
+  width: 700px;
+  text-align: center;
+  margin-right: auto;
+}
+
+.side_border_dots_bank_landing .line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: rgb(255, 255, 255);
+  position: relative;
+}
+
+.side_border_dots_bank_landing .line::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
+  transform: translateY(-50%);
+}
+
+.side_border_dots_bank_landing .line:last-child::before {
+  left: auto;
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .side_border_dots_bank_landing {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .side_border_dots_bank_landing .line {
+    flex-grow: 0;
+    width: 50%;
+  }
+}
+
+/* END ALLCITIES banks CSS */
+
+/* END ALLBANKS CSS */

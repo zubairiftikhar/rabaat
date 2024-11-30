@@ -41,6 +41,15 @@ app.get("/api/cities/:cityId", (req, res) => {
   });
 });
 
+// 1. Fetch all Banks
+app.get("/api/allbanks", (req, res) => {
+  const query = "SELECT id, name,bank_short_code, image_path AS image FROM banks"; // Removed description
+  db.query(query, (err, results) => {
+      if (err) return res.status(500).json(err);
+      res.json(results);
+  });
+});
+
 // 2. Fetch banks for a specific city
 app.get("/api/banks/:cityId", (req, res) => {
     const { cityId } = req.params;

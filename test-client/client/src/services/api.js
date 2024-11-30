@@ -10,6 +10,12 @@ export const fetchCities = async () => {
   return response.data; // Return the cities data
 };
 
+// Fetch all cities
+export const fetchallBanks = async () => {
+  const response = await api.get("/allbanks");
+  return response.data; // Return the cities data
+};
+
 // Fetch city details by cityId
 export const fetchCityById = async (cityId) => {
   const response = await api.get(`/cities/${cityId}`);
