@@ -17,7 +17,7 @@ const BankCard = ({ bank, cityId, image }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../src/assets/img/banks/${bank.image}`}
+        src={`../src/assets/img/banks/${bank.image_path}`}
         className="card-img-top std-img"
         alt={bank.name}
       />

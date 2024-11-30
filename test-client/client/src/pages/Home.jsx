@@ -2,7 +2,7 @@
 import React from "react";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
 import AllCities from "../components/AllCities";
-import AllBanks from "../components/AllBanks";
+
 
 const Home = () => {
   
