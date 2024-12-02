@@ -226,6 +226,22 @@ app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res
   });
 });
 
+app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
+  const { cityId, keyword } = req.params;
+  const query = `
+    SELECT DISTINCT name 
+    FROM merchants 
+    WHERE city_id = ? 
+    AND name LIKE ?
+  `;
+  const searchKeyword = `%${keyword}%`;
+  
+  db.query(query, [cityId, searchKeyword], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
 
 // Start Server
 const PORT = process.env.PORT;
