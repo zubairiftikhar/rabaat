@@ -24,10 +24,10 @@ const AllCities = () => {
         <div className="row">
           <div className="col-lg-12 col-sm">
             <h1 className="main_heading pt-5">Cities</h1>
-            <div class="side_border_dots pt-3 pb-5">
-              <span class="line"></span>
-              <span class="text">LET'S DISCOVER BY CITIES</span>
-              <span class="line"></span>
+            <div className="side_border_dots pt-3 pb-5">
+              <span className="line"></span>
+              <span className="text">LET'S DISCOVER BY CITIES</span>
+              <span className="line"></span>
             </div>
           </div>
         </div>

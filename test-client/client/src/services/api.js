@@ -67,3 +67,8 @@ export const fetchMerchantByMerchantId = async (merchantId) => {
   const response = await api.get(`/merchant/${merchantId}`);
   return response.data;
 };
+
+export const fetchMerchantSearchResults = async (cityId, keyword) => {
+  const response = await api.get(`/merchants-search/${cityId}/${keyword}`);
+  return response.data;
+};
