@@ -45,10 +45,10 @@ const Mainsecsearch = ({ city }) => {
       <div className="container">
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
-            <h3 className="mb-3">
+          <h3 className="mb-3" style={{ textShadow: '2px 2px 4px #000000b8' }}>
               Unlock Big <span className="highlight">Savings</span>
             </h3>
-            <h3 className="mb-4">
+            <h3 className="mb-4" style={{ textShadow: '2px 2px 4px #000000b8' }}>
               Your Go-To Destination for Discounted Cards
             </h3>
             <div className="search-bar mb-3">
