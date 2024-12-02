@@ -13,7 +13,7 @@ const CityCard = ({ city }) => {
 
   return (
     <div
-      className="card"
+      className="card card_s"
       onClick={handleCityClick}
       style={{ cursor: "pointer", borderradius: "10px" }}
     >

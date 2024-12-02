@@ -3,15 +3,23 @@
   border: 3px solid red;
     border-radius: 10px;
 }
+.card_s{
+  position: relative; /* To position the label relative to the card */
+  display: inline-block; /* Align cards inline */
+  border: 2px solid red;
+  border-radius: 10px; /* Optional: smooth corners */
+  overflow: hidden; /* Ensures label stays inside the card */
+  margin: 10px; /* Adds spacing between cards */
+}
 .card_city_name{
   position: absolute;
-  top: 80%;
-  left: 65%;
-  border: 1px solid red;
-  padding: 5px 0px;
-  width: 105px;
-  text-align: center;
+  bottom: 10px; /* Adjusts the label closer to the bottom */
+  right: 10px; /* Ensures padding from the card edge */
+  padding: 5px 10px; /* Padding for consistent spacing inside the label */
   background-color: red;
-  color: #fff;
-  border-radius: 5px;
+  color: white;
+  font-weight: 500;
+  border-radius: 5px; /* Optional: smooth edges */
+  white-space: nowrap; /* Prevents text wrapping */
+  text-align: center; /* Centers text */
 }
