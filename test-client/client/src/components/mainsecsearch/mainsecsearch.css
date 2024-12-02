@@ -54,3 +54,52 @@
     padding: 8px 15px;
   }
 }
+  /* Container for suggestions list */
+  .suggestions-list {
+    position: absolute;
+    background-color: white;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    top: 100%;
+    left: 0;
+    border-radius: 5px;
+    margin-top: 5px;
+  }
+  
+  /* Styling for each suggestion item */
+  .suggestion-item {
+    padding: 10px;
+    cursor: pointer;
+    font-size: 14px;
+    color: black; /* Default text color */
+    background-color: white; /* Default background color */
+    transition: background-color 0.2s ease, color 0.2s ease; /* Smooth transition for both background and text color */
+  }
+  
+  /* Reverse background and text color on hover */
+  .suggestion-item:hover {
+    background-color: black; /* Dark background on hover */
+    color: white; /* White text on hover */
+  }
+  
+  /* Loading state */
+  .loader {
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  /* Input field container to position suggestions correctly */
+  .search-bar {
+    position: relative;
+  }
+  
+  /* Optional: Styling for search bar */
+  .form-control {
+    padding-left: 35px; /* Adjust padding to fit the search icon */
+  }
+  

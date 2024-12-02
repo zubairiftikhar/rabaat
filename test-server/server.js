@@ -226,21 +226,52 @@ app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res
   });
 });
 
+
 app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
   const { cityId, keyword } = req.params;
+
   const query = `
-    SELECT DISTINCT name 
-    FROM merchants 
-    WHERE city_id = ? 
-    AND name LIKE ?
+    SELECT DISTINCT m.name AS merchant_name, b.name AS branch_name, b.id AS branch_id
+    FROM merchants m
+    LEFT JOIN branches b ON m.id = b.merchant_id
+    WHERE m.city_id = ? 
+    AND (m.name LIKE ? OR b.name LIKE ?)
   `;
+
   const searchKeyword = `%${keyword}%`;
-  
-  db.query(query, [cityId, searchKeyword], (err, results) => {
+
+  db.query(query, [cityId, searchKeyword, searchKeyword], (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
 });
+
+
+// API endpoint to get banks offering discounts for a specific branch in a city
+app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
+  const { branchId, cityId } = req.params;
+
+  // Query to get the banks offering discounts for this branch in the city
+  const query = `
+    SELECT 
+      bn.id AS bank_Id,
+      bn.name AS bank_name, 
+      bn.image_path AS bank_image
+    FROM banks bn
+    JOIN discounts d ON bn.id = d.bank_id
+    JOIN branches b ON d.branch_id = b.id
+    WHERE b.id = ? AND b.city_id = ?
+  `;
+
+  db.query(query, [branchId, cityId], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: 'Error fetching data from the database' });
+    }
+    res.json(results); // Return banks with discounts for the branch in the city
+  });
+});
+
+
 
 
 // Start Server
