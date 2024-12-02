@@ -20,7 +20,7 @@ const AllCities = () => {
   }, []);
   return (
     <>
-      <div className="container mt-5">
+      <div className="container pt-5">
         <div className="row">
           <div className="col-lg-12 col-sm">
             <h1 className="main_heading pt-5">Cities</h1>
@@ -35,7 +35,7 @@ const AllCities = () => {
       <div className="container">
         <div className="row">
           {cities.map((city) => (
-            <div className="col-md-4" key={city.id}>
+            <div className="col-md-3" key={city.id}>
               <CityCard city={city} />
             </div>
           ))}

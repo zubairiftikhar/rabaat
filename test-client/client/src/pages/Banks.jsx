@@ -48,7 +48,7 @@ const Banks = () => {
         /> */}
         <div className="row">
           {banks.map((bank) => (
-            <div className="col-md-4" key={bank.id}>
+            <div className="col-md-3" key={bank.id}>
               <BankCard bank={bank} cityId={cityId} />
               {/* Pass cityId as a prop */}
             </div>

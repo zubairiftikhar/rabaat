@@ -23,23 +23,25 @@ const Merchants = () => {
   }, [bankId, cityId]); // Refetch merchants when bankId or cityId changes
 
   return (
-    <div className="container">
+    <>
       <img
         src={`/src/assets/img/banks/${bank.image}`}
         alt={bank.name}
         style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
       />
-      <div>
-        <h4>Merchants in {bank.name}</h4>
+      <div className="container">
+        <div>
+          <h4>Merchants in {bank.name}</h4>
+        </div>
+        <div className="row">
+          {merchants.map((merchant) => (
+            <div className="col-md-4" key={merchant.id}>
+              <MerchantCard bankId={bankId} cityId={cityId} merchant={merchant} />
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="row">
-        {merchants.map((merchant) => (
-          <div className="col-md-4" key={merchant.id}>
-            <MerchantCard bankId={bankId} cityId={cityId} merchant={merchant} />
-          </div>
-        ))}
-      </div>
-    </div>
+    </>
   );
 };
 
