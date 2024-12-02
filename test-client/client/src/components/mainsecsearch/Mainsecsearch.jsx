@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Use useNavigate for navigation in React Router v6
 import SearchCard from "../../assets/img/landing/main_search_card.png";
 import SearchShop from "../../assets/img/landing/main_search_shop.png";
 import "./mainsecsearch.css";
@@ -9,6 +10,7 @@ const Mainsecsearch = ({ city }) => {
   const [keyword, setKeyword] = useState(""); // Manage search input
   const [suggestions, setSuggestions] = useState([]); // Store search results
   const [loading, setLoading] = useState(false); // Loading state to handle async requests
+  const navigate = useNavigate(); // For navigation
 
   const backgroundImageUrl = `../src/assets/img/cities/${city.image_path}`;
 
@@ -22,7 +24,7 @@ const Mainsecsearch = ({ city }) => {
       setLoading(true);
       try {
         const data = await fetchMerchantSearchResults(city.id, keyword); // Pass city.id and keyword to fetch
-        setSuggestions(data); // Assuming data is an array of merchants
+        setSuggestions(data); // Assuming data is an array of merchants and branches
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -36,6 +38,10 @@ const Mainsecsearch = ({ city }) => {
 
     return () => clearTimeout(delaySearch); // Cleanup timeout on keyword change
   }, [keyword, city.id]);
+
+  const handleBranchClick = (branchId) => {
+    navigate(`/branch-details/${branchId}/${city.id}`); // Pass both branchId and cityId
+  };
 
   return (
     <div
@@ -62,16 +68,21 @@ const Mainsecsearch = ({ city }) => {
               />
               {loading && <div className="loader">Loading...</div>}{" "}
               {/* Show loading indicator */}
-              {suggestions.length > 0 && (
+              {suggestions.length > 0 ? (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (
-                    <div key={index} className="suggestion-item">
-                      {suggestion.name}{" "}
-                      {/* Assuming 'name' is a field in your response */}
+                    <div
+                      key={index}
+                      className="suggestion-item"
+                      onClick={() => handleBranchClick(suggestion.branch_id)} // On click, go to branch details page
+                    >
+                      {suggestion.merchant_name} - {suggestion.branch_name}
                     </div>
                   ))}
                 </div>
-              )}
+              ) : keyword.trim() !== "" && !loading ? (
+                <div className="no-results">No results found</div> // Show no results message
+              ) : null}
             </div>
           </div>
           <div className="col-lg-5 col-md-12 col-sm-12">
