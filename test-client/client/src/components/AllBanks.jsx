@@ -31,7 +31,7 @@ const AllBanks = () => {
                         <div className="container">
                             <div className="row">
                                 {allbanks.map((bank) => (
-                                    <div className="col-md-4" key={bank.id}>
+                                    <div className="col-md-3" key={bank.id}>
                                         <BankCard bank={bank} />
                                     </div>
                                 ))}

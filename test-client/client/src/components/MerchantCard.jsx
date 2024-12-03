@@ -12,7 +12,7 @@ const MerchantCard = ({ merchant, bankId, cityId }) => {
 
   return (
     <div
-      className="card std-img"
+      className="card std-img card_s"
       onClick={handleClick}
       style={{ cursor: "pointer" }}
     >
