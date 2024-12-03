@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { fetchBanksByCity, fetchCityById } from "../services/api";
 import BankCard from "../components/BankCard";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
+import { FaSearch } from "react-icons/fa"; // Import the search icon
 import "../components/mainsecsearch/mainsecsearch.css";
 import "../css/cityload.css";
 
@@ -12,6 +13,7 @@ const Banks = () => {
   const [city, setCity] = useState([]);
   const [visibleRows, setVisibleRows] = useState(2); // State for visible rows
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   useEffect(() => {
     const getBanks = async () => {
@@ -35,7 +37,13 @@ const Banks = () => {
     }, 1000); // Delay in milliseconds
   };
 
-  const banksToShow = banks.slice(0, visibleRows * 4); // 4 banks per row
+  const filteredBanks = banks.filter(
+    (bank) => bank.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter banks by name
+  );
+
+  const banksToShow = filteredBanks.slice(0, visibleRows * 4); // 4 banks per row
+
+  const isLoadMoreDisabled = banksToShow.length >= filteredBanks.length; // Disable if all banks are loaded
 
   return (
     <>
@@ -48,6 +56,21 @@ const Banks = () => {
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY BANKS</span>
               <span className="line"></span>
+            </div>
+            {/* Search Input with Icon */}
+            <div className="d-flex pt-3 pb-4">
+              <div className="input-group" style={{ maxWidth: "300px" }}>
+                <span className="input-group-text">
+                  <FaSearch /> {/* React Icon Search Icon */}
+                </span>
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search Bank Here..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -64,13 +87,19 @@ const Banks = () => {
             </div>
           ))}
         </div>
-        {banksToShow.length < banks.length && ( // Show button if more banks are available
-          <div className="text-center mt-4">
-            <button className="btn btn-primary" onClick={loadMore}>
-              {loadingMore ? "Loading..." : "Read More"}
-            </button>
-          </div>
-        )}
+        {/* Only show "Load More" button if there are more banks to load */}
+        {filteredBanks.length > banksToShow.length &&
+          filteredBanks.length > 8 && (
+            <div className="text-center mt-4">
+              <button
+                className="btn btn-primary"
+                onClick={loadMore}
+                disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
+              >
+                {loadingMore ? "Loading..." : "Read More"}
+              </button>
+            </div>
+          )}
       </div>
     </>
   );

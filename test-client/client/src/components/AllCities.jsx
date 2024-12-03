@@ -38,6 +38,8 @@ const AllCities = () => {
 
   const citiesToShow = filteredCities.slice(0, visibleRows * 4); // 4 cities per row
 
+  const isLoadMoreDisabled = citiesToShow.length >= filteredCities.length; // Disable if all cities are loaded
+
   return (
     <>
       <div className="container pt-5">
@@ -79,14 +81,14 @@ const AllCities = () => {
             </div>
           ))}
         </div>
-        {/* Only show "Load More" button if there are more cities to load and there are more than 8 cities */}
+        {/* Only show "Load More" button if there are more cities to load */}
         {filteredCities.length > citiesToShow.length &&
           filteredCities.length > 8 && (
             <div className="text-center mt-4">
               <button
                 className="btn btn-primary"
                 onClick={loadMore}
-                disabled={citiesToShow.length >= filteredCities.length} // Disable button if all cities are loaded
+                disabled={isLoadMoreDisabled} // Disable button if all cities are loaded
               >
                 {loadingMore ? "Loading..." : "Load More"}
               </button>
