@@ -8,7 +8,7 @@
   display: inline-block; /* Align cards inline */
   border-radius: 10px; /* Optional: smooth corners */
   overflow: hidden; /* Ensures label stays inside the card */
-  margin: 10px; /* Adds spacing between cards */
+  margin: 12px 0px;  /* Adds spacing between cards */
 }
 .card_city_name{
   position: absolute;
@@ -25,14 +25,14 @@
 }
 .card_category{
   position: absolute;
-    bottom: 10px;
-    left: 8px;
-    padding: 4px 10px;
-    background-color: #121212;
-    font-size: 15px;
-    color: white;
-    font-weight: 500;
-    border-radius: 5px;
-    white-space: nowrap;
-    text-align: center;
+  top: 7px;
+  left: 6px;
+  padding: 2px 5px;
+  background-color: #121212;
+  font-size: 12px;
+  color: white;
+  font-weight: 400;
+  border-radius: 5px;
+  white-space: nowrap;
+  text-align: center;
 }
