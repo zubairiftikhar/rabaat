@@ -231,7 +231,7 @@ app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
   const { cityId, keyword } = req.params;
 
   const query = `
-    SELECT DISTINCT m.name AS merchant_name, b.name AS branch_name, b.id AS branch_id
+    SELECT DISTINCT m.name AS merchant_name, m.id AS merchant_Id, b.name AS branch_name, b.id AS branch_id
     FROM merchants m
     LEFT JOIN branches b ON m.id = b.merchant_id
     WHERE m.city_id = ? 

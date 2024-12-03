@@ -3,11 +3,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const BankWithBranch = ({ bank, cityId, branchId }) => {
+const BankWithBranch = ({ bank, cityId, branchId, merchant_Id }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleBankClick = () => {
-    navigate(`/branchtodicount/${bank.bank_Id}/${cityId}/${branchId}`); // Navigate to Merchants page with bankId and cityId
+    navigate(
+      `/branchdiscount/${branchId}/${merchant_Id}/${bank.bank_Id}/${cityId}`
+    );
   };
 
   return (
@@ -17,7 +19,7 @@ const BankWithBranch = ({ bank, cityId, branchId }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../../src/assets/img/banks/${bank.bank_image}`}
+        src={`../../../src/assets/img/banks/${bank.bank_image}`}
         className="card-img-top std-img"
         alt={bank.bank_name}
       />

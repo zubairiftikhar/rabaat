@@ -31,7 +31,7 @@ const App = () => {
           element={<BranchDiscount />}
         />
         <Route
-          path="/branch-details/:branchId/:cityId"
+          path="/branch-details/:merchant_Id/:branchId/:cityId"
           element={<BranchToBankDetails />}
         />
       </Routes>
