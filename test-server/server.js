@@ -231,20 +231,21 @@ app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
   const { cityId, keyword } = req.params;
 
   const query = `
-    SELECT DISTINCT m.name AS merchant_name, m.id AS merchant_Id, b.name AS branch_name, b.id AS branch_id
+    SELECT DISTINCT m.name AS merchant_name, m.id AS merchant_Id, b.name AS branch_name, b.id AS branch_id, b.address AS branch_address
     FROM merchants m
     LEFT JOIN branches b ON m.id = b.merchant_id
     WHERE m.city_id = ? 
-    AND (m.name LIKE ? OR b.name LIKE ?)
+    AND CONCAT(m.name, ' ', b.address) LIKE ?
   `;
 
   const searchKeyword = `%${keyword}%`;
 
-  db.query(query, [cityId, searchKeyword, searchKeyword], (err, results) => {
+  db.query(query, [cityId, searchKeyword], (err, results) => {
     if (err) return res.status(500).json(err);
     res.json(results);
   });
 });
+
 
 
 // API endpoint to get banks offering discounts for a specific branch in a city
