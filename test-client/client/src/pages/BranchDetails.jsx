@@ -73,7 +73,7 @@ const BranchDetails = () => {
       <h2 className="mt-4">Branches</h2>
       <div className="row">
         {branches.map((branch) => (
-          <div className="col-md-6" key={branch.id}>
+          <div className="col-md-3" key={branch.id}>
             <BranchCard
               branch={branch}
               merchantId={merchantId}

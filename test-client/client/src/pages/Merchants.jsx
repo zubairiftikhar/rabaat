@@ -29,13 +29,22 @@ const Merchants = () => {
         alt={bank.name}
         style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
       />
-      <div className="container">
-        <div>
-          <h4>Merchants in {bank.name}</h4>
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-lg-12 col-sm">
+            <h1 className="main_heading pt-5">Merchants in {bank.name}</h1>
+            <div class="side_border_dots pt-3 pb-5">
+              <span class="line"></span>
+              <span class="text">LET'S DISCOVER BY MERCHANTS</span>
+              <span class="line"></span>
+            </div>
+          </div>
         </div>
+      </div>
+      <div className="container">
         <div className="row">
           {merchants.map((merchant) => (
-            <div className="col-md-4" key={merchant.id}>
+            <div className="col-md-3" key={merchant.id}>
               <MerchantCard bankId={bankId} cityId={cityId} merchant={merchant} />
             </div>
           ))}

@@ -12,7 +12,7 @@ const MerchantCard = ({ merchant, bankId, cityId }) => {
 
   return (
     <div
-      className="card  std-img"
+      className="card std-img"
       onClick={handleClick}
       style={{ cursor: "pointer" }}
     >
@@ -21,9 +21,9 @@ const MerchantCard = ({ merchant, bankId, cityId }) => {
         className="card-img-top"
         alt={merchant.name}
       />
+        <h5 className="card-title card_city_name">{merchant.name}</h5>
       <div className="card-body">
-        <h5 className="card-title">{merchant.name}</h5>
-        <p className="card-text">{merchant.category}</p>
+        <p className="card-text card_category">{merchant.category}</p>
       </div>
     </div>
   );
