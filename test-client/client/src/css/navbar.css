@@ -1,5 +1,5 @@
 .rabaat_nav_bg {
-    background-color: rgb(0 0 0 / 65%);
+    background-color: rgb(0 0 0 / 50%);
     position: absolute;
 }
 
@@ -25,3 +25,41 @@
     font-weight: 700;
     border: 2px solid black;
 }
+
+
+/* START FOOTER  CSS */
+.footer_bg_style{
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height:80vh;
+}
+.footer_links{
+    display: flex;
+    justify-content: space-between;
+}
+.footer_links a{
+    text-decoration: none;
+}
+.footer_icons {
+    color: #E6382D;
+    /* border-radius: 65%; */
+    font-size: 30px;
+}
+.footer_icons:hover{
+    color: #a70a00;
+}
+.footer_row{
+    position: relative;
+    top: 40%;
+}
+@media only screen and (max-width: 1000px) {
+    .footer_links {
+      flex-direction: column;
+      padding: 10px 0px;
+    }
+    .footer_links a{
+        padding: 11px 0px;
+    }
+  }
+/* END FOOTER  CSS */

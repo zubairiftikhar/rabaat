@@ -23,3 +23,16 @@
   white-space: nowrap; /* Prevents text wrapping */
   text-align: center; /* Centers text */
 }
+.card_category{
+  position: absolute;
+    bottom: 10px;
+    left: 8px;
+    padding: 4px 10px;
+    background-color: #121212;
+    font-size: 15px;
+    color: white;
+    font-weight: 500;
+    border-radius: 5px;
+    white-space: nowrap;
+    text-align: center;
+}
