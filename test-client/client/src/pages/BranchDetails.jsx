@@ -7,12 +7,16 @@ import {
 import BranchCard from "../components/BranchCard";
 import DiscountCard from "../components/DiscountCard";
 import { fetchMerchantByMerchantId } from "../services/api";
+import { FaSearch } from "react-icons/fa"; // Import search icon
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
   const [discounts, setDiscounts] = useState([]);
   const [branches, setBranches] = useState([]);
   const [merchant, setMerchants] = useState([]);
+  const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [visibleBranches, setVisibleBranches] = useState(4); // State for visible branches
+  const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
 
   useEffect(() => {
     // Fetch discounts
@@ -29,12 +33,13 @@ const BranchDetails = () => {
       }
     };
 
+    // Fetch merchant details
     const getMerchants = async () => {
       try {
         const data = await fetchMerchantByMerchantId(merchantId);
         setMerchants(data);
       } catch (error) {
-        console.error("Error fetching discounts:", error);
+        console.error("Error fetching merchant:", error);
       }
     };
 
@@ -53,14 +58,38 @@ const BranchDetails = () => {
     getMerchants();
   }, [merchantId, bankId, cityId]);
 
+  const loadMoreBranches = () => {
+    setLoadingMore(true);
+    setTimeout(() => {
+      setVisibleBranches((prevRows) => prevRows + 4); // Show 4 more branches after a delay
+      setLoadingMore(false);
+    }, 1000);
+  };
+
+  const filteredBranches = branches.filter(
+    (branch) =>
+      branch.name.toLowerCase().includes(searchQuery.toLowerCase()) || // Filter by branch name
+      branch.address.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by branch address
+  );
+
+  const branchesToShow = filteredBranches.slice(0, visibleBranches); // Slice based on visibleBranches
+
+  const isLoadMoreDisabled = branchesToShow.length >= filteredBranches.length; // Disable button if all branches are loaded
+
   return (
     <div className="container">
-      <img
-        src={`/src/assets/img/merchants/${merchant.image_path}`}
-        className="card-img-top"
-        alt={merchant.name}
-        style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-      />
+      {merchant && (
+        <>
+          <img
+            src={`/src/assets/img/merchants/${merchant.image_path}`}
+            className="card-img-top"
+            alt={merchant.name}
+            style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
+          />
+          <h2>{merchant.name}</h2>
+        </>
+      )}
+
       <h2>Discounts</h2>
       <div className="row">
         {discounts.map((discount) => (
@@ -71,18 +100,51 @@ const BranchDetails = () => {
       </div>
 
       <h2 className="mt-4">Branches</h2>
-      <div className="row">
-        {branches.map((branch) => (
-          <div className="col-md-3" key={branch.id}>
-            <BranchCard
-              branch={branch}
-              merchantId={merchantId}
-              bankId={bankId}
-              cityId={cityId}
-            />
-          </div>
-        ))}
+      {/* Search Input for Filtering Branches */}
+      <div className="d-flex pt-3 pb-4">
+        <div className="input-group" style={{ maxWidth: "300px" }}>
+          <span className="input-group-text">
+            <FaSearch />
+          </span>
+          <input
+            type="text"
+            className="form-control"
+            placeholder="Search Branch Here..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+          />
+        </div>
       </div>
+
+      {branchesToShow.length > 0 ? (
+        <div className="row">
+          {branchesToShow.map((branch) => (
+            <div className="col-md-3" key={branch.id}>
+              <BranchCard
+                branch={branch}
+                merchantId={merchantId}
+                bankId={bankId}
+                cityId={cityId}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>No branches available for this merchant.</p>
+      )}
+
+      {/* Load More Button for Branches */}
+      {filteredBranches.length > branchesToShow.length && (
+        <div className="text-center mt-4">
+          <button
+            className="btn btn-primary"
+            onClick={loadMoreBranches}
+            disabled={isLoadMoreDisabled} // Disable if all branches are loaded
+          >
+            {loadingMore ? "Loading..." : "Load More"}
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,0 +1,49 @@
+/* Initial fade-in animation for cities */
+.fade-in {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Loading state for smooth delay */
+.loading .fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Keyframe for fade-in effect */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Remove the glow effect (outline or box-shadow) on focus */
+.search-input:focus {
+  outline: none; /* Remove the outline */
+  box-shadow: none; /* Remove any box-shadow */
+}
+
+/* Adjust the width and styling of the search input */
+.search-container .input-group {
+  max-width: 400px; /* Set the maximum width of the input */
+  margin: 0 auto; /* Center the input */
+}
+
+.search-input {
+  border-radius: 25px; /* Rounded corners for the input */
+}
+
+.input-group-text {
+  background-color: #f8f9fa; /* Light background for the icon */
+  border-right: 0; /* Remove right border to make it smoother */
+}
+
+.search-container .input-group-text svg {
+  color: #007bff; /* Blue color for the icon */
+}
+
