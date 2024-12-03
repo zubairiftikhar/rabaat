@@ -39,8 +39,8 @@ const Mainsecsearch = ({ city }) => {
     return () => clearTimeout(delaySearch); // Cleanup timeout on keyword change
   }, [keyword, city.id]);
 
-  const handleBranchClick = (branchId) => {
-    navigate(`/branch-details/${branchId}/${city.id}`); // Pass both branchId and cityId
+  const handleBranchClick = (branchId, Merchant_ID) => {
+    navigate(`/branch-details/${Merchant_ID}/${branchId}/${city.id}`); // Pass both branchId and cityId
   };
 
   return (
@@ -51,10 +51,16 @@ const Mainsecsearch = ({ city }) => {
       <div className="container">
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
-          <h3 className="mb-3" style={{ textShadow: '2px 2px 4px #000000b8' }}>
+            <h3
+              className="mb-3"
+              style={{ textShadow: "2px 2px 4px #000000b8" }}
+            >
               Unlock Big <span className="highlight">Savings</span>
             </h3>
-            <h3 className="mb-4" style={{ textShadow: '2px 2px 4px #000000b8' }}>
+            <h3
+              className="mb-4"
+              style={{ textShadow: "2px 2px 4px #000000b8" }}
+            >
               Your Go-To Destination for Discounted Cards
             </h3>
             <div className="search-bar mb-3">
@@ -74,7 +80,12 @@ const Mainsecsearch = ({ city }) => {
                     <div
                       key={index}
                       className="suggestion-item"
-                      onClick={() => handleBranchClick(suggestion.branch_id)} // On click, go to branch details page
+                      onClick={() =>
+                        handleBranchClick(
+                          suggestion.branch_id,
+                          suggestion.merchant_Id
+                        )
+                      } // On click, go to branch details page
                     >
                       {suggestion.merchant_name} - {suggestion.branch_name}
                     </div>

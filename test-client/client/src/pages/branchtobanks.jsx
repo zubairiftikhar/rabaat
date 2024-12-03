@@ -4,7 +4,7 @@ import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks
 import BankWithBranch from "../components/bankswithbranch";
 
 const BranchToBankDetails = () => {
-  const { branchId, cityId } = useParams(); // Get branchId and cityId from the URL
+  const { merchant_Id, branchId, cityId } = useParams(); // Get branchId and cityId from the URL
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
 
   useEffect(() => {
@@ -27,7 +27,12 @@ const BranchToBankDetails = () => {
         <div className="row">
           {banksWithDiscounts.map((bank) => (
             <div className="col-md-4" key={bank.bank_Id}>
-              <BankWithBranch bank={bank} cityId={cityId} branchId={branchId} />
+              <BankWithBranch
+                bank={bank}
+                cityId={cityId}
+                branchId={branchId}
+                merchant_Id={merchant_Id}
+              />
             </div>
           ))}
         </div>
