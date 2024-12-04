@@ -81,7 +81,7 @@ const Merchants = () => {
         <div className="row">
           {merchantsToShow.map((merchant, index) => (
             <div
-              className={`col-md-4 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
+              className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
               key={merchant.id}
               style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
             >
