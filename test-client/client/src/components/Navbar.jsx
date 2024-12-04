@@ -1,12 +1,22 @@
-// src/components/Navbar.jsx
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import AuthModal from "./AuthModal";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import '../css/navbar.css';
-import rabaat_logo from '../assets/img/landing/Rabaat_logo.svg';
+import "../css/navbar.css";
+import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
 
 const Navbar = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [modalType, setModalType] = useState("login");
+  const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const handleShowModal = (type) => {
+    setModalType(type);
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => setShowModal(false);
+
   return (
     <div className="container-fluid px-5 rabaat_nav_bg">
       <nav className="navbar navbar-expand-lg">
@@ -25,7 +35,7 @@ const Navbar = () => {
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto"> {/* 'ms-auto' pushes the content to the right */}
+          <ul className="navbar-nav ms-auto">
             <li className="nav-item">
               <Link className="nav-link" to="/banks">
                 Banks
@@ -42,11 +52,24 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <button className="btn rabaat_login_btn ms-3" type="submit">
-            Log in
-          </button>
+          {loggedInUser ? (
+            <span className="navbar-text ms-3">{loggedInUser}</span>
+          ) : (
+            <button
+              className="btn rabaat_login_btn ms-3"
+              onClick={() => handleShowModal("login")}
+            >
+              Log in
+            </button>
+          )}
         </div>
       </nav>
+      <AuthModal
+        show={showModal}
+        handleClose={handleCloseModal}
+        type={modalType}
+        handleSuccess={(userName) => setLoggedInUser(userName)}
+      />
     </div>
   );
 };

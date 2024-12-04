@@ -2,7 +2,8 @@ require("dotenv").config();
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
-
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 const app = express();
 app.use(cors());
 app.use(express.json());
@@ -14,6 +15,7 @@ const db = mysql.createConnection({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
+
 
 db.connect((err) => {
     if (err) throw err;
@@ -272,6 +274,37 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
   });
 });
 
+
+// User Authentication Routes
+
+
+app.post("/api/signup", async (req, res) => {
+  const { name, password, city, bank_card } = req.body;
+  const hashedPassword = await bcrypt.hash(password, 10);
+  const query = "INSERT INTO users (name, password, city, bank_card) VALUES (?, ?, ?, ?)";
+  db.query(query, [name, hashedPassword, city, bank_card], (err) => {
+    if (err) return res.status(500).json(err);
+    res.json({ message: "Signup successful!" });
+  });
+});
+
+app.post("/api/login", (req, res) => {
+  const { name, password } = req.body;
+  const secretKey = process.env.JWT_SECRET || "default_secret_key"; // Fallback
+
+  const query = "SELECT * FROM users WHERE name = ?";
+  db.query(query, [name], async (err, results) => {
+    if (err) return res.status(500).json(err);
+    if (results.length === 0) return res.status(401).json({ error: "Invalid credentials" });
+
+    const user = results[0];
+    const match = await bcrypt.compare(password, user.password);
+    if (!match) return res.status(401).json({ error: "Invalid credentials" });
+
+    const token = jwt.sign({ id: user.id, name: user.name }, secretKey, { expiresIn: "1h" });
+    res.json({ token, name: user.name });
+  });
+});
 
 
 
