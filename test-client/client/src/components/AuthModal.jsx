@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { loginUser, signupUser } from "../services/api";
+import Cookies from "js-cookie"; // Import js-cookie to manage cookies
 
 const AuthModal = ({
   show,
@@ -26,7 +27,7 @@ const AuthModal = ({
     if (type === "login") {
       try {
         const response = await loginUser(formData.name, formData.password);
-        handleSuccess(response.name);
+        handleSuccess(response.name); // Set user in Navbar and cookie
         handleClose();
       } catch (error) {
         alert("Login failed! Please check your credentials.");

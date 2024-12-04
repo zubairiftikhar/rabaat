@@ -1,14 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa"; // Import user icon from react-icons
 import AuthModal from "./AuthModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
+import Cookies from "js-cookie"; // Import js-cookie to manage cookies
 
 const Navbar = () => {
   const [showModal, setShowModal] = useState(false);
   const [modalType, setModalType] = useState("login");
   const [loggedInUser, setLoggedInUser] = useState(null);
+
+  // Check if the user is logged in (via cookie) when the component mounts
+  useEffect(() => {
+    const user = Cookies.get("loggedInUser");
+    if (user) {
+      setLoggedInUser(user); // Set user from cookie if exists
+    }
+  }, []);
 
   const handleShowModal = (type) => {
     setModalType(type);
@@ -16,6 +26,11 @@ const Navbar = () => {
   };
 
   const handleCloseModal = () => setShowModal(false);
+
+  const handleLogout = () => {
+    Cookies.remove("loggedInUser"); // Remove cookie on logout
+    setLoggedInUser(null); // Reset logged-in state
+  };
 
   return (
     <div className="container-fluid px-5 rabaat_nav_bg">
@@ -53,7 +68,13 @@ const Navbar = () => {
             </li>
           </ul>
           {loggedInUser ? (
-            <span className="navbar-text ms-3">{loggedInUser}</span>
+            <span className="navbar-text ms-3 d-flex align-items-center text-white">
+              <FaUserCircle className="me-2" size={20} /> {/* User icon */}
+              {loggedInUser}
+              <button className="btn btn-danger ms-3" onClick={handleLogout}>
+                Logout
+              </button>
+            </span>
           ) : (
             <button
               className="btn rabaat_login_btn ms-3"
@@ -68,7 +89,10 @@ const Navbar = () => {
         show={showModal}
         handleClose={handleCloseModal}
         type={modalType}
-        handleSuccess={(userName) => setLoggedInUser(userName)}
+        handleSuccess={(userName) => {
+          setLoggedInUser(userName);
+          Cookies.set("loggedInUser", userName, { expires: 7 }); // Set user cookie for 7 days
+        }}
       />
     </div>
   );
