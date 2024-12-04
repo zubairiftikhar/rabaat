@@ -11,7 +11,7 @@ const Banks = () => {
   const { cityId } = useParams();
   const [banks, setBanks] = useState([]);
   const [city, setCity] = useState([]);
-  const [visibleRows, setVisibleRows] = useState(2); // State for visible rows
+  const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
@@ -32,7 +32,7 @@ const Banks = () => {
   const loadMore = () => {
     setLoadingMore(true); // Start the animation
     setTimeout(() => {
-      setVisibleRows((prevRows) => prevRows + 2); // Show 2 more rows after delay
+      setVisibleCards((prevCards) => prevCards + 8); // Show 8 more cards after delay
       setLoadingMore(false); // End the animation
     }, 1000); // Delay in milliseconds
   };
@@ -41,7 +41,7 @@ const Banks = () => {
     (bank) => bank.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter banks by name
   );
 
-  const banksToShow = filteredBanks.slice(0, visibleRows * 4); // 4 banks per row
+  const banksToShow = filteredBanks.slice(0, visibleCards); // Show banks up to visibleCards count
 
   const isLoadMoreDisabled = banksToShow.length >= filteredBanks.length; // Disable if all banks are loaded
 
@@ -88,18 +88,17 @@ const Banks = () => {
           ))}
         </div>
         {/* Only show "Load More" button if there are more banks to load */}
-        {filteredBanks.length > banksToShow.length &&
-          filteredBanks.length > 8 && (
-            <div className="text-center mt-4">
-              <button
-                className="btn btn-primary"
-                onClick={loadMore}
-                disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
-              >
-                {loadingMore ? "Loading..." : "Read More"}
-              </button>
-            </div>
-          )}
+        {filteredBanks.length > banksToShow.length && (
+          <div className="text-center mt-4">
+            <button
+              className="btn btn-primary"
+              onClick={loadMore}
+              disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
+            >
+              {loadingMore ? "Loading..." : "Load More"}
+            </button>
+          </div>
+        )}
       </div>
     </>
   );
