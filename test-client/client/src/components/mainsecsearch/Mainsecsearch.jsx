@@ -87,7 +87,7 @@ const Mainsecsearch = ({ city }) => {
                         )
                       } // On click, go to branch details page
                     >
-                      {suggestion.merchant_name} - {suggestion.branch_name}
+                      {suggestion.merchant_name} - {suggestion.branch_address}
                     </div>
                   ))}
                 </div>
