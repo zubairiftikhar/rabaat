@@ -77,8 +77,17 @@ const Banks = () => {
       </div>
       <div className="container">
         <div className="row">
+<<<<<<< HEAD
           {banks.map((bank) => (
             <div className="col-md-3" key={bank.id}>
+=======
+          {banksToShow.map((bank, index) => (
+            <div
+              className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
+              key={bank.id}
+              style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
+            >
+>>>>>>> uidev
               <BankCard bank={bank} cityId={cityId} />
             </div>
           ))}

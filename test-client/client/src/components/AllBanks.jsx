@@ -41,6 +41,7 @@ const AllBanks = () => {
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY BANKS</span>
               <span className="line"></span>
+<<<<<<< HEAD
             </div>
             <div className="container">
               <div className="row">
@@ -107,6 +108,36 @@ const AllBanks = () => {
 
         </>
     );
+=======
+            </div>
+            <div className="container">
+              <div className="row">
+                {banksToShow.map((bank, index) => (
+                  <div
+                    className={`col-md-3 fade-in ${
+                      loadingMore ? "loading" : ""
+                    }`} // Apply animation class conditionally
+                    key={bank.id}
+                    style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
+                  >
+                    <BankCard bank={bank} />
+                  </div>
+                ))}
+              </div>
+              {banksToShow.length < allbanks.length && ( // Show button if more banks are available
+                <div className="text-center mt-4">
+                  <button className="btn btn-primary" onClick={loadMore}>
+                    {loadingMore ? "Loading..." : "Load More"}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+>>>>>>> uidev
 };
 
 export default AllBanks;
