@@ -4,19 +4,20 @@
     border-radius: 10px;
 }
 .card_s{
+  width: 240px;
   position: relative; /* To position the label relative to the card */
   display: inline-block; /* Align cards inline */
   border-radius: 10px; /* Optional: smooth corners */
   overflow: hidden; /* Ensures label stays inside the card */
-  margin: 12px 0px;  /* Adds spacing between cards */
+  margin: 16px 0px;  /* Adds spacing between cards */
 }
 .card_city_name{
   position: absolute;
-  bottom: 5px; /* Adjusts the label closer to the bottom */
-  right: 10px; /* Ensures padding from the card edge */
-  padding: 5px 10px; /* Padding for consistent spacing inside the label */
+  bottom: 0px;
+  right: 7px;
+  padding: 5px 10px;
   background-color: red;
-  font-size: 16px;
+  font-size: 14px;
   color: white;
   font-weight: 500;
   border-radius: 5px; /* Optional: smooth edges */
