@@ -101,7 +101,7 @@ const BranchDetails = () => {
 
       <h2 className="mt-4">Branches</h2>
       {/* Search Input for Filtering Branches */}
-      <div className="d-flex pt-3 pb-4">
+      <div className="d-flex pt-3 pb-4 page_search">
         <div className="input-group" style={{ maxWidth: "300px" }}>
           <span className="input-group-text">
             <FaSearch />

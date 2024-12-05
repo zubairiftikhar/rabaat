@@ -45,7 +45,7 @@ const BranchToBankDetails = () => {
       <h2>Banks Offering Discounts</h2>
       <div className="container">
         {/* Search Input for Filtering Banks */}
-        <div className="d-flex pt-3 pb-4">
+        <div className="d-flex pt-3 pb-4 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <span className="input-group-text">
               <FaSearch />

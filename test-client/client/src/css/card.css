@@ -1,30 +1,40 @@
-.std-img{
+.std-img {
   width: 100%;
   border: 3px solid red;
-    border-radius: 10px;
+  border-radius: 10px;
 }
-.card_s{
-  width: 240px;
-  position: relative; /* To position the label relative to the card */
-  display: inline-block; /* Align cards inline */
-  border-radius: 10px; /* Optional: smooth corners */
-  overflow: hidden; /* Ensures label stays inside the card */
-  margin: 16px 0px;  /* Adds spacing between cards */
+
+.card_s {
+  position: relative;
+  /* To position the label relative to the card */
+  display: inline-block;
+  /* Align cards inline */
+  border-radius: 10px;
+  /* Optional: smooth corners */
+  overflow: hidden;
+  /* Ensures label stays inside the card */
+  margin: 10px 0px;
+  /* Adds spacing between cards */
 }
-.card_city_name{
+
+.card_city_name {
   position: absolute;
-  bottom: 0px;
-  right: 7px;
+  bottom: 4px;
+  right: 11px;
   padding: 5px 10px;
   background-color: red;
-  font-size: 14px;
+  font-size: 12px;
   color: white;
   font-weight: 500;
-  border-radius: 5px; /* Optional: smooth edges */
-  white-space: nowrap; /* Prevents text wrapping */
-  text-align: center; /* Centers text */
+  border-radius: 5px;
+  /* Optional: smooth edges */
+  white-space: nowrap;
+  /* Prevents text wrapping */
+  text-align: center;
+  /* Centers text */
 }
-.card_category{
+
+.card_category {
   position: absolute;
   top: 7px;
   left: 6px;
@@ -37,3 +47,47 @@
   white-space: nowrap;
   text-align: center;
 }
+
+/* START CSS FOR MARCHANT CARDS */
+.marchant_card {
+  padding: 8px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  border-radius: 12px;
+  height: 34vh;
+}
+.marchant_card:hover{
+  border: none; 
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: 0.5s;
+}
+
+.marchant_card_img {
+  width: 100%;
+  border: 2px solid red;
+  border-radius: 10px;
+}
+
+.marchant_card_div {
+  padding: 7px;
+}
+.marchant_card_p{
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 2px 5px;
+  background-color: red;
+  font-size: 12px;
+  color: white;
+  font-weight: 400;
+  border-radius: 5px;
+  white-space: nowrap;
+  text-align: center;
+}
+.marchant_card_h5 {
+  font-size: 12px;
+  color: #000;
+  margin: 0;
+  text-align: center;
+}
+
+/* END CSS FOR MARCHANT CARDS */
