@@ -118,7 +118,7 @@ const Merchants = () => {
             </div>
 
             {/* Search Input with Icon */}
-            <div className="d-flex pt-3 pb-4">
+            <div className="d-flex pt-5 pb-5 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
                 <span className="input-group-text">
                   <FaSearch />
@@ -140,7 +140,7 @@ const Merchants = () => {
         <div className="row">
           {merchantsToShow.map((merchant, index) => (
             <div
-              className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`}
+              className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`}
               key={merchant.id}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
