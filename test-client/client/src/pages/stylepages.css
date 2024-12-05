@@ -1,0 +1,46 @@
+/* START MARCHANT BRACNCH CSS */
+.marchant_branch_hero_row{
+    padding: 18px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    border-radius: 20px;
+    border: 1px solid #44444433;
+    background-color: #f1f1f1c2;
+}
+.marchant_branch_hero_row img{
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    border-radius: 20px;
+}
+.marchant_branch_hero_content{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+.marchant_branch_hero_content h2{
+    color: red;
+    font-size: 41px;
+    font-weight: 700;
+}
+.marchant_branch_hero_content p{
+    color: aliceblue;
+    background-color: red;
+    max-width: 130px;
+    padding: 9px;
+    border-radius: 20px;
+    text-align: center;
+}
+.marchant_branch_hero_content p span{
+    font-size: 56px;
+    font-weight: 700;
+}
+.marchant_branch_hero_content1 p{
+    font-size: larger;
+    text-align: center;
+    max-width: 150px;
+    font-weight: 600;
+    padding: 3px 7px;
+    border-radius: 10px;
+    border: 1px solid #00000047;
+    box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+}
+
+/* START MARCHANT BRACNCH CSS */
