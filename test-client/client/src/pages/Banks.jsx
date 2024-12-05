@@ -79,7 +79,7 @@ const Banks = () => {
         <div className="row">
           {banksToShow.map((bank, index) => (
             <div
-              className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
+              className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
               key={bank.id}
               style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
             >

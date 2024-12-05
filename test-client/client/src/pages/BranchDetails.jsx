@@ -4,6 +4,7 @@ import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
 import { fetchMerchantByMerchantId } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
+import "./stylepages.css";
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
@@ -59,19 +60,42 @@ const BranchDetails = () => {
     <div className="container">
       {merchant && (
         <>
-          <img
-            src={`/src/assets/img/merchants/${merchant.image_path}`}
-            className="card-img-top"
-            alt={merchant.name}
-            style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-          />
-          <h2>{merchant.name}</h2>
+          <div className="row mt-5 marchant_branch_hero_row">
+            <div className="col-lg-3 col-md-12 col-sm-12 p-0">
+              <img
+                src={`/src/assets/img/merchants/${merchant.image_path}`}
+                className="card-img-top"
+                alt={merchant.name}
+                style={{ width: "100%" }}
+              />
+            </div>
+            <div className="col-lg-9 col-md-12 col-sm-12">
+              <div className="marchant_branch_hero_content">
+                <h2>{merchant.name}</h2>
+                <p>
+                  MAX Discount <br />
+                  <span>30%</span>
+                </p>
+              </div>
+              <div className="marchant_branch_hero_content1">
+                <p>
+                  Branches: <span>20</span>
+                </p>
+              </div>
+            </div>
+          </div>
         </>
       )}
+      <div className="row">
+        {discounts.map((discount) => (
+          <div className="col-12 mb-3" key={discount.id}>
+            <DiscountCard discount={discount} />
+          </div>
+        ))}
+      </div>
 
-      <h2 className="mt-4">Branches</h2>
       {/* Search Input for Filtering Branches */}
-      <div className="d-flex pt-3 pb-4 page_search">
+      <div className="d-flex mt-5 page_search">
         <div className="input-group" style={{ maxWidth: "300px" }}>
           <span className="input-group-text">
             <FaSearch />
@@ -85,7 +109,7 @@ const BranchDetails = () => {
           />
         </div>
       </div>
-
+      <h2 className="mt-5">Branches</h2>
       {branchesToShow.length > 0 ? (
         <div className="row">
           {branchesToShow.map((branch) => (
