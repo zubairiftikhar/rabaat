@@ -1,18 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchBranchesForMerchant,
-  fetchDiscountsForMerchant,
-} from "../services/api";
+import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
-import DiscountCard from "../components/DiscountCard";
 import { fetchMerchantByMerchantId } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
-import './stylepages.css';
+import "./stylepages.css";
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
-  const [discounts, setDiscounts] = useState([]);
   const [branches, setBranches] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
@@ -20,20 +15,6 @@ const BranchDetails = () => {
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
 
   useEffect(() => {
-    // Fetch discounts
-    const getDiscounts = async () => {
-      try {
-        const data = await fetchDiscountsForMerchant(
-          merchantId,
-          bankId,
-          cityId
-        );
-        setDiscounts(data);
-      } catch (error) {
-        console.error("Error fetching discounts:", error);
-      }
-    };
-
     // Fetch merchant details
     const getMerchants = async () => {
       try {
@@ -53,8 +34,6 @@ const BranchDetails = () => {
         console.error("Error fetching branches:", error);
       }
     };
-
-    getDiscounts();
     getBranches();
     getMerchants();
   }, [merchantId, bankId, cityId]);
@@ -93,15 +72,18 @@ const BranchDetails = () => {
             <div className="col-lg-9 col-md-12 col-sm-12">
               <div className="marchant_branch_hero_content">
                 <h2>{merchant.name}</h2>
-                <p>MAX Discount <br/><span>30%</span></p>
+                <p>
+                  MAX Discount <br />
+                  <span>30%</span>
+                </p>
               </div>
               <div className="marchant_branch_hero_content1">
-                <p>Branches: <span>20</span></p>
+                <p>
+                  Branches: <span>20</span>
+                </p>
               </div>
             </div>
           </div>
-
-
         </>
       )}
       <div className="row">
@@ -112,7 +94,6 @@ const BranchDetails = () => {
         ))}
       </div>
 
-      
       {/* Search Input for Filtering Branches */}
       <div className="d-flex mt-5 page_search">
         <div className="input-group" style={{ maxWidth: "300px" }}>

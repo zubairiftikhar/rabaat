@@ -1,27 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { FaCreditCard } from "react-icons/fa";
+import "../css/branchdiscount.css";
 
-const DiscountCard = ({ discount, merchantId, bankId, cityId }) => {
+const DiscountCard = ({ discount }) => {
   return (
-    <div className="col-12 mb-3">
-      <Link
-        to={`/discounts/${discount.id}`} // Link to the discount details page
-        className="text-decoration-none" // Removes underline
-      >
-        <div className="card shadow-sm border-0 rounded-3 h-100">
-          <div className="card-header bg-primary text-white">
-            <h5 className="card-title">{discount.percentage}% Off</h5>
-          </div>
-          <div className="card-body">
-            <h6 className="card-subtitle mb-2 text-muted">{discount.title}</h6>
-            <p className="card-text">
-              {discount.card_names
-                ? `Applicable Cards: ${discount.card_names}`
-                : "All Cards"}
-            </p>
-          </div>
-        </div>
-      </Link>
+    <div className="card shadow-sm border-0 rounded-3 h-100">
+      <div className="card-header bg-primary text-white">
+        <h5 className="card-title">{discount.percentage}% Off</h5>
+      </div>
+      <div className="card-body">
+        <p className="card-text">
+          Applicable Cards:
+          <ul>
+            {discount.cards.map((card, index) => (
+              <li key={index}>
+                <div className="card-image mb-3">
+                  <img
+                    src={discount.card_image}
+                    alt="Card"
+                    className="img-fluid"
+                    style={{ maxWidth: "80px", borderRadius: "8px" }}
+                  />
+                  {card.name} ({card.type})
+                </div>
+              </li>
+            ))}
+          </ul>
+        </p>
+      </div>
     </div>
   );
 };

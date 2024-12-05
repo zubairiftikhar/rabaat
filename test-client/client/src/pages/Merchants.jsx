@@ -65,7 +65,7 @@ const Merchants = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const merchantsToShow = filteredMerchants.slice(0, visibleRows * 4);
+  const merchantsToShow = filteredMerchants.slice(0, visibleRows * 6);
   const isLoadMoreDisabled = merchantsToShow.length >= filteredMerchants.length;
 
   return (
