@@ -1,17 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import {
-  fetchBranchesForMerchant,
-  fetchDiscountsForMerchant,
-} from "../services/api";
+import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
-import DiscountCard from "../components/DiscountCard";
 import { fetchMerchantByMerchantId } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
-  const [discounts, setDiscounts] = useState([]);
   const [branches, setBranches] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
@@ -19,20 +14,6 @@ const BranchDetails = () => {
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
 
   useEffect(() => {
-    // Fetch discounts
-    const getDiscounts = async () => {
-      try {
-        const data = await fetchDiscountsForMerchant(
-          merchantId,
-          bankId,
-          cityId
-        );
-        setDiscounts(data);
-      } catch (error) {
-        console.error("Error fetching discounts:", error);
-      }
-    };
-
     // Fetch merchant details
     const getMerchants = async () => {
       try {
@@ -52,8 +33,6 @@ const BranchDetails = () => {
         console.error("Error fetching branches:", error);
       }
     };
-
-    getDiscounts();
     getBranches();
     getMerchants();
   }, [merchantId, bankId, cityId]);
@@ -89,15 +68,6 @@ const BranchDetails = () => {
           <h2>{merchant.name}</h2>
         </>
       )}
-
-      <h2>Discounts</h2>
-      <div className="row">
-        {discounts.map((discount) => (
-          <div className="col-12 mb-3" key={discount.id}>
-            <DiscountCard discount={discount} />
-          </div>
-        ))}
-      </div>
 
       <h2 className="mt-4">Branches</h2>
       {/* Search Input for Filtering Branches */}

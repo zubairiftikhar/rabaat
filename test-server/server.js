@@ -207,26 +207,44 @@ app.get("/api/discounts/:discountId/details", (req, res) => {
 });
 
 
+
+
+
+
 // Fetch Discounts for a specific Branch in a Merchant, City, and Bank
 app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res) => {
   const { merchantId, bankId, cityId, branchId } = req.params;
+
   const query = `
-    SELECT 
+    SELECT DISTINCT
       d.id, 
       d.percentage, 
       d.title, 
-      d.image_path, 
-      GROUP_CONCAT(c.card_name SEPARATOR ', ') AS card_names 
-    FROM discounts d
-    LEFT JOIN cards c ON d.card_id = c.id
-    WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ? AND d.branch_id = ?
-    GROUP BY d.id
+      d.image_path AS discount_image, 
+      d.card_name, 
+      d.card_type, 
+      d.image_path,
+      b.name AS bank_name,
+      b.image_path AS bank_image,
+      br.name AS branch_name,
+      br.address AS branch_address,
+      br.image_path AS branch_image
+    FROM discountscard d
+    JOIN banks b ON d.bank_id = b.id
+    JOIN branches br ON d.branch_id = br.id
+    WHERE d.merchant_id = ? 
+      AND d.bank_id = ? 
+      AND d.city_id = ? 
+      AND d.branch_id = ?
   `;
+
   db.query(query, [merchantId, bankId, cityId, branchId], (err, results) => {
-    if (err) return res.status(500).json(err);
+    if (err) return res.status(500).json({ error: "Error fetching discounts from the database." });
     res.json(results);
   });
 });
+
+
 
 
 app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
@@ -254,25 +272,27 @@ app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
 app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
   const { branchId, cityId } = req.params;
 
-  // Query to get the banks offering discounts for this branch in the city
+  // Query to get distinct banks offering discounts for a specific branch in a city
   const query = `
-    SELECT 
+    SELECT DISTINCT
       bn.id AS bank_Id,
-      bn.name AS bank_name, 
+      bn.name AS bank_name,
       bn.image_path AS bank_image
     FROM banks bn
-    JOIN discounts d ON bn.id = d.bank_id
-    JOIN branches b ON d.branch_id = b.id
+    JOIN discountscard d ON bn.id = d.bank_id
+    JOIN branches b ON b.id = d.branch_id
     WHERE b.id = ? AND b.city_id = ?
   `;
 
   db.query(query, [branchId, cityId], (err, results) => {
     if (err) {
-      return res.status(500).json({ error: 'Error fetching data from the database' });
+      return res.status(500).json({ error: "Error fetching data from the database" });
     }
-    res.json(results); // Return banks with discounts for the branch in the city
+    res.json(results); // Return distinct banks with discounts for the branch in the city
   });
 });
+
+
 
 
 // User Authentication Routes

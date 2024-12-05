@@ -1,0 +1,50 @@
+/* Branch Info Section */
+.branch-info img {
+  max-width: 300px;
+  border-radius: 8px;
+}
+
+.branch-info h3,
+.branch-info h4 {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.branch-info p {
+  font-size: 1.2rem;
+  color: #777;
+}
+
+/* Card Styling */
+.card {
+  border-radius: 8px;
+  border: 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #007bff;
+  color: white;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.card-body ul {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.card-body li {
+  font-size: 1.1rem;
+}
+
+.card-body .card-image img {
+  max-width: 80px;
+  border-radius: 8px;
+}
+
+.card-body .card-text {
+  margin-top: 15px;
+}
