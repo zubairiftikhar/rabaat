@@ -22,7 +22,7 @@ const MerchantCard = ({ merchant, bankId, cityId }) => {
         alt={merchant.name}
       />
       <p className="card-text marchant_card_p">{merchant.category}</p>
-      <div className="card-body marchant_card_div">
+      <div className="marchant_card_div">
         <h5 className="card-title marchant_card_h5">{merchant.name}</h5>
       </div>
     </div>
