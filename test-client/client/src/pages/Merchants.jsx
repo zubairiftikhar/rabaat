@@ -155,7 +155,7 @@ const Merchants = () => {
         {filteredMerchants.length > merchantsToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn btn-primary"
+              className="btn" style={{backgroundColor: 'red', color: 'white'}}
               onClick={loadMore}
               disabled={isLoadMoreDisabled}
             >
