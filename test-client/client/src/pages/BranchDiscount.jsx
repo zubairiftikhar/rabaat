@@ -34,7 +34,7 @@ const BranchDiscount = () => {
             acc[discount.percentage] = {
               percentage: discount.percentage,
               title: discount.title || `${discount.percentage}% Off`,
-              card_image: discount.card_image_path,
+              card_image: discount.card_image,
               cards: [],
             };
           }
@@ -82,6 +82,12 @@ const BranchDiscount = () => {
       </div>
 
       <h2>Discounts for this Branch</h2>
+      {groupedDiscounts.length === 0 && (
+        <div className="alert alert-warning text-center">
+          No discounts available for this branch.
+        </div>
+      )}
+
       <div className="row">
         {groupedDiscounts.map((discount) => (
           <div className="col-12 col-md-6 mb-3" key={discount.percentage}>

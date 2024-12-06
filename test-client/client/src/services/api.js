@@ -40,6 +40,27 @@ export const fetchBranchesForMerchant = async (merchantId, cityId) => {
   return response.data;
 };
 
+// Fetch Branches Count for a Merchant in a City
+export const fetchBranchCount = async (merchantId, cityId) => {
+  try {
+    const response = await api.get(`/branch-count/${merchantId}/${cityId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching branch count:", error);
+    return null;
+  }
+};
+
+export const fetchMaximumDiscount = async (merchantId, bankId, cityId) => {
+  try {
+    const response = await api.get(`/maximum-discount/${merchantId}/${bankId}/${cityId}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching maximum discount:", error);
+    return null;
+  }
+};
+
 export const fetchMerchantsByBankAndCity = async (bankId, cityId) => {
   const response = await api.get(`/merchants/${bankId}/${cityId}`);
   return response.data;

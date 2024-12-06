@@ -144,6 +144,24 @@ app.get("/api/branches/:merchantId/:cityId", (req, res) => {
     });
 });
 
+app.get("/api/branch-count/:merchantId/:cityId", (req, res) => {
+  const { merchantId, cityId } = req.params;
+
+  const query = `
+    SELECT 
+      COUNT(*) AS branch_count
+    FROM branches
+    WHERE merchant_id = ? AND city_id = ?
+  `;
+
+  db.query(query, [merchantId, cityId], (err, results) => {
+    if (err) return res.status(500).json({ error: "Error fetching branch count." });
+    res.json({ branch_count: results[0].branch_count });
+  });
+});
+
+
+
 // Fetch Discounts for a Merchant in a City and Bank
 app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
@@ -163,6 +181,24 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
       res.json(results);
   });
 });
+
+
+app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
+  const { merchantId, bankId, cityId } = req.params;
+
+  const query = `
+    SELECT 
+      MAX(d.percentage) AS max_discount
+    FROM discounts d
+    WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ?
+  `;
+
+  db.query(query, [merchantId, bankId, cityId], (err, results) => {
+    if (err) return res.status(500).json({ error: "Error fetching maximum discount." });
+    res.json({ max_discount: results[0].max_discount });
+  });
+});
+
 
 app.get("/api/discounts/:discountId/details", (req, res) => {
   const { discountId } = req.params;
@@ -220,16 +256,15 @@ app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res
       d.id, 
       d.percentage, 
       d.title, 
-      d.image_path AS discount_image, 
+      d.image_path AS card_image, 
       d.card_name, 
-      d.card_type, 
-      d.image_path,
+      d.card_type,
       b.name AS bank_name,
       b.image_path AS bank_image,
       br.name AS branch_name,
       br.address AS branch_address,
       br.image_path AS branch_image
-    FROM discountscard d
+    FROM discounts d
     JOIN banks b ON d.bank_id = b.id
     JOIN branches br ON d.branch_id = br.id
     WHERE d.merchant_id = ? 
@@ -279,7 +314,7 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
       bn.name AS bank_name,
       bn.image_path AS bank_image
     FROM banks bn
-    JOIN discountscard d ON bn.id = d.bank_id
+    JOIN discounts d ON bn.id = d.bank_id
     JOIN branches b ON b.id = d.branch_id
     WHERE b.id = ? AND b.city_id = ?
   `;
