@@ -102,7 +102,11 @@ const BranchDetails = () => {
                 <h2>{merchant.name}</h2>
                 <p>
                   MAX Discount <br />
-                  <span>{maxdiscount.max_discount}%</span>
+                  <span>
+                    {maxdiscount?.max_discount
+                      ? `${maxdiscount.max_discount}%`
+                      : "N/A"}
+                  </span>
                 </p>
               </div>
               <div className="marchant_branch_hero_content1">
