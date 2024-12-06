@@ -58,7 +58,7 @@ const AllBanks = () => {
               </div>
               {banksToShow.length < allbanks.length && ( // Show button if more banks are available
                 <div className="text-center mt-4">
-                  <button className="btn btn-primary" onClick={loadMore}>
+                  <button className="btn" style={{backgroundColor: 'red', color: 'white'}} onClick={loadMore}>
                     {loadingMore ? "Loading..." : "Load More"}
                   </button>
                 </div>

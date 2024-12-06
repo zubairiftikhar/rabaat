@@ -78,7 +78,7 @@ const BranchToBankDetails = () => {
         {filteredBanks.length > banksToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn btn-primary"
+              className="btn" style={{backgroundColor: 'red', color: 'white'}}
               onClick={loadMoreBanks}
               disabled={isLoadMoreDisabled} // Disable if all banks are loaded
             >

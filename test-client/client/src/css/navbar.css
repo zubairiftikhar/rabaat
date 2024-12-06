@@ -28,7 +28,11 @@
   font-weight: 700;
   border: 2px solid black;
 }
-
+.rabaat_login_btn:hover{
+  color: red;
+  border: 2px solid red;
+  transition: .5s;
+}
 .navbar-nav li a,
 .navbar-nav li a:after,
 .navbar-nav li a:before {

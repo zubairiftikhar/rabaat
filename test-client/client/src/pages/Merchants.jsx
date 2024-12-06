@@ -140,7 +140,7 @@ const Merchants = () => {
         <div className="row">
           {merchantsToShow.map((merchant, index) => (
             <div
-              className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`}
+              className={`col-md-2 col-sm-12 fade-in ${loadingMore ? "loading" : ""}`}
               key={merchant.id}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -155,7 +155,7 @@ const Merchants = () => {
         {filteredMerchants.length > merchantsToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn btn-primary"
+              className="btn" style={{backgroundColor: 'red', color: 'white'}}
               onClick={loadMore}
               disabled={isLoadMoreDisabled}
             >

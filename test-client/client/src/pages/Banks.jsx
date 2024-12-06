@@ -91,7 +91,7 @@ const Banks = () => {
         {filteredBanks.length > banksToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn btn-primary"
+              className="btn" style={{backgroundColor: 'red', color: 'white'}}
               onClick={loadMore}
               disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
             >
