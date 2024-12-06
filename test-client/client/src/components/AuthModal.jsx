@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Modal, Button, Form } from "react-bootstrap";
 import { loginUser, signupUser } from "../services/api";
 import Cookies from "js-cookie"; // Import js-cookie to manage cookies
+import Swal from "sweetalert2";
 
 const AuthModal = ({
   show,
@@ -33,20 +34,68 @@ const AuthModal = ({
         Cookies.set("user", response.name); // Save user info in a cookie
         handleSuccess(response.name); // Set user in Navbar
         handleClose();
+
+        // Display a beautiful welcome popup after successful login
+        Swal.fire({
+          title: "Welcome Back!",
+          text: `Welcome back, ${response.name}! Explore exclusive discounts on top brands, across cities and banks, only at Rabaat.`,
+          icon: "success",
+          confirmButtonText: "Let's Start",
+          customClass: {
+            confirmButton: "btn btn-primary", // Use your button style
+          },
+          buttonsStyling: false, // Use custom styles
+        });
       } catch (error) {
-        alert("Login failed! Please check your credentials.");
+        Swal.fire({
+          title: "Login Failed!",
+          text: "Please check your credentials and try again.",
+          icon: "error",
+          confirmButtonText: "Retry",
+          customClass: {
+            confirmButton: "btn btn-danger", // Style for retry button
+          },
+          buttonsStyling: false,
+        });
       }
     } else {
       if (formData.password !== formData.confirm_password) {
-        alert("Passwords do not match!");
+        Swal.fire({
+          title: "Error!",
+          text: "Passwords do not match!",
+          icon: "warning",
+          confirmButtonText: "Try Again",
+          customClass: {
+            confirmButton: "btn btn-warning",
+          },
+          buttonsStyling: false,
+        });
         return;
       }
       try {
         await signupUser(formData);
-        alert("Signup successful! Please login.");
+        Swal.fire({
+          title: "Signup Successful!",
+          text: `Welcome, ${formData.name}! Your account has been successfully created. Start exploring exclusive discounts on top brands at Rabaat.`,
+          icon: "success",
+          confirmButtonText: "Login Now",
+          customClass: {
+            confirmButton: "btn btn-primary",
+          },
+          buttonsStyling: false,
+        });
         setType("login"); // Switch to login form after successful signup
       } catch (error) {
-        alert("Signup failed! Please try again.");
+        Swal.fire({
+          title: "Signup Failed!",
+          text: "Something went wrong. Please try again.",
+          icon: "error",
+          confirmButtonText: "Retry",
+          customClass: {
+            confirmButton: "btn btn-danger",
+          },
+          buttonsStyling: false,
+        });
       }
     }
   };
