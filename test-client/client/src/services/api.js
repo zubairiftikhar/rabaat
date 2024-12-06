@@ -100,8 +100,8 @@ export const fetchDiscountBanks = async (branchId, cityId) => {
   return response.data;
 };
 
-export const loginUser = async (name, password) => {
-  const response = await api.post("/login", { name, password });
+export const loginUser = async (email, password) => {
+  const response = await api.post("/login", { email, password });
   return response.data;
 };
 
@@ -109,3 +109,4 @@ export const signupUser = async (data) => {
   const response = await api.post("/signup", data);
   return response.data;
 };
+

@@ -331,35 +331,63 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
 
 
 // User Authentication Routes
-
-
 app.post("/api/signup", async (req, res) => {
-  const { name, password, city, bank_card } = req.body;
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const query = "INSERT INTO users (name, password, city, bank_card) VALUES (?, ?, ?, ?)";
-  db.query(query, [name, hashedPassword, city, bank_card], (err) => {
-    if (err) return res.status(500).json(err);
-    res.json({ message: "Signup successful!" });
-  });
+  const { name, email, password, confirm_password, city, bank_card } = req.body;
+
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: "Name, email, and password are required." });
+  }
+
+  try {
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const query = `
+      INSERT INTO users (name, email, password, confirm_password, city, user_card) 
+      VALUES (?, ?, ?, ?, ?, ?)
+    `;
+    db.query(query, [name, email, hashedPassword, confirm_password, city, JSON.stringify(bank_card)], (err) => {
+      if (err) return res.status(500).json({ error: "Database error during signup." });
+      res.status(201).json({ message: "Signup successful!" });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error." });
+  }
 });
+
 
 app.post("/api/login", (req, res) => {
-  const { name, password } = req.body;
-  const secretKey = process.env.JWT_SECRET || "default_secret_key"; // Fallback
+  const { email, password } = req.body;
 
-  const query = "SELECT * FROM users WHERE name = ?";
-  db.query(query, [name], async (err, results) => {
-    if (err) return res.status(500).json(err);
-    if (results.length === 0) return res.status(401).json({ error: "Invalid credentials" });
+  if (!email || !password) {
+    return res.status(400).json({ error: "Email and password are required." });
+  }
 
-    const user = results[0];
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(401).json({ error: "Invalid credentials" });
+  const secretKey = process.env.JWT_SECRET || "default_secret_key";
 
-    const token = jwt.sign({ id: user.id, name: user.name }, secretKey, { expiresIn: "1h" });
-    res.json({ token, name: user.name });
-  });
+  try {
+    const query = "SELECT * FROM users WHERE email = ?";
+    db.query(query, [email], async (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error during login." });
+      if (results.length === 0) return res.status(401).json({ error: "Invalid credentials." });
+
+      const user = results[0];
+      const match = await bcrypt.compare(password, user.password);
+
+      if (!match) return res.status(401).json({ error: "Invalid credentials." });
+
+      const token = jwt.sign(
+        { id: user.id, name: user.name, email: user.email },
+        secretKey,
+        { expiresIn: "1h" }
+      );
+
+      res.json({ token, name: user.name });
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error." });
+  }
 });
+
 
 
 

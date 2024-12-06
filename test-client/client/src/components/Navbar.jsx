@@ -32,6 +32,11 @@ const Navbar = () => {
     setLoggedInUser(null); // Reset logged-in state
   };
 
+  const handleSuccess = (userName) => {
+    setLoggedInUser(userName);
+    Cookies.set("loggedInUser", userName, { expires: 7 }); // Set user cookie for 7 days
+  };
+
   return (
     <div className="container-fluid px-5 rabaat_nav_bg">
       <nav className="navbar navbar-expand-lg">
@@ -68,13 +73,13 @@ const Navbar = () => {
             </li>
           </ul>
           {loggedInUser ? (
-            <span className="navbar-text ms-3 d-flex align-items-center text-white">
+            <div className="navbar-text ms-3 d-flex align-items-center text-white">
               <FaUserCircle className="me-2" size={20} /> {/* User icon */}
-              {loggedInUser}
+              <span>{loggedInUser}</span>
               <button className="btn btn-danger ms-3" onClick={handleLogout}>
                 Logout
               </button>
-            </span>
+            </div>
           ) : (
             <button
               className="btn rabaat_login_btn ms-3"
@@ -88,11 +93,8 @@ const Navbar = () => {
       <AuthModal
         show={showModal}
         handleClose={handleCloseModal}
-        type={modalType}
-        handleSuccess={(userName) => {
-          setLoggedInUser(userName);
-          Cookies.set("loggedInUser", userName, { expires: 7 }); // Set user cookie for 7 days
-        }}
+        handleSuccess={handleSuccess}
+        initialType={modalType}
       />
     </div>
   );

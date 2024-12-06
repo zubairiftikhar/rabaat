@@ -11,8 +11,10 @@ const AuthModal = ({
 }) => {
   const [type, setType] = useState(initialType);
   const [formData, setFormData] = useState({
-    name: "",
+    email: "",
     password: "",
+    confirm_password: "",
+    name: "",
     city: "",
     bank_card: "",
   });
@@ -24,15 +26,21 @@ const AuthModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (type === "login") {
       try {
-        const response = await loginUser(formData.name, formData.password);
-        handleSuccess(response.name); // Set user in Navbar and cookie
+        const response = await loginUser(formData.email, formData.password);
+        Cookies.set("user", response.name); // Save user info in a cookie
+        handleSuccess(response.name); // Set user in Navbar
         handleClose();
       } catch (error) {
         alert("Login failed! Please check your credentials.");
       }
     } else {
+      if (formData.password !== formData.confirm_password) {
+        alert("Passwords do not match!");
+        return;
+      }
       try {
         await signupUser(formData);
         alert("Signup successful! Please login.");
@@ -55,11 +63,12 @@ const AuthModal = ({
       <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
-            <Form.Label>Name</Form.Label>
+            <Form.Label>Email</Form.Label>
             <Form.Control
-              type="text"
-              name="name"
-              placeholder="Enter your name"
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -70,6 +79,7 @@ const AuthModal = ({
               type="password"
               name="password"
               placeholder="Enter your password"
+              value={formData.password}
               onChange={handleChange}
               required
             />
@@ -77,11 +87,34 @@ const AuthModal = ({
           {type === "signup" && (
             <>
               <Form.Group className="mb-3">
+                <Form.Label>Confirm Password</Form.Label>
+                <Form.Control
+                  type="password"
+                  name="confirm_password"
+                  placeholder="Confirm your password"
+                  value={formData.confirm_password}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
+                <Form.Label>Name</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="name"
+                  placeholder="Enter your name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </Form.Group>
+              <Form.Group className="mb-3">
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   type="text"
                   name="city"
                   placeholder="Enter your city"
+                  value={formData.city}
                   onChange={handleChange}
                 />
               </Form.Group>
@@ -91,6 +124,7 @@ const AuthModal = ({
                   type="text"
                   name="bank_card"
                   placeholder="Enter your bank card"
+                  value={formData.bank_card}
                   onChange={handleChange}
                 />
               </Form.Group>
@@ -100,7 +134,7 @@ const AuthModal = ({
             {type === "login" ? "Login" : "Signup"}
           </Button>
         </Form>
-        <div className="mt-3">
+        <div className="mt-3 text-center">
           {type === "login" ? (
             <p>
               Don't have an account?{" "}
