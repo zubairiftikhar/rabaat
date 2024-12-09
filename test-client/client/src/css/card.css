@@ -53,7 +53,6 @@
   padding: 8px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 12px;
-  height: 34vh;
 }
 .marchant_card:hover{
   border: none; 
@@ -91,3 +90,23 @@
 }
 
 /* END CSS FOR MARCHANT CARDS */
+
+
+/* START CSS FOR MARCHANT BRANCHES */
+.marchant_b_card{
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px;
+}
+.marchant_b_card_img{
+  border: 2px solid red;
+  border-radius: 16px;
+  width: 100%;
+}
+.marchant_b_card_h5{
+  font-size: 12px;
+  color: #000;
+  margin: 0;
+  padding: 10px 0;
+}
+/* END CSS FOR MARCHANT BRANCHES */

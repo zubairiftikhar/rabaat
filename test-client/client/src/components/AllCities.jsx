@@ -86,7 +86,7 @@ const AllCities = () => {
           filteredCities.length > 8 && (
             <div className="text-center mt-4">
               <button
-                className="btn btn" style={{backgroundColor: 'red', color: 'white'}}
+                className="btn" style={{backgroundColor: 'red', color: 'white'}}
                 onClick={loadMore}
                 disabled={isLoadMoreDisabled} // Disable button if all cities are loaded
               >
