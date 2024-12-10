@@ -1,13 +1,11 @@
 // src/pages/Home.jsx
 import React from "react";
-import AllCities from "../components/AllCities";
-import HeroSection from "../components/HeroSection";
+import CityModal from "../components/CityModal";
 
 const Home = () => {
   return (
     <>
-    <HeroSection/>
-      <AllCities />
+      <CityModal />
     </>
   );
 };
