@@ -16,15 +16,20 @@
 }
 
 /* Card Styling */
-.card {
-  border-radius: 8px;
-  border: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+.card_header_discount_main {
+  border: 1px solid #00000028;
 }
 
-.card-header {
-  background-color: #007bff;
+.card_header_discount_main .card-body p span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.card_header_discount {
+  background: linear-gradient(274deg, rgba(253, 42, 78, 1) 30%, rgba(255, 5, 5, 1) 89%);
   color: white;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
 }
 
 .card-body {
