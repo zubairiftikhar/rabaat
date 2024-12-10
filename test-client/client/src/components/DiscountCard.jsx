@@ -14,14 +14,14 @@ const DiscountCard = ({ discount }) => {
           <ul>
             {discount.cards.map((card, index) => (
               <li key={index}>
-                <div className="card-image mb-3">
+                <div className="bank_card_image mb-3">
+                  {card.name}
                   <img
-                    src={`/src/assets/img/cards/hbl${discount.card_image}`}
+                    src={`/src/assets/img/cards/hbl/${discount.card_image}`}
                     alt="Card"
                     className="img-fluid"
-                    style={{ maxWidth: "80px", borderRadius: "8px" }}
+                    style={{ maxWidth: "50px", borderRadius: "8px" }}
                   />
-                  {card.name} ({card.type})
                 </div>
               </li>
             ))}

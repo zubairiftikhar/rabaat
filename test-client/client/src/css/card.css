@@ -54,8 +54,9 @@
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
   border-radius: 12px;
 }
-.marchant_card:hover{
-  border: none; 
+
+.marchant_card:hover {
+  border: none;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   transition: 0.5s;
 }
@@ -69,7 +70,8 @@
 .marchant_card_div {
   padding: 7px;
 }
-.marchant_card_p{
+
+.marchant_card_p {
   position: absolute;
   top: 16px;
   left: 16px;
@@ -82,6 +84,7 @@
   white-space: nowrap;
   text-align: center;
 }
+
 .marchant_card_h5 {
   font-size: 12px;
   color: #000;
@@ -89,24 +92,104 @@
   text-align: center;
 }
 
+/* NEW CSS START FOR MARCHACT */
+.offer-title {
+  font-size: 14px;
+  color: #000;
+  font-weight: bold;
+  white-space: nowrap;
+  /* Ensures text stays on one line */
+  overflow: hidden;
+  /* Ensures excess text is clipped */
+  text-overflow: ellipsis;
+  /* Adds the ellipsis (...) */
+  max-width: 96px;
+  /* Adjust to your container's width */
+  position: relative;
+  /* Ensures block-level rendering for proper width calculation */
+  margin: 0;
+}
+
+.offer-title:hover::after {
+  content: attr(data-full-text);
+  /* Use a custom attribute for full text */
+  position: absolute;
+  left: 0;
+  top: 120%;
+  /* Position below the text */
+  background-color: #000;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 4px;
+  white-space: unset;
+  text-overflow: inherit;
+  z-index: 10;
+  font-size: 14px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  display: block;
+  /* Ensure the tooltip is shown */
+}
+
+.offer-title:hover {
+  white-space: unset;
+  text-overflow: inherit;
+  cursor: pointer;
+  transition: 1s;
+}
+
+.offer-subtext {
+  font-size: 12px;
+  margin: 0;
+  color: #2a2a2a;
+}
+
+.offer-discount {
+  background-color: red;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 20%;
+  padding: 2px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 50px;
+  min-height: 50px;
+}
+
+.offer-container {
+  padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+/* END CSS START FOR MARCHACT */
+
 /* END CSS FOR MARCHANT CARDS */
 
 
 /* START CSS FOR MARCHANT BRANCHES */
-.marchant_b_card{
+.marchant_b_card {
   padding: 15px;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px;
 }
-.marchant_b_card_img{
+
+.marchant_b_card_img {
   border: 2px solid red;
   border-radius: 16px;
   width: 100%;
 }
-.marchant_b_card_h5{
+
+.marchant_b_card_h5 {
   font-size: 12px;
   color: #000;
   margin: 0;
   padding: 10px 0;
 }
+
 /* END CSS FOR MARCHANT BRANCHES */

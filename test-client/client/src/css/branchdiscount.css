@@ -16,21 +16,6 @@
 }
 
 /* Card Styling */
-.card_header_discount_main {
-  border: 1px solid #00000028;
-}
-
-.card_header_discount_main .card-body p span {
-  font-size: 20px;
-  font-weight: 500;
-}
-
-.card_header_discount {
-  background: linear-gradient(274deg, rgba(253, 42, 78, 1) 30%, rgba(255, 5, 5, 1) 89%);
-  color: white;
-  border-top-left-radius: 16px !important;
-  border-top-right-radius: 16px !important;
-}
 
 .card-body {
   padding: 1.5rem;
@@ -53,3 +38,33 @@
 .card-body .card-text {
   margin-top: 15px;
 }
+
+
+/* START CSS FOR CARD_DISCOUNTS */
+.card_header_discount_main {
+  border: 1px solid #00000028;
+}
+
+.card_header_discount_main .card-body p span {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.card_header_discount {
+  background: linear-gradient(274deg, rgba(253, 42, 78, 1) 30%, rgba(255, 5, 5, 1) 89%);
+  color: white;
+  border-top-left-radius: 16px !important;
+  border-top-right-radius: 16px !important;
+}
+
+.bank_card_image {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid #ff9999;
+  border-radius: 29px;
+  padding: 5px 16PX;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+/* END CSS FOR CARD_DISCOUNTS */
