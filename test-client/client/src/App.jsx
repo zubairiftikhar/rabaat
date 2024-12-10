@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Banks from "./pages/Banks";
 import Merchants from "./pages/Merchants";
@@ -16,6 +16,7 @@ const App = () => {
   const [currentCity, setCurrentCity] = useState(null);
   const [showCityModal, setShowCityModal] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const selectedCityId = sessionStorage.getItem("selectedCityId");
@@ -23,11 +24,15 @@ const App = () => {
 
     if (selectedCityId && selectedCityName) {
       setCurrentCity({ id: selectedCityId, name: selectedCityName });
-      navigate(`/banks/${selectedCityId}`);
+
+      // Only redirect to `/banks/:cityId` if the user is on the root page (`/`)
+      if (location.pathname === "/") {
+        navigate(`/banks/${selectedCityId}`);
+      }
     } else {
       setShowCityModal(true);
     }
-  }, [navigate]);
+  }, [navigate, location.pathname]);
 
   const handleCitySelect = (city) => {
     sessionStorage.setItem("selectedCityId", city.id);
