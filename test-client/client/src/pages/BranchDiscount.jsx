@@ -18,13 +18,13 @@ const BranchDiscount = () => {
           cityId
         );
 
-        // Extract branch and bank details
+        // Assuming the response data is an array and contains branch details as well
         const branchInfo = {
-          branch_name: data[0].branch_name,
-          branch_address: data[0].branch_address,
-          branch_image: data[0].branch_image,
-          bank_name: data[0].bank_name,
-          bank_image: data[0].bank_image,
+          branch_name: data[0]?.branchname,
+          branch_address: data[0]?.branchaddress,
+          branch_image: data[0]?.branchimage, // Assuming this is a valid image path
+          bank_name: data[0]?.bankname,
+          bank_image: data[0]?.bankimage, // Assuming this is a valid image path
         };
         setBranchDetails(branchInfo);
 
@@ -33,14 +33,13 @@ const BranchDiscount = () => {
           if (!acc[discount.percentage]) {
             acc[discount.percentage] = {
               percentage: discount.percentage,
-              title: discount.title || `${discount.percentage}% Off`,
-              card_image: discount.card_image,
+              title: discount.discount_title || `${discount.percentage}% Off`,
+              card_image: discount.cardimage,
               cards: [],
             };
           }
           acc[discount.percentage].cards.push({
-            name: discount.card_name,
-            type: discount.card_type,
+            name: discount.cardname,
           });
           return acc;
         }, {});
@@ -62,21 +61,25 @@ const BranchDiscount = () => {
   return (
     <div className="container">
       <div className="branch-info text-center mb-4">
-        <img
-          src={`/src/assets/img/merchants/${branchDetails.branch_image}`}
-          alt="Branch"
-          className="img-fluid mb-3"
-          style={{ maxWidth: "300px", borderRadius: "8px" }}
-        />
+        {branchDetails.branch_image && (
+          <img
+            src={`/src/assets/img/merchants/${branchDetails.branch_image}`}
+            alt="Branch"
+            className="img-fluid mb-3"
+            style={{ maxWidth: "300px", borderRadius: "8px" }}
+          />
+        )}
         <h3>{branchDetails.branch_name}</h3>
         <p>{branchDetails.branch_address}</p>
         <div>
-          <img
-            src={`/src/assets/img/banks/${branchDetails.bank_image}`}
-            alt="Bank"
-            className="img-fluid"
-            style={{ maxWidth: "50px", borderRadius: "50%" }}
-          />
+          {branchDetails.bank_image && (
+            <img
+              src={`/src/assets/img/banks/${branchDetails.bank_image}`}
+              alt="Bank"
+              className="img-fluid"
+              style={{ maxWidth: "50px", borderRadius: "50%" }}
+            />
+          )}
           <h4>{branchDetails.bank_name}</h4>
         </div>
       </div>

@@ -26,132 +26,195 @@ db.connect((err) => {
 
 // 1. Fetch all cities
 app.get("/api/cities", (req, res) => {
-    const query = "SELECT id, name, image_path AS image FROM cities"; // Removed description
-    db.query(query, (err, results) => {
-        if (err) return res.status(500).json(err);
-        res.json(results);
-    });
-});
-
-// 1. Fetch city by ID
-app.get("/api/cities/:cityId", (req, res) => {
-  const { cityId } = req.params;
-  const query = "SELECT id, name, image_path FROM cities WHERE id = ?";
-  db.query(query, [cityId], (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json(result[0]); // Return single city object
-  });
-});
-
-// 1. Fetch all Banks
-app.get("/api/allbanks", (req, res) => {
-  const query = "SELECT id, name,bank_short_code, image_path AS image FROM banks"; // Removed description
+  const query = "SELECT CityID AS id, CityName AS name, image_path AS image FROM city"; // Updated table and column names
   db.query(query, (err, results) => {
       if (err) return res.status(500).json(err);
       res.json(results);
   });
 });
 
-// 2. Fetch banks for a specific city
-app.get("/api/banks/:cityId", (req, res) => {
-    const { cityId } = req.params;
-    const query = "SELECT id, name, image_path FROM banks WHERE city_id = ?";
-    db.query(query, [cityId], (err, results) => {
-        if (err) return res.status(500).json(err);
-        res.json(results);
-    });
+
+// 2. Fetch city by ID
+app.get("/api/cities/:cityId", (req, res) => {
+  const { cityId } = req.params;
+  const query = "SELECT CityID AS id, CityName AS name, image_path AS image FROM city WHERE CityID = ?";
+  db.query(query, [cityId], (err, result) => {
+    if (err) return res.status(500).json(err);
+    if (result.length === 0) return res.status(404).json({ message: "City not found" });
+    res.json(result[0]); // Return single city object
+  });
 });
 
-// 3. Fetch merchants and bank for a specific bank and city
+
+// 1. Fetch all Banks
+app.get("/api/allbanks", (req, res) => {
+  const query = "SELECT BankID AS id, BankName AS name, BankShortCode AS bank_short_code, image_path AS image FROM bank"; // Updated table and column names
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
+
+// 2. Fetch banks for a specific city
+app.get("/api/banks/:cityId", (req, res) => {
+  const { cityId } = req.params;
+  const query = `
+    SELECT b.BankID AS id, b.BankName AS name, b.image_path AS image 
+    FROM bank b
+    JOIN citybanklink cbl ON b.BankID = cbl.BankID
+    WHERE cbl.CityID = ?
+  `;
+  db.query(query, [cityId], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
+
+// Fetch merchants and their associated categories, discounts, and bank for a specific bank and city
 app.get("/api/merchants/:bankId/:cityId", (req, res) => {
   const { bankId, cityId } = req.params;
 
   // Query to fetch bank data and associated merchants
   const query = `
     SELECT 
-      b.id AS bank_id, 
-      b.name AS bank_name, 
-      b.image_path AS bank_image, 
-      m.id AS merchant_id, 
-      m.name AS merchant_name, 
-      m.category AS merchant_category, 
-      m.image_path AS merchant_image 
-    FROM merchants m
-    JOIN banks b ON m.bank_id = b.id
-    WHERE m.bank_id = ? AND m.city_id = ?
+  b.BankID AS bank_id, 
+  b.BankName AS bank_name, 
+  b.image_path AS bank_image, 
+  m.MerchantID AS merchant_id, 
+  m.MerchantName AS merchant_name, 
+  GROUP_CONCAT(cat.CategoryName) AS merchant_category, 
+  m.ImagePath AS merchant_image 
+FROM merchant m
+JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
+JOIN city cty ON mcl.CityID = cty.CityID 
+JOIN bankmerchantdiscount bmd ON m.MerchantID = bmd.MerchantID 
+JOIN bank b ON bmd.BankID = b.BankID 
+LEFT JOIN merchantcategorylink mclink ON m.MerchantID = mclink.MerchantID 
+LEFT JOIN category cat ON mclink.CategoryID = cat.CategoryID 
+WHERE bmd.BankID = ? AND mcl.CityID = ?
+GROUP BY m.MerchantID
   `;
 
   db.query(query, [bankId, cityId], (err, results) => {
-      if (err) return res.status(500).json(err);
+    if (err) return res.status(500).json(err);
 
-      // Format the response to include bank data and merchants
-      if (results.length > 0) {
-          const bankData = {
-              id: results[0].bank_id,
-              name: results[0].bank_name,
-              image: results[0].bank_image,
-          };
+    // Format the response to include bank data and merchants
+    if (results.length > 0) {
+      const bankData = {
+        id: results[0].bank_id,
+        name: results[0].bank_name,
+        image: results[0].bank_image,
+      };
 
-          const merchants = results.map(row => ({
-              id: row.merchant_id,
-              name: row.merchant_name,
-              category: row.merchant_category,
-              image: row.merchant_image,
-          }));
+      const merchants = results.map(row => ({
+        id: row.merchant_id,
+        name: row.merchant_name,
+        category: row.merchant_category,
+        image: row.merchant_image,
+      }));
 
-          res.json({ bank: bankData, merchants });
-      } else {
-          res.json({ bank: null, merchants: [] });
-      }
+      res.json({ bank: bankData, merchants });
+    } else {
+      res.json({ bank: null, merchants: [] });
+    }
   });
 });
+
+
+
 
 // Fetch merchant by merchant id
 app.get("/api/merchant/:merchantId", (req, res) => {
   const { merchantId } = req.params;
-  const query = "SELECT id, name, image_path FROM merchants WHERE id = ?";
+  const query = `
+    SELECT 
+      m.MerchantID AS id, 
+      m.MerchantName AS name, 
+      m.ImagePath AS image_path, 
+      GROUP_CONCAT(c.CategoryName) AS categories
+    FROM merchant m
+    LEFT JOIN merchantcategorylink mcl ON m.MerchantID = mcl.MerchantID
+    LEFT JOIN category c ON mcl.CategoryID = c.CategoryID
+    WHERE m.MerchantID = ?
+    GROUP BY m.MerchantID
+  `;
+
   db.query(query, [merchantId], (err, result) => {
-      if (err) return res.status(500).json(err);
-      res.json(result[0]); // Return single city object
+    if (err) return res.status(500).json(err);
+
+    if (result.length > 0) {
+      const merchantData = {
+        id: result[0].id,
+        name: result[0].name,
+        image_path: result[0].image_path,
+        categories: result[0].categories ? result[0].categories.split(",") : []
+      };
+
+      res.json(merchantData);
+    } else {
+      res.status(404).json({ message: "Merchant not found" });
+    }
   });
 });
 
 
+
 // Fetch Cards for a Merchant in a City and Bank
 app.get("/api/cards/:merchantId/:bankId/:cityId", (req, res) => {
-    const { merchantId, bankId, cityId } = req.params;
-    const query = `
-      SELECT c.id, c.card_name, c.card_type, c.image_path, b.name AS bank_name
-      FROM cards c
-      JOIN banks b ON c.bank_id = b.id
-      WHERE c.merchant_id = ? AND c.bank_id = ?`;
-    db.query(query, [merchantId, bankId], (err, results) => {
-      if (err) return res.status(500).json(err);
-      res.json(results);
-    });
+  const { merchantId, bankId, cityId } = req.params;
+  
+  const query = `
+    SELECT 
+      c.CardID AS id, 
+      c.CardName AS card_name, 
+      c.CardType AS card_type, 
+      c.ImagePath AS image_path, 
+      b.BankName AS bank_name
+    FROM card c
+    JOIN bank b ON c.BankID = b.BankID
+    LEFT JOIN bankmerchantdiscount bmd ON b.BankID = bmd.BankID
+    LEFT JOIN merchant m ON bmd.MerchantID = m.MerchantID
+    LEFT JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
+    WHERE mcl.CityID = ? AND c.MerchantID = ? AND c.BankID = ?
+  `;
+
+  db.query(query, [cityId, merchantId, bankId], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
 });
 
-// Fetch Branches for a Merchant in a City
+
 app.get("/api/branches/:merchantId/:cityId", (req, res) => {
-    const { merchantId, cityId } = req.params;
-    const query = `
-      SELECT b.id, b.name, b.address, b.image_path
-      FROM branches b
-      WHERE b.merchant_id = ? AND b.city_id = ?`;
-    db.query(query, [merchantId, cityId], (err, results) => {
-      if (err) return res.status(500).json(err);
-      res.json(results);
-    });
+  const { merchantId, cityId } = req.params;
+  const query = `
+    SELECT 
+      mb.BranchID AS id, 
+      mb.BranchName AS name, 
+      mb.Address AS address, 
+      mb.image_path AS image_path
+    FROM merchantbranch mb WHERE MerchantID = ? AND cityID = ?
+  `;
+
+  db.query(query, [merchantId, cityId], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
 });
 
+
+
+
+// Fetch branch count for a Merchant in a City
 app.get("/api/branch-count/:merchantId/:cityId", (req, res) => {
   const { merchantId, cityId } = req.params;
 
   const query = `
     SELECT 
       COUNT(*) AS branch_count
-    FROM branches
-    WHERE merchant_id = ? AND city_id = ?
+    FROM merchantbranch mb WHERE MerchantID = ? AND cityID = ?
   `;
 
   db.query(query, [merchantId, cityId], (err, results) => {
@@ -162,34 +225,48 @@ app.get("/api/branch-count/:merchantId/:cityId", (req, res) => {
 
 
 
+
 // Fetch Discounts for a Merchant in a City and Bank
 app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
+
   const query = `
-      SELECT 
-          d.id, 
-          d.percentage, 
-          d.title, 
-          d.image_path, 
-          GROUP_CONCAT(c.card_name SEPARATOR ', ') AS card_names 
-      FROM discounts d
-      LEFT JOIN cards c ON d.card_id = c.id
-      WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ?
-      GROUP BY d.id`;
-  db.query(query, [merchantId, bankId, cityId], (err, results) => {
-      if (err) return res.status(500).json(err);
-      res.json(results);
+    SELECT 
+        d.DiscountID AS id,
+        d.DiscountAmount AS discount_amount,
+        d.DiscountType AS discount_type,
+        d.StartDate AS start_date,
+        d.EndDate AS end_date,
+        GROUP_CONCAT(c.CardName SEPARATOR ', ') AS card_names,
+        b.BankName AS bank_name,
+        b.image_path AS bank_image
+    FROM bankmerchantdiscount d
+    LEFT JOIN carddiscount cd ON d.DiscountID = cd.DiscountID
+    LEFT JOIN card c ON cd.CardID = c.CardID
+    LEFT JOIN bank b ON d.BankID = b.BankID  -- Joining bank table
+    LEFT JOIN merchantbranch mb ON d.BranchID = mb.BranchID
+    LEFT JOIN citybanklink cb ON b.BankID = cb.BankID AND cb.CityID = ?
+    WHERE d.MerchantID = ? AND d.BankID = ? AND mb.CityID = ?
+    GROUP BY d.DiscountID
+  `;
+
+  db.query(query, [cityId, merchantId, bankId, cityId], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
   });
 });
 
 
+
+
+// Fetch Maximum Discount for a Merchant in a City and Bank
 app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
 
   const query = `
     SELECT 
       MAX(d.percentage) AS max_discount
-    FROM discounts d
+    FROM bankmerchantdiscount d
     WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ?
   `;
 
@@ -200,30 +277,37 @@ app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
 });
 
 
+
 app.get("/api/discounts/:discountId/details", (req, res) => {
   const { discountId } = req.params;
 
+  // Query to fetch discount details
   const discountQuery = `
     SELECT d.id, d.title, d.description, d.percentage, d.expiration_date, d.image_path 
     FROM discounts d
     WHERE d.id = ?;
   `;
 
+  // Query to fetch associated cards for the discount
   const cardsQuery = `
     SELECT c.id, c.card_name, c.card_type, c.image_path, b.name AS bank_name 
     FROM cards c 
-    JOIN banks b ON c.bank_id = b.id 
-    WHERE c.id IN (SELECT card_id FROM discounts WHERE id = ?);
+    JOIN carddiscount cd ON c.id = cd.card_id
+    JOIN banks b ON c.bank_id = b.id
+    WHERE cd.discount_id = ?;
   `;
 
+  // Query to fetch associated branches for the discount
   const branchesQuery = `
     SELECT b.id, b.name, b.address, b.image_path 
-    FROM branches b 
-    WHERE b.id IN (SELECT branch_id FROM discounts WHERE id = ?);
+    FROM branches b
+    JOIN bankmerchantdiscount bmd ON b.id = bmd.branch_id
+    WHERE bmd.discount_id = ?;
   `;
 
   const queries = [discountQuery, cardsQuery, branchesQuery];
 
+  // Run all queries in parallel using Promise.all
   Promise.all(
     queries.map((query) =>
       new Promise((resolve, reject) =>
@@ -247,30 +331,40 @@ app.get("/api/discounts/:discountId/details", (req, res) => {
 
 
 
-// Fetch Discounts for a specific Branch in a Merchant, City, and Bank
+
 app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res) => {
   const { merchantId, bankId, cityId, branchId } = req.params;
 
+  // Query to fetch discounts for a specific branch
   const query = `
-    SELECT DISTINCT
-      d.id, 
-      d.percentage, 
-      d.title, 
-      d.image_path AS card_image, 
-      d.card_name, 
-      d.card_type,
-      b.name AS bank_name,
-      b.image_path AS bank_image,
-      br.name AS branch_name,
-      br.address AS branch_address,
-      br.image_path AS branch_image
-    FROM discounts d
-    JOIN banks b ON d.bank_id = b.id
-    JOIN branches br ON d.branch_id = br.id
-    WHERE d.merchant_id = ? 
-      AND d.bank_id = ? 
-      AND d.city_id = ? 
-      AND d.branch_id = ?
+    SELECT 
+    bmd.DiscountAmount AS percentage,
+    bmd.DiscountType AS discount_title,
+    c.image_path AS cardimage,
+    c.CardName AS cardname,
+    bk.BankName AS bankname,
+    bk.image_path AS bankimage,
+    mb.BranchName AS branchname,
+    mb.Address AS branchaddress,
+    mb.image_path AS branchimage
+FROM 
+    bankmerchantdiscount bmd
+JOIN 
+    carddiscount cd ON bmd.DiscountID = cd.DiscountID
+JOIN 
+    card c ON cd.CardID = c.CardID
+JOIN 
+    bank bk ON bmd.BankID = bk.BankID
+JOIN 
+    merchantbranch mb ON bmd.BranchID = mb.BranchID
+JOIN 
+    merchantcitylink mcl ON mb.MerchantID = mcl.MerchantID AND mcl.CityID = mb.CityID
+WHERE 
+    bmd.MerchantID = ? 
+    AND bmd.BankID = ? 
+    AND mb.CityID = ? 
+    AND bmd.BranchID = ?;
+
   `;
 
   db.query(query, [merchantId, bankId, cityId, branchId], (err, results) => {
@@ -282,28 +376,34 @@ app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res
 
 
 
+
 app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
   const { cityId, keyword } = req.params;
 
   const query = `
-    SELECT DISTINCT m.name AS merchant_name, m.id AS merchant_Id, b.name AS branch_name, b.id AS branch_id, b.address AS branch_address
+    SELECT DISTINCT 
+      m.name AS merchant_name, 
+      m.id AS merchant_id, 
+      b.name AS branch_name, 
+      b.id AS branch_id, 
+      b.address AS branch_address
     FROM merchants m
     LEFT JOIN branches b ON m.id = b.merchant_id
     WHERE m.city_id = ? 
-    AND CONCAT(m.name, ' ', b.address) LIKE ?
+    AND (CONCAT(m.name, ' ', b.address) LIKE ? OR m.name LIKE ? OR b.address LIKE ?)
   `;
 
   const searchKeyword = `%${keyword}%`;
 
-  db.query(query, [cityId, searchKeyword], (err, results) => {
-    if (err) return res.status(500).json(err);
+  db.query(query, [cityId, searchKeyword, searchKeyword, searchKeyword], (err, results) => {
+    if (err) return res.status(500).json({ error: "Error fetching merchants." });
     res.json(results);
   });
 });
 
 
 
-// API endpoint to get banks offering discounts for a specific branch in a city
+
 app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
   const { branchId, cityId } = req.params;
 
@@ -323,9 +423,15 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Error fetching data from the database" });
     }
+    
+    if (results.length === 0) {
+      return res.status(404).json({ message: "No banks offering discounts found for this branch in the specified city." });
+    }
+
     res.json(results); // Return distinct banks with discounts for the branch in the city
   });
 });
+
 
 
 

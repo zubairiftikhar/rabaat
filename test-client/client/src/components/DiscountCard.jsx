@@ -17,7 +17,7 @@ const DiscountCard = ({ discount }) => {
                 <div className="bank_card_image mb-3">
                   {card.name}
                   <img
-                    src={`/src/assets/img/cards/hbl/${discount.card_image}`}
+                    src={`/src/assets/img/cards/hbl/${card.card_image}`}
                     alt="Card"
                     className="img-fluid"
                     style={{ maxWidth: "50px", borderRadius: "8px" }}
