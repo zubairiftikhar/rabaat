@@ -265,14 +265,17 @@ app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
 
   const query = `
     SELECT 
-      MAX(d.percentage) AS max_discount
-    FROM bankmerchantdiscount d
-    WHERE d.merchant_id = ? AND d.bank_id = ? AND d.city_id = ?
+      MAX(bmd.DiscountAmount) AS max_discount
+    FROM bankmerchantdiscount bmd
+    INNER JOIN merchantbranch mb ON bmd.BranchID = mb.BranchID
+    WHERE bmd.BankID = ? 
+      AND mb.MerchantID = ? 
+      AND mb.CityID = ?
   `;
 
-  db.query(query, [merchantId, bankId, cityId], (err, results) => {
-    if (err) return res.status(500).json({ error: "Error fetching maximum discount." });
-    res.json({ max_discount: results[0].max_discount });
+  db.query(query, [bankId, merchantId, cityId], (err, results) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ max_discount: results[0]?.max_discount || 0 });
   });
 });
 
