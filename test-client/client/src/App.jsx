@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
 import Home from "./pages/Home";
 import Banks from "./pages/Banks";
@@ -10,48 +10,62 @@ import Footer from "./components/Footer";
 import DiscountDetail from "./pages/DiscountDetails";
 import BranchDiscount from "./pages/BranchDiscount";
 import BranchToBankDetails from "./pages/branchtobanks";
-import CityModal from "./components/CityModal";
+import LocationModal from "./components/LocationModal";
+import Cookies from "js-cookie";
 
 const App = () => {
-  const [currentCity, setCurrentCity] = useState(null);
-  const [showCityModal, setShowCityModal] = useState(false);
+  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedBank, setSelectedBank] = useState(null);
+  const [showLocationModal, setShowLocationModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    const selectedCityId = sessionStorage.getItem("selectedCityId");
-    const selectedCityName = sessionStorage.getItem("selectedCityName");
+    // Check cookies for city and bank
+    const cityId = Cookies.get("selectedCityId");
+    const bankId = Cookies.get("selectedBankId");
+    const cityName = Cookies.get("selectedCityName");
+    const bankName = Cookies.get("selectedBankName");
 
-    if (selectedCityId && selectedCityName) {
-      setCurrentCity({ id: selectedCityId, name: selectedCityName });
+    if (cityId && bankId) {
+      // If data exists, set state and redirect
+      setSelectedCity({ id: cityId, name: cityName });
+      setSelectedBank({ id: bankId, name: bankName });
 
-      // Only redirect to `/banks/:cityId` if the user is on the root page (`/`)
       if (location.pathname === "/") {
-        navigate(`/banks/${selectedCityId}`);
+        navigate(`/merchants/${bankId}/${cityId}`);
       }
     } else {
-      setShowCityModal(true);
+      // Show location modal for new users
+      setShowLocationModal(true);
     }
-  }, [navigate, location.pathname]);
+  }, [navigate, location]);
 
-  const handleCitySelect = (city) => {
-    sessionStorage.setItem("selectedCityId", city.id);
-    sessionStorage.setItem("selectedCityName", city.name);
-    setCurrentCity(city);
-    setShowCityModal(false);
-    navigate(`/banks/${city.id}`);
+  const handleCityBankSelection = (city, bank) => {
+    // Save selected city and bank to state and cookies
+    setSelectedCity(city);
+    setSelectedBank(bank);
+    Cookies.set("selectedCityId", city.id);
+    Cookies.set("selectedCityName", city.name);
+    Cookies.set("selectedBankId", bank.id);
+    Cookies.set("selectedBankName", bank.name);
+
+    setShowLocationModal(false);
+    navigate(`/merchants/${bank.id}/${city.id}`);
   };
 
   return (
     <div>
-      <Navbar currentCity={currentCity} />
-      {showCityModal && (
-        <CityModal
-          show={showCityModal}
-          onSelectCity={handleCitySelect}
-          onClose={() => setShowCityModal(false)}
-        />
-      )}
+      <Navbar
+        selectedCity={selectedCity}
+        selectedBank={selectedBank}
+        onLocationChange={() => setShowLocationModal(true)}
+      />
+      <LocationModal
+        show={showLocationModal}
+        onClose={() => setShowLocationModal(false)}
+        onCityBankChange={handleCityBankSelection}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/banks/:cityId" element={<Banks />} />

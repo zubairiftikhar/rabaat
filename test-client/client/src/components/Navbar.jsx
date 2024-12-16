@@ -1,68 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Link, useLocation } from "react-router-dom"; // Import useLocation to detect page navigation
-import { FaUserCircle } from "react-icons/fa"; // Import user icon from react-icons
+import { Link } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
 import AuthModal from "./AuthModal";
+import LocationModal from "./LocationModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
-import Cookies from "js-cookie"; // Import js-cookie to manage cookies
-import CityModal from "./CityModal"; // Import CityModal component for city selection
+import Cookies from "js-cookie";
 
-const Navbar = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [modalType, setModalType] = useState("login");
+const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
+  const [showAuthModal, setShowAuthModal] = useState(false);
+  const [authModalType, setAuthModalType] = useState("login");
   const [loggedInUser, setLoggedInUser] = useState(null);
-  const [currentCity, setCurrentCity] = useState(null); // State for selected city
-  const [showCityModal, setShowCityModal] = useState(false); // State to show/hide city modal
-  const location = useLocation(); // Hook to get current page location
+  const [currentCity, setCurrentCity] = useState(null);
+  const [currentBank, setCurrentBank] = useState(null);
+  const [showLocationModal, setShowLocationModal] = useState(false);
 
-  // Check for logged-in user and selected city when the component mounts
+  // Update state when the city or bank changes
+  const updateCityAndBank = (cityName, bankName) => {
+    setCurrentCity(cityName);
+    setCurrentBank(bankName);
+    Cookies.set("selectedCityName", cityName);
+    Cookies.set("selectedBankName", bankName);
+  };
+
   useEffect(() => {
     const user = Cookies.get("loggedInUser");
     if (user) {
       setLoggedInUser(user);
     }
 
-    // Check for selected city in sessionStorage
-    const cityName = sessionStorage.getItem("selectedCityName");
-    if (cityName) {
-      setCurrentCity(cityName);
-    }
+    const cityName = Cookies.get("selectedCityName");
+    const bankName = Cookies.get("selectedBankName");
+
+    setCurrentCity(cityName || "Select City");
+    setCurrentBank(bankName || "Select Bank");
   }, []);
-
-  // Update the city when navigating to the banks page
-  useEffect(() => {
-    if (location.pathname.startsWith("/banks")) {
-      const cityName = sessionStorage.getItem("selectedCityName");
-      if (cityName) {
-        setCurrentCity(cityName);
-      } else {
-        setShowCityModal(true); // Show the modal if no city is selected
-      }
-    }
-  }, [location]);
-
-  const handleShowModal = (type) => {
-    setModalType(type);
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => setShowModal(false);
 
   const handleLogout = () => {
     Cookies.remove("loggedInUser");
     setLoggedInUser(null);
-  };
-
-  const handleSuccess = (userName) => {
-    setLoggedInUser(userName);
-    Cookies.set("loggedInUser", userName, { expires: 7 });
-  };
-
-  const handleCitySelect = (city) => {
-    setCurrentCity(city.name); // Update the city in the state
-    sessionStorage.setItem("selectedCityName", city.name); // Store selected city in session
-    setShowCityModal(false); // Close modal after selection
   };
 
   return (
@@ -85,57 +62,54 @@ const Navbar = () => {
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav ms-auto">
             <li className="nav-item">
-              <Link className="nav-link" to="/banks">
-                Banks
-              </Link>
+              <button
+                className="btn btn-outline-light me-3"
+                onClick={onLocationChange}
+              >
+                {`City: ${selectedCity ? selectedCity.name : "Select City"}`}
+              </button>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/merchants">
-                Merchants
-              </Link>
+              <button
+                className="btn btn-outline-light me-3"
+                onClick={onLocationChange}
+              >
+                {`Bank: ${selectedBank ? selectedBank.name : "Select Bank"}`}
+              </button>
             </li>
             <li className="nav-item">
-              <Link className="nav-link" to="/deals">
-                Deals
-              </Link>
+              {loggedInUser ? (
+                <>
+                  <FaUserCircle className="me-2" size={20} />
+                  <span>{loggedInUser}</span>
+                  <button
+                    className="btn btn-danger ms-3"
+                    onClick={handleLogout}
+                  >
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="btn rabaat_login_btn ms-3"
+                  onClick={() => setShowAuthModal(true)}
+                >
+                  Log in
+                </button>
+              )}
             </li>
           </ul>
-          <div className="navbar-text ms-3 d-flex align-items-center text-white">
-            <button
-              className="btn btn-outline-light me-3"
-              onClick={() => setShowCityModal(true)}
-            >
-              {currentCity ? `City: ${currentCity}` : "Select City"}
-            </button>
-            {loggedInUser ? (
-              <>
-                <FaUserCircle className="me-2" size={20} />
-                <span>{loggedInUser}</span>
-                <button className="btn btn-danger ms-3" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <button
-                className="btn rabaat_login_btn ms-3"
-                onClick={() => handleShowModal("login")}
-              >
-                Log in
-              </button>
-            )}
-          </div>
         </div>
       </nav>
       <AuthModal
-        show={showModal}
-        handleClose={handleCloseModal}
-        handleSuccess={handleSuccess}
-        initialType={modalType}
+        show={showAuthModal}
+        handleClose={() => setShowAuthModal(false)}
+        initialType={authModalType}
       />
-      <CityModal
-        show={showCityModal}
-        onSelectCity={handleCitySelect}
-        onClose={() => setShowCityModal(false)}
+      <LocationModal
+        show={showLocationModal}
+        onClose={() => setShowLocationModal(false)}
+        onCityBankChange={updateCityAndBank} // Pass the update function to LocationModal
       />
     </div>
   );
