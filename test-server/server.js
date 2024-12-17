@@ -443,20 +443,44 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
 app.post("/api/signup", async (req, res) => {
   const { name, email, password, confirm_password, city, bank_card } = req.body;
 
-  if (!name || !email || !password) {
-    return res.status(400).json({ error: "Name, email, and password are required." });
+  // Check if all required fields are provided
+  if (!name || !email || !password || !confirm_password) {
+    return res.status(400).json({ error: "All fields are required." });
+  }
+
+  // Ensure passwords match
+  if (password !== confirm_password) {
+    return res.status(400).json({ error: "Passwords do not match." });
   }
 
   try {
-    // Hash the password
-    const hashedPassword = await bcrypt.hash(password, 10);
-    const query = `
-      INSERT INTO users (name, email, password, confirm_password, city, user_card) 
-      VALUES (?, ?, ?, ?, ?, ?)
-    `;
-    db.query(query, [name, email, hashedPassword, confirm_password, city, JSON.stringify(bank_card)], (err) => {
-      if (err) return res.status(500).json({ error: "Database error during signup." });
-      res.status(201).json({ message: "Signup successful!" });
+    // Check if the user already exists
+    const checkUserQuery = "SELECT * FROM users WHERE email = ?";
+    db.query(checkUserQuery, [email], async (err, results) => {
+      if (err) return res.status(500).json({ error: "Database error." });
+
+      if (results.length > 0) {
+        return res.status(400).json({ error: "User already exists." });
+      }
+
+      // Hash the password
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      // Insert the new user into the database
+      const query = `
+        INSERT INTO users (name, email, password, confirm_password, city, user_card) 
+        VALUES (?, ?, ?, ?, ?, ?)
+      `;
+      db.query(query, [name, email, hashedPassword, confirm_password, city, bank_card], (err) => {
+        if (err) return res.status(500).json({ error: "Database error during signup." });
+
+        // Generate JWT token after successful signup
+        const secretKey = process.env.JWT_SECRET || "default_secret_key";
+        const token = jwt.sign({ email, name }, secretKey, { expiresIn: "7d" });
+
+        // Respond with success message and the JWT token
+        res.status(201).json({ message: "Signup successful!", token, name });
+      });
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error." });
@@ -467,6 +491,7 @@ app.post("/api/signup", async (req, res) => {
 app.post("/api/login", (req, res) => {
   const { email, password } = req.body;
 
+  // Check if both email and password are provided
   if (!email || !password) {
     return res.status(400).json({ error: "Email and password are required." });
   }
@@ -474,28 +499,41 @@ app.post("/api/login", (req, res) => {
   const secretKey = process.env.JWT_SECRET || "default_secret_key";
 
   try {
+    // Find the user by email
     const query = "SELECT * FROM users WHERE email = ?";
     db.query(query, [email], async (err, results) => {
       if (err) return res.status(500).json({ error: "Database error during login." });
-      if (results.length === 0) return res.status(401).json({ error: "Invalid credentials." });
+      
+      if (results.length === 0) {
+        return res.status(401).json({ error: "Invalid credentials." });
+      }
 
       const user = results[0];
+
+      // Compare the provided password with the stored hashed password
       const match = await bcrypt.compare(password, user.password);
 
-      if (!match) return res.status(401).json({ error: "Invalid credentials." });
+      if (!match) {
+        return res.status(401).json({ error: "Invalid credentials." });
+      }
 
+      // Generate JWT token after successful login
       const token = jwt.sign(
-        { id: user.id, name: user.name, email: user.email },
+        { id: user.ID, name: user.name, email: user.email },
         secretKey,
         { expiresIn: "1h" }
       );
 
+      // Respond with the token and the user's name
       res.json({ token, name: user.name });
     });
   } catch (error) {
     res.status(500).json({ error: "Internal server error." });
   }
 });
+
+
+
 
 
 
