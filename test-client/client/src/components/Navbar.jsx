@@ -24,6 +24,12 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
     Cookies.set("selectedBankName", bankName);
   };
 
+  // Handle successful login
+  const handleSuccess = (userName) => {
+    setLoggedInUser(userName);
+    Cookies.set("loggedInUser", userName, { expires: 7 }); // Store in cookies
+  };
+
   useEffect(() => {
     const user = Cookies.get("loggedInUser");
     if (user) {
@@ -39,6 +45,7 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
 
   const handleLogout = () => {
     Cookies.remove("loggedInUser");
+    Cookies.remove("authToken"); // Remove JWT token on logout
     setLoggedInUser(null);
   };
 
@@ -105,11 +112,12 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
         show={showAuthModal}
         handleClose={() => setShowAuthModal(false)}
         initialType={authModalType}
+        handleSuccess={handleSuccess} // Pass handleSuccess to AuthModal
       />
       <LocationModal
         show={showLocationModal}
         onClose={() => setShowLocationModal(false)}
-        onCityBankChange={updateCityAndBank} // Pass the update function to LocationModal
+        onCityBankChange={updateCityAndBank}
       />
     </div>
   );

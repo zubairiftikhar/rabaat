@@ -31,7 +31,10 @@ const AuthModal = ({
     if (type === "login") {
       try {
         const response = await loginUser(formData.email, formData.password);
-        Cookies.set("user", response.name); // Save user info in a cookie
+
+        // Save the JWT token in a cookie
+        Cookies.set("authToken", response.token); // Store the token in a cookie
+
         handleSuccess(response.name); // Set user in Navbar
         handleClose();
 
