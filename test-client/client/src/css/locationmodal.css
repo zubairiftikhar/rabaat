@@ -1,0 +1,38 @@
+/* Style the dropdown items for better visibility */
+.city-option {
+  font-size: 16px;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.city-option:hover {
+  background-color: #f1f1f1;
+}
+
+input[type="text"] {
+  font-size: 16px;
+  padding: 10px;
+}
+
+/* Adjust modal size */
+.modal-lg {
+  max-width: 80%;
+}
+
+/* Scrollbar styling (optional for better UI) */
+.dropdown-menu {
+  scrollbar-width: thin;
+  scrollbar-color: #888 #f1f1f1;
+}
+
+.dropdown-menu::-webkit-scrollbar {
+  width: 8px;
+}
+
+.dropdown-menu::-webkit-scrollbar-thumb {
+  background-color: #888;
+}
+
+.dropdown-menu::-webkit-scrollbar-track {
+  background-color: #f1f1f1;
+}
