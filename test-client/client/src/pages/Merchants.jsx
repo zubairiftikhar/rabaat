@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { fetchMerchantsByBankAndCity } from "../services/api";
+import { fetchMerchantsByCity } from "../services/api"; // Updated to fetch merchants by city only
 import MerchantCard from "../components/MerchantCard";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import search and arrow icons
 import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
+import "../css/merchanterrormsg.css";
 
 const Merchants = () => {
-  const { bankId, cityId } = useParams();
+  const { cityId } = useParams(); // Only cityId is now used
   const [merchants, setMerchants] = useState([]);
-  const [bank, setBank] = useState([]);
   const [visibleRows, setVisibleRows] = useState(2);
   const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -20,8 +20,7 @@ const Merchants = () => {
   useEffect(() => {
     const getMerchants = async () => {
       try {
-        const data = await fetchMerchantsByBankAndCity(bankId, cityId);
-        setBank(data.bank);
+        const data = await fetchMerchantsByCity(cityId); // Updated API call
         setMerchants(data.merchants);
 
         const uniqueCategories = [
@@ -34,7 +33,7 @@ const Merchants = () => {
       }
     };
     getMerchants();
-  }, [bankId, cityId]);
+  }, [cityId]);
 
   const loadMore = () => {
     setLoadingMore(true);
@@ -72,15 +71,10 @@ const Merchants = () => {
   return (
     <>
       <Breadcrumbs />
-      <img
-        src={`/src/assets/img/banks/${bank.image}`}
-        alt={bank.name}
-        style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-      />
       <div className="container mt-5">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading pt-5">Merchants in {bank.name}</h1>
+            <h1 className="main_heading pt-5">Merchants in City {cityId}</h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY MERCHANTS</span>
@@ -139,21 +133,30 @@ const Merchants = () => {
       </div>
       <div className="container">
         <div className="row">
-          {merchantsToShow.map((merchant, index) => (
-            <div
-              className={`col-md-2 col-sm-12 fade-in ${
-                loadingMore ? "loading" : ""
-              }`}
-              key={merchant.id}
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <MerchantCard
-                bankId={bankId}
-                cityId={cityId}
-                merchant={merchant}
-              />
+          {merchantsToShow.length > 0 ? (
+            merchantsToShow.map((merchant, index) => (
+              <div
+                className={`col-md-2 col-sm-12 fade-in ${
+                  loadingMore ? "loading" : ""
+                }`}
+                key={merchant.id}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <MerchantCard
+                  cityId={cityId} // City ID is passed to the MerchantCard
+                  merchant={merchant}
+                />
+              </div>
+            ))
+          ) : (
+            <div className="col-12 text-center mt-5 no-merchants-message">
+              <h3 className="no-merchants-title">Sorry, No Merchants Found</h3>
+              <p className="no-merchants-description">
+                We couldn't find any merchants matching your search criteria.
+                Please try adjusting the search or choose a different category.
+              </p>
             </div>
-          ))}
+          )}
         </div>
         {filteredMerchants.length > merchantsToShow.length && (
           <div className="text-center mt-4">

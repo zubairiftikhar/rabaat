@@ -1,0 +1,20 @@
+/* Add these styles to your cityload.css or a relevant stylesheet */
+.no-merchants-message {
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-top: 30px;
+}
+
+.no-merchants-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.no-merchants-description {
+  font-size: 1rem;
+  color: #555;
+  font-style: italic;
+}

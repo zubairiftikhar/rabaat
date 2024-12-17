@@ -73,41 +73,30 @@ app.get("/api/banks/:cityId", (req, res) => {
 
 
 // Fetch merchants and their associated categories, discounts, and bank for a specific bank and city
-app.get("/api/merchants/:bankId/:cityId", (req, res) => {
-  const { bankId, cityId } = req.params;
+app.get("/api/merchants/:cityId", (req, res) => {
+  const { cityId } = req.params;
 
-  // Query to fetch bank data and associated merchants
+  // Query to fetch merchants associated with the city
   const query = `
-    SELECT 
-  b.BankID AS bank_id, 
-  b.BankName AS bank_name, 
-  b.image_path AS bank_image, 
-  m.MerchantID AS merchant_id, 
-  m.MerchantName AS merchant_name, 
-  GROUP_CONCAT(cat.CategoryName) AS merchant_category, 
-  m.ImagePath AS merchant_image 
-FROM merchant m
-JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
-JOIN city cty ON mcl.CityID = cty.CityID 
-JOIN bankmerchantdiscount bmd ON m.MerchantID = bmd.MerchantID 
-JOIN bank b ON bmd.BankID = b.BankID 
-LEFT JOIN merchantcategorylink mclink ON m.MerchantID = mclink.MerchantID 
-LEFT JOIN category cat ON mclink.CategoryID = cat.CategoryID 
-WHERE bmd.BankID = ? AND mcl.CityID = ?
-GROUP BY m.MerchantID
+    SELECT
+      m.MerchantID AS merchant_id, 
+      m.MerchantName AS merchant_name, 
+      GROUP_CONCAT(cat.CategoryName) AS merchant_category, 
+      m.ImagePath AS merchant_image 
+    FROM merchant m
+    JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
+    JOIN city cty ON mcl.CityID = cty.CityID 
+    LEFT JOIN merchantcategorylink mclink ON m.MerchantID = mclink.MerchantID 
+    LEFT JOIN category cat ON mclink.CategoryID = cat.CategoryID 
+    WHERE mcl.CityID = ?
+    GROUP BY m.MerchantID
   `;
 
-  db.query(query, [bankId, cityId], (err, results) => {
+  db.query(query, [cityId], (err, results) => {
     if (err) return res.status(500).json(err);
 
     // Format the response to include bank data and merchants
     if (results.length > 0) {
-      const bankData = {
-        id: results[0].bank_id,
-        name: results[0].bank_name,
-        image: results[0].bank_image,
-      };
-
       const merchants = results.map(row => ({
         id: row.merchant_id,
         name: row.merchant_name,
@@ -115,12 +104,13 @@ GROUP BY m.MerchantID
         image: row.merchant_image,
       }));
 
-      res.json({ bank: bankData, merchants });
+      res.json({ merchants });
     } else {
-      res.json({ bank: null, merchants: [] });
+      res.json({ merchants: [] });
     }
   });
 });
+
 
 
 

@@ -8,20 +8,17 @@ import "../css/navbar.css";
 import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
 
-const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
+const Navbar = ({ selectedCity, onLocationChange }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalType, setAuthModalType] = useState("login");
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [currentCity, setCurrentCity] = useState(null);
-  const [currentBank, setCurrentBank] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
 
-  // Update state when the city or bank changes
-  const updateCityAndBank = (cityName, bankName) => {
+  // Update state when the city changes
+  const updateCity = (cityName) => {
     setCurrentCity(cityName);
-    setCurrentBank(bankName);
     Cookies.set("selectedCityName", cityName);
-    Cookies.set("selectedBankName", bankName);
   };
 
   // Handle successful login
@@ -37,10 +34,7 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
     }
 
     const cityName = Cookies.get("selectedCityName");
-    const bankName = Cookies.get("selectedBankName");
-
     setCurrentCity(cityName || "Select City");
-    setCurrentBank(bankName || "Select Bank");
   }, []);
 
   const handleLogout = () => {
@@ -77,18 +71,14 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
               </button>
             </li>
             <li className="nav-item">
-              <button
-                className="btn btn-outline-light me-3"
-                onClick={onLocationChange}
-              >
-                {`Bank: ${selectedBank ? selectedBank.name : "Select Bank"}`}
-              </button>
-            </li>
-            <li className="nav-item">
               {loggedInUser ? (
                 <>
-                  <FaUserCircle className="me-2" size={20} />
-                  <span>{loggedInUser}</span>
+                  <FaUserCircle
+                    className="me-2"
+                    size={20}
+                    style={{ color: "#fff" }}
+                  />
+                  <span style={{ color: "#fff" }}>{loggedInUser}</span>
                   <button
                     className="btn btn-danger ms-3"
                     onClick={handleLogout}
@@ -117,7 +107,7 @@ const Navbar = ({ selectedCity, selectedBank, onLocationChange }) => {
       <LocationModal
         show={showLocationModal}
         onClose={() => setShowLocationModal(false)}
-        onCityBankChange={updateCityAndBank}
+        onCityChange={updateCity}
       />
     </div>
   );

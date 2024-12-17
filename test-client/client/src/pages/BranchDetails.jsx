@@ -1,21 +1,17 @@
+// src/components/BranchDetails.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
-import {
-  fetchMerchantByMerchantId,
-  fetchBranchCount,
-  fetchMaximumDiscount,
-} from "../services/api";
+import { fetchMerchantByMerchantId, fetchBranchCount } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 import "./stylepages.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchDetails = () => {
-  const { merchantId, bankId, cityId } = useParams();
+  const { merchantId, cityId } = useParams(); // Removed bankId from useParams
   const [branches, setBranches] = useState([]);
   const [branchesCount, setBranchesCount] = useState([]);
-  const [maxdiscount, setMaxDiscount] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBranches, setVisibleBranches] = useState(4); // State for visible branches
@@ -52,20 +48,10 @@ const BranchDetails = () => {
       }
     };
 
-    // Fetch branches Count
-    const getMaxDiscount = async () => {
-      try {
-        const data = await fetchMaximumDiscount(merchantId, bankId, cityId);
-        setMaxDiscount(data);
-      } catch (error) {
-        console.error("Error fetching branches:", error);
-      }
-    };
-    getMaxDiscount();
     getBranchesCount();
     getBranches();
     getMerchants();
-  }, [merchantId, bankId, cityId]);
+  }, [merchantId, cityId]); // Removed bankId and max discount logic
 
   const loadMoreBranches = () => {
     setLoadingMore(true);
@@ -102,14 +88,6 @@ const BranchDetails = () => {
             <div className="col-lg-9 col-md-12 col-sm-12">
               <div className="marchant_branch_hero_content">
                 <h2>{merchant.name}</h2>
-                <p>
-                  MAX Discount <br />
-                  <span>
-                    {maxdiscount?.max_discount
-                      ? `${maxdiscount.max_discount}%`
-                      : "N/A"}
-                  </span>
-                </p>
               </div>
               <div className="marchant_branch_hero_content1">
                 <p>Branches: {branchesCount.branch_count}</p>
@@ -140,8 +118,7 @@ const BranchDetails = () => {
             <div className="col-md-3" key={branch.id}>
               <BranchCard
                 branch={branch}
-                merchantId={merchantId}
-                bankId={bankId}
+                merchantId={merchantId} // Removed bankId from here
                 cityId={cityId}
               />
             </div>

@@ -1,3 +1,4 @@
+// src/components/Breadcrumbs.jsx
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import {
@@ -7,7 +8,7 @@ import {
 
 const Breadcrumbs = () => {
   const location = useLocation();
-  const { merchantId, bankId, cityId, branchId } = useParams();
+  const { merchantId, cityId, branchId } = useParams();
 
   const [merchantName, setMerchantName] = useState(null);
   const [branchName, setBranchName] = useState(null);
@@ -27,12 +28,11 @@ const Breadcrumbs = () => {
     };
 
     const loadBranchName = async () => {
-      if (branchId && merchantId && bankId && cityId) {
+      if (branchId && merchantId && cityId) {
         try {
           const data = await fetchDiscountsForBranch(
             branchId,
             merchantId,
-            bankId,
             cityId
           );
           setBranchName(data[0]?.branchaddress || "Branch");
@@ -44,24 +44,24 @@ const Breadcrumbs = () => {
 
     loadMerchantName();
     loadBranchName();
-  }, [merchantId, branchId, bankId, cityId]);
+  }, [merchantId, branchId, cityId]);
 
   // Build Breadcrumb Links
   const breadcrumbLinks = [
-    { name: "Home", path: `/merchants/${bankId}/${cityId}` },
+    { name: "Home", path: `/merchants/${cityId}` }, // Adjusted to remove bankId
   ];
 
   if (merchantName) {
     breadcrumbLinks.push({
       name: merchantName,
-      path: `/branches/${merchantId}/${bankId}/${cityId}`,
+      path: `/branches/${merchantId}/${cityId}`, // Adjusted to remove bankId
     });
   }
 
   if (branchName) {
     breadcrumbLinks.push({
       name: branchName,
-      path: `/branchdiscount/${branchId}/${merchantId}/${bankId}/${cityId}`,
+      path: `/branchdiscount/${branchId}/${merchantId}/${cityId}`, // Adjusted to remove bankId
     });
   }
 

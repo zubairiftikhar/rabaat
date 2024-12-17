@@ -2,12 +2,12 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-const MerchantCard = ({ merchant, bankId, cityId }) => {
+const MerchantCard = ({ merchant, cityId }) => {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    // Navigate to BranchDetails page with merchant, bank, and city details
-    navigate(`/branches/${merchant.id}/${bankId}/${cityId}`);
+    // Navigate to BranchDetails page with merchant and city details
+    navigate(`/branches/${merchant.id}/${cityId}`);
   };
 
   return (
