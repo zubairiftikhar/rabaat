@@ -403,20 +403,21 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
   // Query to get distinct banks offering discounts for a specific branch in a city
   const query = `
     SELECT DISTINCT
-      bn.id AS bank_Id,
-      bn.name AS bank_name,
-      bn.image_path AS bank_image
-    FROM banks bn
-    JOIN discounts d ON bn.id = d.bank_id
-    JOIN branches b ON b.id = d.branch_id
-    WHERE b.id = ? AND b.city_id = ?
+      b.BankID AS bank_Id,
+      b.BankName AS bank_name,
+      b.image_path AS bank_image
+    FROM bank b
+    JOIN bankmerchantdiscount bmd ON b.BankID = bmd.BankID
+    JOIN merchantbranch mb ON mb.BranchID = bmd.BranchID
+    JOIN merchantcitylink mcl ON mcl.MerchantID = mb.MerchantID
+    WHERE mb.BranchID = ? AND mcl.CityID = ?
   `;
 
   db.query(query, [branchId, cityId], (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Error fetching data from the database" });
     }
-    
+
     if (results.length === 0) {
       return res.status(404).json({ message: "No banks offering discounts found for this branch in the specified city." });
     }
@@ -424,6 +425,7 @@ app.get("/api/branch-details/:branchId/:cityId", (req, res) => {
     res.json(results); // Return distinct banks with discounts for the branch in the city
   });
 });
+
 
 
 

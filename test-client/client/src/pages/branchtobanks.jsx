@@ -41,51 +41,54 @@ const BranchToBankDetails = () => {
   const isLoadMoreDisabled = banksToShow.length >= filteredBanks.length; // Disable button if all banks are loaded
 
   return (
-    <div className="banks-with-discounts">
-      <h2>Banks Offering Discounts</h2>
-      <div className="container">
-        {/* Search Input for Filtering Banks */}
-        <div className="d-flex pt-3 pb-4 page_search">
-          <div className="input-group" style={{ maxWidth: "300px" }}>
-            <span className="input-group-text">
-              <FaSearch />
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Banks..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // Update search query
-            />
-          </div>
-        </div>
-
-        {/* Display the filtered banks */}
-        <div className="row">
-          {banksToShow.map((bank) => (
-            <div className="col-md-4" key={bank.bank_Id}>
-              <BankWithBranch
-                bank={bank}
-                cityId={cityId}
-                branchId={branchId}
-                merchant_Id={merchant_Id}
+    <div className="container col-10">
+      <div className="banks-with-discounts">
+        <h2>Banks Offering Discounts</h2>
+        <div className="container">
+          {/* Search Input for Filtering Banks */}
+          <div className="d-flex pt-3 pb-4 page_search">
+            <div className="input-group" style={{ maxWidth: "300px" }}>
+              <span className="input-group-text">
+                <FaSearch />
+              </span>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search Banks..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update search query
               />
             </div>
-          ))}
-        </div>
-
-        {/* Load More Button for Banks */}
-        {filteredBanks.length > banksToShow.length && (
-          <div className="text-center mt-4">
-            <button
-              className="btn" style={{backgroundColor: 'red', color: 'white'}}
-              onClick={loadMoreBanks}
-              disabled={isLoadMoreDisabled} // Disable if all banks are loaded
-            >
-              {loadingMore ? "Loading..." : "Load More"}
-            </button>
           </div>
-        )}
+
+          {/* Display the filtered banks */}
+          <div className="row">
+            {banksToShow.map((bank) => (
+              <div className="col-md-4" key={bank.bank_Id}>
+                <BankWithBranch
+                  bank={bank}
+                  cityId={cityId}
+                  branchId={branchId}
+                  merchant_Id={merchant_Id}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Load More Button for Banks */}
+          {filteredBanks.length > banksToShow.length && (
+            <div className="text-center mt-4">
+              <button
+                className="btn"
+                style={{ backgroundColor: "red", color: "white" }}
+                onClick={loadMoreBanks}
+                disabled={isLoadMoreDisabled} // Disable if all banks are loaded
+              >
+                {loadingMore ? "Loading..." : "Load More"}
+              </button>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
