@@ -9,6 +9,7 @@ import {
 } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 import "./stylepages.css";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchDetails = () => {
   const { merchantId, bankId, cityId } = useParams();
@@ -86,6 +87,7 @@ const BranchDetails = () => {
 
   return (
     <div className="container">
+      <Breadcrumbs />
       {merchant && (
         <>
           <div className="row mt-5 marchant_branch_hero_row">
@@ -116,7 +118,6 @@ const BranchDetails = () => {
           </div>
         </>
       )}
-
       {/* Search Input for Filtering Branches */}
       <div className="d-flex mt-5 page_search">
         <div className="input-group" style={{ maxWidth: "300px" }}>
@@ -133,7 +134,6 @@ const BranchDetails = () => {
         </div>
       </div>
       <h2 className="mt-5">Branches</h2>
-
       {branchesToShow.length > 0 ? (
         <div className="row">
           {branchesToShow.map((branch) => (
@@ -150,12 +150,12 @@ const BranchDetails = () => {
       ) : (
         <p>No branches available for this merchant.</p>
       )}
-
       {/* Load More Button for Branches */}
       {filteredBranches.length > branchesToShow.length && (
         <div className="text-center mt-4">
           <button
-            className="btn" style={{backgroundColor: 'red', color: 'white'}}
+            className="btn"
+            style={{ backgroundColor: "red", color: "white" }}
             onClick={loadMoreBranches}
             disabled={isLoadMoreDisabled} // Disable if all branches are loaded
           >

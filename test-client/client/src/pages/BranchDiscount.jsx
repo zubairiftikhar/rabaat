@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchDiscountsForBranch } from "../services/api";
 import DiscountCard from "../components/DiscountCard";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchDiscount = () => {
   const { branchId, merchantId, bankId, cityId } = useParams();
@@ -60,6 +61,7 @@ const BranchDiscount = () => {
 
   return (
     <div className="container">
+      <Breadcrumbs />
       <div className="branch-info text-center mb-4">
         {branchDetails.branch_image && (
           <img
@@ -83,14 +85,12 @@ const BranchDiscount = () => {
           <h4>{branchDetails.bank_name}</h4>
         </div>
       </div>
-
       <h2>Discounts for this Branch</h2>
       {groupedDiscounts.length === 0 && (
         <div className="alert alert-warning text-center">
           No discounts available for this branch.
         </div>
       )}
-
       <div className="row">
         {groupedDiscounts.map((discount) => (
           <div className="col-12 col-md-6 mb-3" key={discount.percentage}>

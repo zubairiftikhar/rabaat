@@ -4,6 +4,7 @@ import { fetchMerchantsByBankAndCity } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import search and arrow icons
 import "../css/cityload.css";
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const Merchants = () => {
   const { bankId, cityId } = useParams();
@@ -70,6 +71,7 @@ const Merchants = () => {
 
   return (
     <>
+      <Breadcrumbs />
       <img
         src={`/src/assets/img/banks/${bank.image}`}
         alt={bank.name}
@@ -135,12 +137,13 @@ const Merchants = () => {
           </div>
         </div>
       </div>
-
       <div className="container">
         <div className="row">
           {merchantsToShow.map((merchant, index) => (
             <div
-              className={`col-md-2 col-sm-12 fade-in ${loadingMore ? "loading" : ""}`}
+              className={`col-md-2 col-sm-12 fade-in ${
+                loadingMore ? "loading" : ""
+              }`}
               key={merchant.id}
               style={{ animationDelay: `${index * 0.1}s` }}
             >
@@ -155,7 +158,8 @@ const Merchants = () => {
         {filteredMerchants.length > merchantsToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn" style={{backgroundColor: 'red', color: 'white'}}
+              className="btn"
+              style={{ backgroundColor: "red", color: "white" }}
               onClick={loadMore}
               disabled={isLoadMoreDisabled}
             >

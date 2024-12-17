@@ -12,7 +12,6 @@ import BranchDiscount from "./pages/BranchDiscount";
 import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
 import Cookies from "js-cookie";
-import Breadcrumbs from "./components/Breadcrumb";
 
 const App = () => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -67,7 +66,6 @@ const App = () => {
         onClose={() => setShowLocationModal(false)}
         onCityBankChange={handleCityBankSelection}
       />
-       <Breadcrumbs />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/banks/:cityId" element={<Banks />} />
