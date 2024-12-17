@@ -181,3 +181,27 @@
 /* END ALLCITIES banks CSS */
 
 /* END ALLBANKS CSS */
+
+/* START CSS FOR BREADCRUMBS */
+/* Custom Breadcrumb Styling */
+.breadcrumb {
+  background: transparent;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.breadcrumb-item a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.breadcrumb-item a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb-item.active {
+  color: #6c757d;
+  font-weight: bold;
+}
+
+/* END CSS FOR BREADCRUMBS */
