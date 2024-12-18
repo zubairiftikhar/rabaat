@@ -70,6 +70,23 @@ const Merchants = () => {
 
   return (
     <>
+      
+      <div className="bg_img_search_container">
+        <img
+          src={`/src/assets/img/banks/${bank.image}`}
+          alt={bank.name}
+          className="dynamic-image"
+        />
+
+        {/* Search Bar */}
+        <div className="search-wrapper">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="search-input"
+          />
+        </div>
+      </div>
       <Breadcrumbs />
       <div className="container mt-5">
         <div className="row">
@@ -96,9 +113,8 @@ const Merchants = () => {
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    className={`category-btn ${
-                      selectedCategory === category ? "active" : ""
-                    }`}
+                    className={`category-btn ${selectedCategory === category ? "active" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(category)}
                   >
                     {category}
