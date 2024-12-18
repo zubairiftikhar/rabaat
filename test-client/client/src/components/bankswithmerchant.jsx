@@ -2,15 +2,13 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
-import './componentstyle.css';
+import "./componentstyle.css";
 
-const BankWithBranch = ({ bank, cityId, branchId, merchant_Id }) => {
+const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleBankClick = () => {
-    navigate(
-      `/branchdiscount/${branchId}/${merchant_Id}/${bank.bank_Id}/${cityId}`
-    );
+    navigate(`/branchdiscount/${merchant_Id}/${bank.bank_Id}/${cityId}`);
   };
 
   return (
@@ -27,7 +25,9 @@ const BankWithBranch = ({ bank, cityId, branchId, merchant_Id }) => {
       <div className="offer-container">
         <div className="offer-details">
           <h5 className="card_bank_name">{bank.bank_name}</h5>
-          <p className="offer-subtext">Cards <span>0</span></p>
+          <p className="offer-subtext">
+            Cards <span>0</span>
+          </p>
         </div>
         <div className="offer-discount">
           <span className="discount-up">Up to</span>
@@ -38,4 +38,4 @@ const BankWithBranch = ({ bank, cityId, branchId, merchant_Id }) => {
   );
 };
 
-export default BankWithBranch;
+export default BankWithMerchant;

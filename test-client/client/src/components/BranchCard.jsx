@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const BranchCard = ({ branch, merchantId, cityId }) => {
   return (
     <Link
-      to={`/branch-details/${merchantId}/${branch.id}/${cityId}`} // Removed bankId from the link
+      to={`/branch-details/${merchantId}/${cityId}`} // Removed bankId from the link
       className="text-decoration-none" // Removes underline
     >
       <div className="card marchant_b_card mb-4">

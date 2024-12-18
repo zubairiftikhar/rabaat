@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // To access branchId and cityId from the URL
+import { useParams } from "react-router-dom"; // To access merchantId and cityId from the URL
 import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks offering discounts
-import BankWithBranch from "../components/bankswithbranch";
+import BankWithMerchant from "../components/bankswithmerchant";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
 const BranchToBankDetails = () => {
-  const { merchant_Id, branchId, cityId } = useParams(); // Get branchId and cityId from the URL
+  const { merchant_Id, cityId } = useParams(); // Get cityId and merchantId from the URL
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBanks, setVisibleBanks] = useState(4); // State for visible banks
@@ -14,7 +14,7 @@ const BranchToBankDetails = () => {
   useEffect(() => {
     const fetchBanks = async () => {
       try {
-        const data = await fetchDiscountBanks(branchId, cityId); // Fetch only banks offering discounts
+        const data = await fetchDiscountBanks(cityId, merchant_Id); // Fetch banks using cityId and merchantId
         setBanksWithDiscounts(data);
       } catch (error) {
         console.error("Error fetching banks with discounts:", error);
@@ -22,7 +22,7 @@ const BranchToBankDetails = () => {
     };
 
     fetchBanks();
-  }, [branchId, cityId]);
+  }, [cityId, merchant_Id]);
 
   const loadMoreBanks = () => {
     setLoadingMore(true);
@@ -65,10 +65,9 @@ const BranchToBankDetails = () => {
           <div className="row">
             {banksToShow.map((bank) => (
               <div className="col-md-4" key={bank.bank_Id}>
-                <BankWithBranch
+                <BankWithMerchant
                   bank={bank}
                   cityId={cityId}
-                  branchId={branchId}
                   merchant_Id={merchant_Id}
                 />
               </div>

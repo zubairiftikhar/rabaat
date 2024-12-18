@@ -3,19 +3,27 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
-import { fetchMerchantByMerchantId, fetchBranchCount } from "../services/api";
+import {
+  fetchMerchantByMerchantId,
+  fetchBranchCount,
+  fetchDiscountBanks,
+} from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 import "./stylepages.css";
 import Breadcrumbs from "../components/Breadcrumbs";
+import BankWithMerchant from "../components/bankswithmerchant";
 
 const BranchDetails = () => {
   const { merchantId, cityId } = useParams(); // Removed bankId from useParams
   const [branches, setBranches] = useState([]);
+  const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [branchesCount, setBranchesCount] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBranches, setVisibleBranches] = useState(4); // State for visible branches
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
+
+  useEffect(() => {}, [cityId, merchantId]);
 
   useEffect(() => {
     // Fetch merchant details
@@ -25,6 +33,16 @@ const BranchDetails = () => {
         setMerchants(data);
       } catch (error) {
         console.error("Error fetching merchant:", error);
+      }
+    };
+
+    // Fetch Banks
+    const getchBanks = async () => {
+      try {
+        const data = await fetchDiscountBanks(cityId, merchantId); // Fetch banks using cityId and merchantId
+        setBanksWithDiscounts(data);
+      } catch (error) {
+        console.error("Error fetching banks with discounts:", error);
       }
     };
 
@@ -51,6 +69,7 @@ const BranchDetails = () => {
     getBranchesCount();
     getBranches();
     getMerchants();
+    getchBanks();
   }, [merchantId, cityId]); // Removed bankId and max discount logic
 
   const loadMoreBranches = () => {
@@ -110,6 +129,18 @@ const BranchDetails = () => {
             onChange={(e) => setSearchQuery(e.target.value)} // Update search query
           />
         </div>
+      </div>
+      <h2 className="mt-5">Banks</h2>
+      <div className="row">
+        {banksWithDiscounts.map((bank) => (
+          <div className="col-md-4" key={bank.bank_id}>
+            <BankWithMerchant
+              bank={bank}
+              cityId={cityId}
+              merchantId={merchantId}
+            />
+          </div>
+        ))}
       </div>
       <h2 className="mt-5">Branches</h2>
       {branchesToShow.length > 0 ? (

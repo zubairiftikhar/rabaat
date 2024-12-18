@@ -95,8 +95,8 @@ export const fetchMerchantSearchResults = async (cityId, keyword) => {
 };
 
 
-export const fetchDiscountBanks = async (branchId, cityId) => {
-  const response = await api.get(`/branch-details/${branchId}/${cityId}`);
+export const fetchDiscountBanks = async (cityId, merchantId) => {
+  const response = await api.get(`/branch-details/${cityId}/${merchantId}`);
   return response.data;
 };
 
