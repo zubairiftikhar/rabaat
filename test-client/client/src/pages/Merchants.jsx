@@ -71,12 +71,24 @@ const Merchants = () => {
 
   return (
     <>
+      
+      <div className="bg_img_search_container">
+        <img
+          src={`/src/assets/img/banks/${bank.image}`}
+          alt={bank.name}
+          className="dynamic-image"
+        />
+
+        {/* Search Bar */}
+        <div className="search-wrapper">
+          <input
+            type="text"
+            placeholder="Search..."
+            className="search-input"
+          />
+        </div>
+      </div>
       <Breadcrumbs />
-      <img
-        src={`/src/assets/img/banks/${bank.image}`}
-        alt={bank.name}
-        style={{ width: "100%", maxHeight: "300px", objectFit: "cover" }}
-      />
       <div className="container mt-5">
         <div className="row">
           <div className="col-lg-12 col-sm">
@@ -102,9 +114,8 @@ const Merchants = () => {
                 {categories.map((category, index) => (
                   <button
                     key={index}
-                    className={`category-btn ${
-                      selectedCategory === category ? "active" : ""
-                    }`}
+                    className={`category-btn ${selectedCategory === category ? "active" : ""
+                      }`}
                     onClick={() => handleCategoryFilter(category)}
                   >
                     {category}
@@ -141,9 +152,8 @@ const Merchants = () => {
         <div className="row">
           {merchantsToShow.map((merchant, index) => (
             <div
-              className={`col-md-2 col-sm-12 fade-in ${
-                loadingMore ? "loading" : ""
-              }`}
+              className={`col-md-2 col-sm-12 fade-in ${loadingMore ? "loading" : ""
+                }`}
               key={merchant.id}
               style={{ animationDelay: `${index * 0.1}s` }}
             >

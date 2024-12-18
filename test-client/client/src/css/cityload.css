@@ -104,3 +104,91 @@
 .arrow-btn:hover {
   transform: scale(1.1);
 }
+
+/* START CSS FOR BG IMAGE & SERCH */
+/* Image Container */
+.bg_img_search_container {
+  position: relative;
+  width: 100%;
+  max-height: 400px;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Dynamic Image */
+.dynamic-image {
+  width: 100%;
+  max-height: 400px;
+  object-fit: cover;
+  transition: filter 0.3s ease-in-out;
+}
+
+/* Dark Overlay (Default State) */
+.bg_img_search_container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Default Darkness */
+  transition: background 0.5s ease-in-out;
+  z-index: 1;
+}
+
+/* Darker on Hover */
+.bg_img_search_container:hover::before {
+  background: rgba(0, 0, 0, 0.7); /* Darker Effect on Hover */
+}
+
+.bg_img_search_container:hover .dynamic-image {
+  filter: brightness(95%);
+}
+
+/* Search Wrapper */
+.search-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60%;
+  max-width: 600px;
+  z-index: 2; /* Above overlay */
+}
+.search-wrapper:hover{
+  box-shadow: rgb(254 254 255 / 20%) 7px 0px 23px 0px;
+}
+/* Search Input */
+.search-input {
+  width: 100%;
+  padding: 14px 15px;
+  font-size: 16px;
+  border: 0px solid #ccc;
+  border-radius: 40px;
+  outline: none;
+}
+.search-input:hover{
+  transform: translate(2px, -4px);
+  transition: .5s;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-wrapper {
+    width: 80%;
+  }
+
+  .search-input {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+}
+
+/* END CSS FOR BG IMAGE & SERCH */
