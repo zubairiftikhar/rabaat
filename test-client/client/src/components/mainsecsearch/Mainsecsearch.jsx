@@ -4,16 +4,31 @@ import SearchCard from "../../assets/img/landing/main_search_card.png";
 import SearchShop from "../../assets/img/landing/main_search_shop.png";
 import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
-import { fetchMerchantSearchResults } from "../../services/api";
+import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
+import Cookies from "js-cookie";
 
-const Mainsecsearch = ({ city }) => {
+const Mainsecsearch = () => {
   const [keyword, setKeyword] = useState(""); // Manage search input
+  const [city, setCity] = useState(""); // Manage search input
   const [suggestions, setSuggestions] = useState([]); // Store search results
   const [loading, setLoading] = useState(false); // Loading state to handle async requests
   const navigate = useNavigate(); // For navigation
 
-  const backgroundImageUrl = `../src/assets/img/cities/${city.image_path}`;
+  const cityID = Cookies.get("selectedCityId");
 
+  useEffect(() => {
+    const getCity = async () => {
+      try {
+        const city = await fetchCityById(cityID);
+        setCity(city);
+      } catch (error) {
+        console.error("Error fetching city:", error);
+      }
+    };
+    getCity();
+  }, [cityID]);
+
+  const backgroundImageUrl = `../src/assets/img/cities/${city.image}`;
   useEffect(() => {
     if (keyword.trim() === "") {
       setSuggestions([]); // Clear suggestions when input is empty
@@ -83,7 +98,7 @@ const Mainsecsearch = ({ city }) => {
                       onClick={() =>
                         handleBranchClick(
                           suggestion.branch_id,
-                          suggestion.merchant_Id
+                          suggestion.merchant_id
                         )
                       } // On click, go to branch details page
                     >

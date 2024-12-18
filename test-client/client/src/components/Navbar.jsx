@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
+import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 
 const Navbar = ({ selectedCity, onLocationChange }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -44,72 +45,75 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   };
 
   return (
-    <div className="container-fluid px-5 rabaat_nav_bg">
-      <nav className="navbar navbar-expand-lg">
-        <Link className="navbar-brand" to="/">
-          <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
-        </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav ms-auto">
-            <li className="nav-item">
-              <button
-                className="btn btn-outline-light me-3"
-                onClick={onLocationChange}
-              >
-                {`City: ${selectedCity ? selectedCity.name : "Select City"}`}
-              </button>
-            </li>
-            <li className="nav-item">
-              {loggedInUser ? (
-                <>
-                  <FaUserCircle
-                    className="me-2"
-                    size={20}
-                    style={{ color: "#fff" }}
-                  />
-                  <span style={{ color: "#fff" }}>{loggedInUser}</span>
-                  <button
-                    className="btn btn-danger ms-3"
-                    onClick={handleLogout}
-                  >
-                    Logout
-                  </button>
-                </>
-              ) : (
+    <>
+      <div className="container-fluid px-5 rabaat_nav_bg">
+        <nav className="navbar navbar-expand-lg">
+          <Link className="navbar-brand" to="/">
+            <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+          <div className="collapse navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
                 <button
-                  className="btn rabaat_login_btn ms-3"
-                  onClick={() => setShowAuthModal(true)}
+                  className="btn btn-outline-light me-3"
+                  onClick={onLocationChange}
                 >
-                  Log in
+                  {`City: ${selectedCity ? selectedCity.name : "Select City"}`}
                 </button>
-              )}
-            </li>
-          </ul>
-        </div>
-      </nav>
-      <AuthModal
-        show={showAuthModal}
-        handleClose={() => setShowAuthModal(false)}
-        initialType={authModalType}
-        handleSuccess={handleSuccess} // Pass handleSuccess to AuthModal
-      />
-      <LocationModal
-        show={showLocationModal}
-        onClose={() => setShowLocationModal(false)}
-        onCityChange={updateCity}
-      />
-    </div>
+              </li>
+              <li className="nav-item">
+                {loggedInUser ? (
+                  <>
+                    <FaUserCircle
+                      className="me-2"
+                      size={20}
+                      style={{ color: "#fff" }}
+                    />
+                    <span style={{ color: "#fff" }}>{loggedInUser}</span>
+                    <button
+                      className="btn btn-danger ms-3"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </>
+                ) : (
+                  <button
+                    className="btn rabaat_login_btn ms-3"
+                    onClick={() => setShowAuthModal(true)}
+                  >
+                    Log in
+                  </button>
+                )}
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <AuthModal
+          show={showAuthModal}
+          handleClose={() => setShowAuthModal(false)}
+          initialType={authModalType}
+          handleSuccess={handleSuccess} // Pass handleSuccess to AuthModal
+        />
+        <LocationModal
+          show={showLocationModal}
+          onClose={() => setShowLocationModal(false)}
+          onCityChange={updateCity}
+        />
+      </div>
+      <Mainsecsearch />
+    </>
   );
 };
 

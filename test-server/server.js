@@ -375,24 +375,33 @@ app.get("/api/merchants-search/:cityId/:keyword", (req, res) => {
 
   const query = `
     SELECT DISTINCT 
-      m.name AS merchant_name, 
-      m.id AS merchant_id, 
-      b.name AS branch_name, 
-      b.id AS branch_id, 
-      b.address AS branch_address
-    FROM merchants m
-    LEFT JOIN branches b ON m.id = b.merchant_id
-    WHERE m.city_id = ? 
-    AND (CONCAT(m.name, ' ', b.address) LIKE ? OR m.name LIKE ? OR b.address LIKE ?)
+      m.MerchantName AS merchant_name,
+      m.MerchantID AS merchant_id,
+      b.BranchName AS branch_name,
+      b.BranchID AS branch_id,
+      b.Address AS branch_address
+    FROM merchant m
+    INNER JOIN merchantbranch b ON m.MerchantID = b.MerchantID
+    WHERE b.CityID = ? 
+    AND (
+      CONCAT(m.MerchantName, ' ', b.Address) LIKE ? 
+      OR m.MerchantName LIKE ? 
+      OR b.Address LIKE ?
+    )
   `;
 
   const searchKeyword = `%${keyword}%`;
 
   db.query(query, [cityId, searchKeyword, searchKeyword, searchKeyword], (err, results) => {
-    if (err) return res.status(500).json({ error: "Error fetching merchants." });
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error fetching merchants." });
+    }
     res.json(results);
   });
 });
+
+
 
 
 
