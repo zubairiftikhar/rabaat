@@ -8,7 +8,7 @@ const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleBankClick = () => {
-    navigate(`/branchdiscount/${merchant_Id}/${bank.bank_Id}/${cityId}`);
+    navigate(`/branchdiscount/${merchant_Id}/${bank.bank_id}/${cityId}`);
   };
 
   return (
@@ -24,7 +24,7 @@ const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
       />
       <div className="offer-container">
         <div className="offer-details">
-          <h5 className="card_bank_name">{bank.bank_name}</h5>
+          <p className="offer-title">{bank.bank_name}</p>
           <p className="offer-subtext">
             Cards <span>0</span>
           </p>

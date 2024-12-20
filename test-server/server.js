@@ -72,30 +72,29 @@ app.get("/api/banks/:cityId", (req, res) => {
 });
 
 
-// Fetch merchants and their associated categories, discounts, and bank for a specific bank and city
+// Fetch merchants and their associated data for a specific city
 app.get("/api/merchants/:cityId", (req, res) => {
   const { cityId } = req.params;
 
   // Query to fetch merchants associated with the city
   const query = `
     SELECT
-      m.MerchantID AS merchant_id, 
-      m.MerchantName AS merchant_name, 
-      GROUP_CONCAT(cat.CategoryName) AS merchant_category, 
-      m.ImagePath AS merchant_image 
+      m.MerchantID AS merchant_id,
+      m.MerchantName AS merchant_name,
+      m.Category AS merchant_category,
+      m.ImagePath AS merchant_image
     FROM merchant m
     JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
-    JOIN city cty ON mcl.CityID = cty.CityID 
-    LEFT JOIN merchantcategorylink mclink ON m.MerchantID = mclink.MerchantID 
-    LEFT JOIN category cat ON mclink.CategoryID = cat.CategoryID 
     WHERE mcl.CityID = ?
-    GROUP BY m.MerchantID
   `;
 
   db.query(query, [cityId], (err, results) => {
-    if (err) return res.status(500).json(err);
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error fetching merchants from the database." });
+    }
 
-    // Format the response to include bank data and merchants
+    // Format the response
     if (results.length > 0) {
       const merchants = results.map(row => ({
         id: row.merchant_id,
@@ -110,9 +109,6 @@ app.get("/api/merchants/:cityId", (req, res) => {
     }
   });
 });
-
-
-
 
 
 // Fetch merchant by merchant id
@@ -216,7 +212,7 @@ app.get("/api/branch-count/:merchantId/:cityId", (req, res) => {
 
 
 
-// Fetch Discounts for a Merchant in a City and Bank
+// Fetch Discounts for a Merchant in a City and Bank with Branch Details
 app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
 
@@ -229,22 +225,50 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
         d.EndDate AS end_date,
         GROUP_CONCAT(c.CardName SEPARATOR ', ') AS card_names,
         b.BankName AS bank_name,
-        b.image_path AS bank_image
+        b.image_path AS bank_image,
+        GROUP_CONCAT(
+          DISTINCT CONCAT(
+            mb.BranchID, ':', mb.BranchName, ':', mb.Address
+          ) SEPARATOR '|'
+        ) AS branches
     FROM bankmerchantdiscount d
     LEFT JOIN carddiscount cd ON d.DiscountID = cd.DiscountID
     LEFT JOIN card c ON cd.CardID = c.CardID
-    LEFT JOIN bank b ON d.BankID = b.BankID  -- Joining bank table
+    LEFT JOIN bank b ON d.BankID = b.BankID
     LEFT JOIN merchantbranch mb ON d.BranchID = mb.BranchID
     LEFT JOIN citybanklink cb ON b.BankID = cb.BankID AND cb.CityID = ?
-    WHERE d.MerchantID = ? AND d.BankID = ? AND mb.CityID = ?
+    WHERE mb.MerchantID = ? AND d.BankID = ? AND mb.CityID = ?
     GROUP BY d.DiscountID
   `;
 
   db.query(query, [cityId, merchantId, bankId, cityId], (err, results) => {
-    if (err) return res.status(500).json(err);
-    res.json(results);
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error fetching discounts from the database." });
+    }
+
+    // Format the response to include structured branch details
+    const formattedResults = results.map(row => ({
+      id: row.id,
+      discount_amount: row.discount_amount,
+      discount_type: row.discount_type,
+      start_date: row.start_date,
+      end_date: row.end_date,
+      card_names: row.card_names ? row.card_names.split(', ') : [],
+      bank_name: row.bank_name,
+      bank_image: row.bank_image,
+      branches: row.branches
+        ? row.branches.split('|').map(branch => {
+            const [branchId, branchName, address] = branch.split(':');
+            return { branchId, branchName, address };
+          })
+        : [],
+    }));
+
+    res.json(formattedResults);
   });
 });
+
 
 
 
