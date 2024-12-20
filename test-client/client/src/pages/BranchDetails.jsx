@@ -133,11 +133,11 @@ const BranchDetails = () => {
       <h2 className="mt-5">Banks</h2>
       <div className="row">
         {banksWithDiscounts.map((bank) => (
-          <div className="col-md-4" key={bank.bank_id}>
+          <div className="col-md-2" key={bank.bank_id}>
             <BankWithMerchant
               bank={bank}
               cityId={cityId}
-              merchantId={merchantId}
+              merchant_Id={merchantId}
             />
           </div>
         ))}
@@ -146,7 +146,7 @@ const BranchDetails = () => {
       {branchesToShow.length > 0 ? (
         <div className="row">
           {branchesToShow.map((branch) => (
-            <div className="col-md-3" key={branch.id}>
+            <div className="col-md-2" key={branch.id}>
               <BranchCard
                 branch={branch}
                 merchantId={merchantId} // Removed bankId from here
