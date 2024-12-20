@@ -61,18 +61,26 @@ const BranchToBankDetails = () => {
             </div>
           </div>
 
-          {/* Display the filtered banks */}
-          <div className="row">
-            {banksToShow.map((bank) => (
-              <div className="col-md-4" key={bank.bank_id}>
-                <BankWithMerchant
-                  bank={bank}
-                  cityId={cityId}
-                  merchant_Id={merchant_Id}
-                />
-              </div>
-            ))}
-          </div>
+          {/* Display an error message if no banks are found */}
+          {filteredBanks.length === 0 ? (
+            <div className="alert alert-warning text-center">
+              No banks found offering discounts in this city for the selected
+              merchant. Please check back later.
+            </div>
+          ) : (
+            <div className="row">
+              {/* Display the filtered banks */}
+              {banksToShow.map((bank) => (
+                <div className="col-md-4" key={bank.bank_id}>
+                  <BankWithMerchant
+                    bank={bank}
+                    cityId={cityId}
+                    merchant_Id={merchant_Id}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
 
           {/* Load More Button for Banks */}
           {filteredBanks.length > banksToShow.length && (

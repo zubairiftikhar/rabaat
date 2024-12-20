@@ -1,34 +1,41 @@
 import React from "react";
-import "../css/branchdiscount.css";
 
 const DiscountCard = ({ discount }) => {
   const { discount_amount, discount_type, cards, branches } = discount;
 
   return (
-    <div className="card shadow-sm card_header_discount_main rounded-4 h-100">
-      <div className="card-header card_header_discount text-white">
-        <h5 className="card-title">
+    <div className="card shadow-sm rounded-4 mb-3">
+      <div
+        className="card-header text-white"
+        style={{ backgroundColor: "red", fontWeight: "bold" }}
+      >
+        <h5 className="card-title mb-0">
           {discount_amount}% {discount_type}
         </h5>
       </div>
-      <div className="card-body">
+      <div className="card-body d-flex flex-column">
         <p className="card-text">
           <strong>Applicable Cards:</strong>
         </p>
-        <ul>
+        <ul className="list-unstyled">
           {cards.length > 0 ? (
             cards.map((card, index) => (
-              <li key={index}>
-                <div className="bank_card_image mb-2">
-                  {card}
+              <li
+                key={index}
+                className="d-flex justify-content-between align-items-center mb-2"
+              >
+                <span>{card.cardName}</span>
+                {card.cardImage && (
                   <img
-                    src={`/src/assets/img/cards/${card.toLowerCase()}.png`}
-                    alt={card}
-                    className="img-fluid"
-                    style={{ maxWidth: "50px", marginLeft: "10px" }}
-                    onError={(e) => (e.target.style.display = "none")}
+                    src={`/src/assets/img/cards/${card.cardImage}`}
+                    alt={card.cardName}
+                    style={{
+                      width: "60px",
+                      height: "auto",
+                      objectFit: "contain",
+                    }}
                   />
-                </div>
+                )}
               </li>
             ))
           ) : (
@@ -38,7 +45,7 @@ const DiscountCard = ({ discount }) => {
         <p className="card-text mt-3">
           <strong>Available Branches:</strong>
         </p>
-        <ul>
+        <ul className="list-unstyled">
           {branches.length > 0 ? (
             branches.map((branch, index) => (
               <li key={index}>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Use useNavigate for navigation in React Router v6
+import { useNavigate } from "react-router-dom";
 import SearchCard from "../../assets/img/landing/main_search_card.png";
 import SearchShop from "../../assets/img/landing/main_search_shop.png";
 import "./mainsecsearch.css";
@@ -8,11 +8,11 @@ import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
 
 const Mainsecsearch = () => {
-  const [keyword, setKeyword] = useState(""); // Manage search input
-  const [city, setCity] = useState(""); // Manage search input
-  const [suggestions, setSuggestions] = useState([]); // Store search results
-  const [loading, setLoading] = useState(false); // Loading state to handle async requests
-  const navigate = useNavigate(); // For navigation
+  const [keyword, setKeyword] = useState("");
+  const [city, setCity] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const cityID = Cookies.get("selectedCityId");
 
@@ -29,17 +29,18 @@ const Mainsecsearch = () => {
   }, [cityID]);
 
   const backgroundImageUrl = `../src/assets/img/cities/${city.image}`;
+
   useEffect(() => {
     if (keyword.trim() === "") {
-      setSuggestions([]); // Clear suggestions when input is empty
+      setSuggestions([]);
       return;
     }
 
     const fetchSuggestions = async () => {
       setLoading(true);
       try {
-        const data = await fetchMerchantSearchResults(city.id, keyword); // Pass city.id and keyword to fetch
-        setSuggestions(data); // Assuming data is an array of merchants and branches
+        const data = await fetchMerchantSearchResults(city.id, keyword);
+        setSuggestions(data);
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -49,13 +50,13 @@ const Mainsecsearch = () => {
 
     const delaySearch = setTimeout(() => {
       fetchSuggestions();
-    }, 500); // Debounce search to reduce API calls
+    }, 500);
 
-    return () => clearTimeout(delaySearch); // Cleanup timeout on keyword change
+    return () => clearTimeout(delaySearch);
   }, [keyword, city.id]);
 
-  const handleBranchClick = (branchId, Merchant_ID) => {
-    navigate(`/branch-details/${Merchant_ID}/${branchId}/${city.id}`); // Pass both branchId and cityId
+  const handleMerchantClick = (Merchant_ID) => {
+    navigate(`/branch-details/${Merchant_ID}/${city.id}`);
   };
 
   return (
@@ -87,8 +88,7 @@ const Mainsecsearch = () => {
                 value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
               />
-              {loading && <div className="loader">Loading...</div>}{" "}
-              {/* Show loading indicator */}
+              {loading && <div className="loader">Loading...</div>}
               {suggestions.length > 0 ? (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (
@@ -96,18 +96,15 @@ const Mainsecsearch = () => {
                       key={index}
                       className="suggestion-item"
                       onClick={() =>
-                        handleBranchClick(
-                          suggestion.branch_id,
-                          suggestion.merchant_id
-                        )
-                      } // On click, go to branch details page
+                        handleMerchantClick(suggestion.merchant_id)
+                      }
                     >
                       {suggestion.merchant_name} - {suggestion.branch_address}
                     </div>
                   ))}
                 </div>
               ) : keyword.trim() !== "" && !loading ? (
-                <div className="no-results">No results found</div> // Show no results message
+                <div className="no-results">No results found</div>
               ) : null}
             </div>
           </div>

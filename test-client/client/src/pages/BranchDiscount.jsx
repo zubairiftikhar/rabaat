@@ -17,18 +17,25 @@ const BranchDiscount = () => {
           cityId
         );
 
-        // Transform discounts to match the UI requirements
+        // Group discounts by discount amount and process card/branch details
         const groupedDiscounts = data.reduce((acc, discount) => {
           const key = discount.discount_amount;
           if (!acc[key]) {
             acc[key] = {
               discount_amount: discount.discount_amount,
               discount_type: discount.discount_type,
-              cards: new Set(discount.card_names),
+              cards: new Map(
+                discount.cards.map(({ cardName, cardImage }) => [
+                  cardName,
+                  cardImage,
+                ])
+              ),
               branches: discount.branches,
             };
           } else {
-            discount.card_names.forEach((card) => acc[key].cards.add(card));
+            discount.cards.forEach(({ cardName, cardImage }) =>
+              acc[key].cards.set(cardName, cardImage)
+            );
           }
           return acc;
         }, {});
@@ -37,7 +44,10 @@ const BranchDiscount = () => {
           (group) => ({
             discount_amount: group.discount_amount,
             discount_type: group.discount_type,
-            cards: Array.from(group.cards),
+            cards: Array.from(group.cards, ([cardName, cardImage]) => ({
+              cardName,
+              cardImage,
+            })),
             branches: group.branches,
           })
         );
@@ -68,7 +78,7 @@ const BranchDiscount = () => {
       )}
       <div className="row">
         {discounts.map((discount, index) => (
-          <div className="col-12 col-md-6 mb-3" key={index}>
+          <div className="col-12" key={index}>
             <DiscountCard discount={discount} />
           </div>
         ))}
@@ -76,4 +86,5 @@ const BranchDiscount = () => {
     </div>
   );
 };
+
 export default BranchDiscount;

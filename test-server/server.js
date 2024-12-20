@@ -211,8 +211,7 @@ app.get("/api/branch-count/:merchantId/:cityId", (req, res) => {
 
 
 
-
-// Fetch Discounts for a Merchant in a City and Bank with Branch Details
+// Fetch Discounts for a Merchant in a City and Bank with Branch and Card Details
 app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
 
@@ -223,7 +222,7 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
         d.DiscountType AS discount_type,
         d.StartDate AS start_date,
         d.EndDate AS end_date,
-        GROUP_CONCAT(c.CardName SEPARATOR ', ') AS card_names,
+        GROUP_CONCAT(DISTINCT CONCAT(c.CardName, ':', c.image_path) SEPARATOR '|') AS cards,
         b.BankName AS bank_name,
         b.image_path AS bank_image,
         GROUP_CONCAT(
@@ -247,14 +246,19 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
       return res.status(500).json({ error: "Error fetching discounts from the database." });
     }
 
-    // Format the response to include structured branch details
+    // Format the response to include structured branch and card details
     const formattedResults = results.map(row => ({
       id: row.id,
       discount_amount: row.discount_amount,
       discount_type: row.discount_type,
       start_date: row.start_date,
       end_date: row.end_date,
-      card_names: row.card_names ? row.card_names.split(', ') : [],
+      cards: row.cards
+        ? row.cards.split('|').map(card => {
+            const [cardName, cardImage] = card.split(':');
+            return { cardName, cardImage };
+          })
+        : [],
       bank_name: row.bank_name,
       bank_image: row.bank_image,
       branches: row.branches
@@ -268,6 +272,7 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
     res.json(formattedResults);
   });
 });
+
 
 
 

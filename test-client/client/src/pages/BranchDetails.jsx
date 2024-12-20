@@ -20,10 +20,8 @@ const BranchDetails = () => {
   const [branchesCount, setBranchesCount] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
-  const [visibleBranches, setVisibleBranches] = useState(4); // State for visible branches
+  const [visibleBranches, setVisibleBranches] = useState(6); // State for visible branches (6 initially)
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
-
-  useEffect(() => {}, [cityId, merchantId]);
 
   useEffect(() => {
     // Fetch merchant details
@@ -75,7 +73,7 @@ const BranchDetails = () => {
   const loadMoreBranches = () => {
     setLoadingMore(true);
     setTimeout(() => {
-      setVisibleBranches((prevRows) => prevRows + 4); // Show 4 more branches after a delay
+      setVisibleBranches((prevRows) => prevRows + 6); // Show 6 more branches after a delay
       setLoadingMore(false);
     }, 1000);
   };
