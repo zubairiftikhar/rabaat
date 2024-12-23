@@ -8,6 +8,7 @@ import BranchDetails from "./pages/BranchDetails";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import DiscountDetail from "./pages/DiscountDetails";
+import MerchantDiscount from "./pages/MerchantDiscount";
 import BranchDiscount from "./pages/BranchDiscount";
 import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
@@ -69,11 +70,15 @@ const App = () => {
         />
         <Route path="/discounts/:discountId" element={<DiscountDetail />} />
         <Route
-          path="/branchdiscount/:merchantId/:bankId/:cityId"
+          path="/merchantdiscount/:merchantId/:bankId/:cityId"
+          element={<MerchantDiscount />}
+        />
+        <Route
+          path="/branchdiscount/:merchantId/:branchId/:bankId/:cityId"
           element={<BranchDiscount />}
         />
         <Route
-          path="/branch-details/:merchant_Id/:cityId"
+          path="/branch-details/:branch_Id/:merchant_Id/:cityId"
           element={<BranchToBankDetails />}
         />
       </Routes>

@@ -278,15 +278,16 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
 
 
 
-// Fetch Maximum Discount for a Merchant in a City and Bank
 app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
   const { merchantId, bankId, cityId } = req.params;
 
   const query = `
     SELECT 
-      MAX(bmd.DiscountAmount) AS max_discount
+      MAX(bmd.DiscountAmount) AS max_discount,
+      COUNT(DISTINCT cd.CardID) AS total_card_count
     FROM bankmerchantdiscount bmd
     INNER JOIN merchantbranch mb ON bmd.BranchID = mb.BranchID
+    LEFT JOIN carddiscount cd ON bmd.DiscountID = cd.DiscountID
     WHERE bmd.BankID = ? 
       AND mb.MerchantID = ? 
       AND mb.CityID = ?
@@ -294,9 +295,13 @@ app.get("/api/maximum-discount/:merchantId/:bankId/:cityId", (req, res) => {
 
   db.query(query, [bankId, merchantId, cityId], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
-    res.json({ max_discount: results[0]?.max_discount || 0 });
+    res.json({
+      max_discount: results[0]?.max_discount || 0,
+      total_card_count: results[0]?.total_card_count || 0,
+    });
   });
 });
+
 
 
 

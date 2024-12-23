@@ -1,85 +1,79 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchDiscountsForMerchant } from "../services/api";
-import DiscountCard from "../components/DiscountCard";
+import { fetchDiscountsForBranch } from "../services/api";
+import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
+import "../css/branchdiscount.css"; // Import the CSS file here
 
 const BranchDiscount = () => {
-  const { merchantId, bankId, cityId } = useParams();
+  const { merchantId, bankId, cityId, branchId } = useParams();
   const [discounts, setDiscounts] = useState([]);
+  const [branchInfo, setBranchInfo] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getDiscounts = async () => {
+    const fetchData = async () => {
       try {
-        const data = await fetchDiscountsForMerchant(
+        const data = await fetchDiscountsForBranch(
+          branchId,
           merchantId,
           bankId,
           cityId
         );
-
-        // Group discounts by discount amount and process card/branch details
-        const groupedDiscounts = data.reduce((acc, discount) => {
-          const key = discount.discount_amount;
-          if (!acc[key]) {
-            acc[key] = {
-              discount_amount: discount.discount_amount,
-              discount_type: discount.discount_type,
-              cards: new Map(
-                discount.cards.map(({ cardName, cardImage }) => [
-                  cardName,
-                  cardImage,
-                ])
-              ),
-              branches: discount.branches,
-            };
-          } else {
-            discount.cards.forEach(({ cardName, cardImage }) =>
-              acc[key].cards.set(cardName, cardImage)
-            );
-          }
-          return acc;
-        }, {});
-
-        let formattedDiscounts = Object.values(groupedDiscounts).map(
-          (group) => ({
-            discount_amount: group.discount_amount,
-            discount_type: group.discount_type,
-            cards: Array.from(group.cards, ([cardName, cardImage]) => ({
-              cardName,
-              cardImage,
-            })),
-            branches: group.branches,
-          })
-        );
-
-        // Sort discounts in descending order by discount amount
-        formattedDiscounts = formattedDiscounts.sort(
-          (a, b) => b.discount_amount - a.discount_amount
-        );
-
-        setDiscounts(formattedDiscounts);
-      } catch (error) {
-        console.error("Error fetching discounts:", error);
+        if (data && data.length > 0) {
+          setBranchInfo({
+            branchName: data[0].branchname,
+            branchAddress: data[0].branchaddress,
+          });
+          setDiscounts(data);
+        }
+      } catch (err) {
+        setError("Failed to load discounts.");
       }
     };
 
-    getDiscounts();
-  }, [merchantId, bankId, cityId]);
+    fetchData();
+  }, [merchantId, bankId, cityId, branchId]);
+
+  if (error) {
+    return <div className="error-message">{error}</div>;
+  }
+
+  // Group discounts by percentage
+  const groupedDiscounts = discounts.reduce((acc, discount) => {
+    const percentage = discount.percentage;
+    if (!acc[percentage]) {
+      acc[percentage] = {
+        percentage: percentage,
+        cards: [],
+      };
+    }
+    acc[percentage].cards.push({
+      cardName: discount.cardname,
+      cardImage: discount.cardimage,
+    });
+    return acc;
+  }, {});
+
+  // Sort the discounts by percentage in descending order
+  const sortedDiscounts = Object.keys(groupedDiscounts)
+    .sort((a, b) => b - a) // Sorting in descending order
+    .map((percentage) => groupedDiscounts[percentage]);
 
   return (
     <div className="container">
       <Breadcrumbs />
-      <h2>Discounts for Merchant</h2>
-      {discounts.length === 0 && (
-        <div className="alert alert-warning text-center">
-          No discounts available for this merchant in the selected city and
-          bank.
+      {branchInfo && (
+        <div className="branch-info">
+          <h2>{branchInfo.branchName}</h2>
+          <p>{branchInfo.branchAddress}</p>
         </div>
       )}
-      <div className="row">
-        {discounts.map((discount, index) => (
-          <div className="col-12" key={index}>
-            <DiscountCard discount={discount} />
+      <h2>Discounts for this Branch</h2>
+      <div className="discount-cards">
+        {sortedDiscounts.map((discountGroup) => (
+          <div key={discountGroup.percentage} className="discount-row">
+            <BranchDiscountCard discount={discountGroup} />
           </div>
         ))}
       </div>

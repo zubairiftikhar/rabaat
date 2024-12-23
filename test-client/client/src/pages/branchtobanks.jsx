@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"; // To access merchantId and cityId from the URL
 import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks offering discounts
-import BankWithMerchant from "../components/bankswithmerchant";
+import BankWithMerchantBranch from "../components/bankswithmerchantbranch";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
 const BranchToBankDetails = () => {
-  const { merchant_Id, cityId } = useParams(); // Get cityId and merchantId from the URL
+  const { branch_Id, merchant_Id, cityId } = useParams(); // Get cityId and merchantId from the URL
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBanks, setVisibleBanks] = useState(4); // State for visible banks
@@ -72,8 +72,9 @@ const BranchToBankDetails = () => {
               {/* Display the filtered banks */}
               {banksToShow.map((bank) => (
                 <div className="col-md-4" key={bank.bank_id}>
-                  <BankWithMerchant
+                  <BankWithMerchantBranch
                     bank={bank}
+                    branch_Id={branch_Id}
                     cityId={cityId}
                     merchant_Id={merchant_Id}
                   />

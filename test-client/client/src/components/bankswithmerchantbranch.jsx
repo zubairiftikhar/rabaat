@@ -4,13 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./componentstyle.css";
 import { fetchMaximumDiscount } from "../services/api"; // Import the function
 
-const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
+const BankWithMerchantBranch = ({ bank, branch_Id, cityId, merchant_Id }) => {
   const navigate = useNavigate(); // Initialize useNavigate
   const [maxDiscount, setMaxDiscount] = useState(null); // State to store the maximum discount
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
-    // Fetch maximum discount and card count for the merchant, bank, and city
+    // Fetch maximum discount and card count for the merchant, branch, city, and bank
     const getMaxDiscount = async () => {
       const data = await fetchMaximumDiscount(
         merchant_Id,
@@ -26,7 +26,9 @@ const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
   }, [merchant_Id, bank.bank_id, cityId]);
 
   const handleBankClick = () => {
-    navigate(`/merchantdiscount/${merchant_Id}/${bank.bank_id}/${cityId}`);
+    navigate(
+      `/branchdiscount/${merchant_Id}/${branch_Id}/${bank.bank_id}/${cityId}`
+    );
   };
 
   return (
@@ -58,4 +60,4 @@ const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
   );
 };
 
-export default BankWithMerchant;
+export default BankWithMerchantBranch;
