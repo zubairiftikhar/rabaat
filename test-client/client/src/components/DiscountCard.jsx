@@ -42,20 +42,6 @@ const DiscountCard = ({ discount }) => {
             <li>No cards available</li>
           )}
         </ul>
-        <p className="card-text mt-3">
-          <strong>Available Branches:</strong>
-        </p>
-        <ul className="list-unstyled">
-          {branches.length > 0 ? (
-            branches.map((branch, index) => (
-              <li key={index}>
-                <strong>{branch.branchName}</strong> - {branch.address}
-              </li>
-            ))
-          ) : (
-            <li>No branches available</li>
-          )}
-        </ul>
       </div>
     </div>
   );
