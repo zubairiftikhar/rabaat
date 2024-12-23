@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom"; // To access merchantId and cityId
 import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks offering discounts
 import BankWithMerchantBranch from "../components/bankswithmerchantbranch";
 import { FaSearch } from "react-icons/fa"; // Import search icon
+import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchToBankDetails = () => {
   const { branch_Id, merchant_Id, cityId } = useParams(); // Get cityId and merchantId from the URL
@@ -43,6 +44,7 @@ const BranchToBankDetails = () => {
   return (
     <div className="container col-10">
       <div className="banks-with-discounts">
+        <Breadcrumbs />
         <h2>Banks Offering Discounts</h2>
         <div className="container">
           {/* Search Input for Filtering Banks */}
