@@ -56,7 +56,9 @@ const Mainsecsearch = () => {
   }, [keyword, city.id]);
 
   const handleMerchantClick = (Merchant_ID, Branch_ID) => {
-    navigate(`/branch-details/${Branch_ID}/${Merchant_ID}/${city.id}`);
+    navigate(
+      `/branch-details?BranchID=${Branch_ID}&MerchantID=${Merchant_ID}&CityID=${city.id}`
+    );
     setKeyword(""); // Clear the search input
   };
 
