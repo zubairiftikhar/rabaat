@@ -55,8 +55,9 @@ const Mainsecsearch = () => {
     return () => clearTimeout(delaySearch);
   }, [keyword, city.id]);
 
-  const handleMerchantClick = (Merchant_ID) => {
-    navigate(`/branch-details/${Merchant_ID}/${city.id}`);
+  const handleMerchantClick = (Merchant_ID, Branch_ID) => {
+    navigate(`/branch-details/${Branch_ID}/${Merchant_ID}/${city.id}`);
+    setKeyword(""); // Clear the search input
   };
 
   return (
@@ -96,7 +97,10 @@ const Mainsecsearch = () => {
                       key={index}
                       className="suggestion-item"
                       onClick={() =>
-                        handleMerchantClick(suggestion.merchant_id)
+                        handleMerchantClick(
+                          suggestion.merchant_id,
+                          suggestion.branch_id
+                        )
                       }
                     >
                       {suggestion.merchant_name} - {suggestion.branch_address}
