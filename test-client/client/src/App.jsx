@@ -30,7 +30,7 @@ const App = () => {
       setSelectedCity({ id: cityId, name: cityName });
 
       if (location.pathname === "/") {
-        navigate(`/merchants/${cityId}`);
+        navigate(`/merchants?CityID=${cityId}`);
       }
     } else {
       // Show location modal for new users
@@ -45,7 +45,7 @@ const App = () => {
     Cookies.set("selectedCityName", city.name);
 
     setShowLocationModal(false);
-    navigate(`/merchants/${city.id}`);
+    navigate(`/merchants?CityID=${city.id}`);
   };
 
   return (
@@ -61,26 +61,17 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/banks/:cityId" element={<Banks />} />
-        <Route path="/merchants/:cityId" element={<Merchants />} />
+        <Route path="/banks/CityID=:cityId" element={<Banks />} />
+        <Route path="/merchants" element={<Merchants />} />
         <Route path="/deals" element={<Deals />} />
+        <Route path="/branches" element={<BranchDetails />} />
         <Route
-          path="/branches/:merchantId/:cityId"
-          element={<BranchDetails />}
+          path="/discounts/DiscountID=:discountId"
+          element={<DiscountDetail />}
         />
-        <Route path="/discounts/:discountId" element={<DiscountDetail />} />
-        <Route
-          path="/merchantdiscount/:merchantId/:bankId/:cityId"
-          element={<MerchantDiscount />}
-        />
-        <Route
-          path="/branchdiscount/:merchantId/:branchId/:bankId/:cityId"
-          element={<BranchDiscount />}
-        />
-        <Route
-          path="/branch-details/:branch_Id/:merchant_Id/:cityId"
-          element={<BranchToBankDetails />}
-        />
+        <Route path="/merchantdiscount" element={<MerchantDiscount />} />
+        <Route path="/branchdiscount" element={<BranchDiscount />} />
+        <Route path="/branch-details" element={<BranchToBankDetails />} />
       </Routes>
       <Footer />
     </div>

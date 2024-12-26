@@ -1,16 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"; // To access merchantId and cityId from the URL
+import { useLocation } from "react-router-dom"; // To access merchantId and cityId from the URL
 import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks offering discounts
 import BankWithMerchantBranch from "../components/bankswithmerchantbranch";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchToBankDetails = () => {
-  const { branch_Id, merchant_Id, cityId } = useParams(); // Get cityId and merchantId from the URL
+  const [cityId, setCityId] = useState(null);
+  const location = useLocation();
+  const [merchant_Id, setMerchantId] = useState(null);
+  const [branch_Id, setbranchId] = useState(null);
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBanks, setVisibleBanks] = useState(4); // State for visible banks
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more banks
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+    const merchantIdFromQuery = queryParams.get("MerchantID");
+    setMerchantId(merchantIdFromQuery);
+    const branchIdFromQuery = queryParams.get("BranchID");
+    setbranchId(branchIdFromQuery);
+  }, [location]); // Get cityId and merchantId from the URL
 
   useEffect(() => {
     const fetchBanks = async () => {

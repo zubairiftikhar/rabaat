@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { fetchDiscountsForMerchant } from "../services/api";
 import DiscountCard from "../components/DiscountCard";
 
 const MerchantDiscount = () => {
-  const { merchantId, bankId, cityId } = useParams();
+  const [cityId, setCityId] = useState(null);
+  const location = useLocation();
+  const [merchantId, setMerchantId] = useState(null);
+  const [bankId, setbankId] = useState(null);
   const [discounts, setDiscounts] = useState([]);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+    const merchantIdFromQuery = queryParams.get("MerchantID");
+    setMerchantId(merchantIdFromQuery);
+    const bankIdFromQuery = queryParams.get("BankID");
+    setbankId(bankIdFromQuery);
+  }, [location]);
 
   useEffect(() => {
     const getDiscounts = async () => {

@@ -1,6 +1,6 @@
 // src/components/BranchDetails.jsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
 import {
@@ -14,7 +14,9 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import BankWithMerchant from "../components/bankswithmerchant";
 
 const BranchDetails = () => {
-  const { merchantId, cityId } = useParams(); // Removed bankId from useParams
+  const [cityId, setCityId] = useState(null);
+  const location = useLocation();
+  const [merchantId, setMerchantId] = useState(null);
   const [branches, setBranches] = useState([]);
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [branchesCount, setBranchesCount] = useState([]);
@@ -22,6 +24,14 @@ const BranchDetails = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBranches, setVisibleBranches] = useState(6); // State for visible branches (6 initially)
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+    const merchantIdFromQuery = queryParams.get("MerchantID");
+    setMerchantId(merchantIdFromQuery);
+  }, [location]);
 
   useEffect(() => {
     // Fetch merchant details

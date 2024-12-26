@@ -1,15 +1,31 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchDiscountsForBranch } from "../services/api";
 import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css"; // Import the CSS file here
 
 const BranchDiscount = () => {
-  const { merchantId, bankId, cityId, branchId } = useParams();
+  const [cityId, setCityId] = useState(null);
+  const location = useLocation();
+  const [merchantId, setMerchantId] = useState(null);
+  const [bankId, setbankId] = useState(null);
+  const [branchId, setbranchId] = useState(null);
   const [discounts, setDiscounts] = useState([]);
   const [branchInfo, setBranchInfo] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+    const merchantIdFromQuery = queryParams.get("MerchantID");
+    setMerchantId(merchantIdFromQuery);
+    const bankIdFromQuery = queryParams.get("BankID");
+    setbankId(bankIdFromQuery);
+    const branchIdFromQuery = queryParams.get("BranchID");
+    setbranchId(branchIdFromQuery);
+  }, [location]);
 
   useEffect(() => {
     const fetchData = async () => {

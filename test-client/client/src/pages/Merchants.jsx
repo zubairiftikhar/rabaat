@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { fetchMerchantsByCity } from "../services/api"; // Updated to fetch merchants by city only
 import MerchantCard from "../components/MerchantCard";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import search and arrow icons
@@ -8,14 +8,21 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 
 const Merchants = () => {
-  const { cityId } = useParams(); // Only cityId is now used
+  const [cityId, setCityId] = useState(null);
   const [merchants, setMerchants] = useState([]);
   const [visibleRows, setVisibleRows] = useState(2);
   const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState([]);
-  const sliderRef = useRef(null); // Ref for category slider
+  const sliderRef = useRef(null);
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+  }, [location]);
 
   useEffect(() => {
     const getMerchants = async () => {

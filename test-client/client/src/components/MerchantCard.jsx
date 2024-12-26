@@ -21,7 +21,7 @@ const MerchantCard = ({ merchant, cityId }) => {
 
   const handleClick = () => {
     // Navigate to BranchDetails page with merchant and city details
-    navigate(`/branches/${merchant.id}/${cityId}`);
+    navigate(`/branches?MerchantID=${merchant.id}&CityID=${cityId}`);
   };
 
   return (

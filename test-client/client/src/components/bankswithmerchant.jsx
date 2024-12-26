@@ -26,7 +26,9 @@ const BankWithMerchant = ({ bank, cityId, merchant_Id }) => {
   }, [merchant_Id, bank.bank_id, cityId]);
 
   const handleBankClick = () => {
-    navigate(`/merchantdiscount/${merchant_Id}/${bank.bank_id}/${cityId}`);
+    navigate(
+      `/merchantdiscount?MerchantID=${merchant_Id}&BankID=${bank.bank_id}&CityID=${cityId}`
+    );
   };
 
   return (
