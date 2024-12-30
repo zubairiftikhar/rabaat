@@ -48,10 +48,10 @@ const Banks = () => {
   return (
     <>
       <Mainsecsearch city={city} />
-      <div className="container mt-5">
+      <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading pt-5">Banks in {city.name}</h1>
+            <h1 className="main_heading">Banks in {city.name}</h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY BANKS</span>

@@ -1,7 +1,7 @@
 .hero-section {
   background-size: cover;
-  background-position: top;
-  height: 100vh; /* Full screen height */
+  background-position: center;
+  height: 60vh;
   padding: 20px;
 }
 

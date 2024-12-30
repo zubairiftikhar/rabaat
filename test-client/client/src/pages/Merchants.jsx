@@ -89,10 +89,10 @@ const Merchants = () => {
         </div>
       </div> */}
       <Breadcrumbs />
-      <div className="container mt-5">
+      <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading pt-5">Merchants in City {cityId}</h1>
+            <h1 className="main_heading">Merchants in City {cityId}</h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY MERCHANTS</span>

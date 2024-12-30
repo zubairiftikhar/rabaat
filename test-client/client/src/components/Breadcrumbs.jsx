@@ -66,24 +66,31 @@ const Breadcrumbs = () => {
   }
 
   return (
-    <nav aria-label="breadcrumb" className="mt-2 mb-4">
-      <ol className="breadcrumb">
-        {breadcrumbLinks.map((crumb, index) => (
-          <li
-            className={`breadcrumb-item ${
-              index === breadcrumbLinks.length - 1 ? "active" : ""
-            }`}
-            key={index}
-          >
-            {index !== breadcrumbLinks.length - 1 ? (
-              <Link to={crumb.path}>{crumb.name}</Link>
-            ) : (
-              <span>{crumb.name}</span>
-            )}
-          </li>
-        ))}
-      </ol>
-    </nav>
+    <div className="container">
+      <div className="row">
+        <div className="col-lg-12">
+
+
+          <nav aria-label="breadcrumb" className="mt-2 mb-4">
+            <ol className="breadcrumb">
+              {breadcrumbLinks.map((crumb, index) => (
+                <li
+                  className={`breadcrumb-item ${index === breadcrumbLinks.length - 1 ? "active" : ""
+                    }`}
+                  key={index}
+                >
+                  {index !== breadcrumbLinks.length - 1 ? (
+                    <Link to={crumb.path}>{crumb.name}</Link>
+                  ) : (
+                    <span>{crumb.name}</span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
   );
 };
 

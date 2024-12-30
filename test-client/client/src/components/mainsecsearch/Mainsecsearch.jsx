@@ -114,7 +114,7 @@ const Mainsecsearch = () => {
               ) : null}
             </div>
           </div>
-          <div className="col-lg-5 col-md-12 col-sm-12">
+          {/* <div className="col-lg-5 col-md-12 col-sm-12">
             <div className="d-flex justify-content-center gap-2">
               <button className="btn btn-light btn-lg ms-5">
                 <BiSearch /> Search By Card <img src={SearchCard} alt="" />
@@ -123,7 +123,7 @@ const Mainsecsearch = () => {
                 <BiSearch /> Search By Shop <img src={SearchShop} alt="" />
               </button>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
