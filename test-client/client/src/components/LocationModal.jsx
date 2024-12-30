@@ -57,7 +57,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
       Cookies.set("selectedCityId", selectedCity.id);
       Cookies.set("selectedCityName", selectedCity.name);
       // Navigate to the merchant page based on the city ID
-      navigate(`/merchants/${selectedCity.id}`);
+      navigate(`/merchants?CityID=${selectedCity.id}`);
     }
   };
 
