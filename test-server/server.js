@@ -386,8 +386,7 @@ app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res
   const { merchantId, bankId, cityId, branchId } = req.params;
 
   // Query to fetch discounts for a specific branch
-  const query = `
-    SELECT 
+  const query = `SELECT DISTINCT
     bmd.DiscountAmount AS percentage,
     bmd.DiscountType AS discount_title,
     c.image_path AS cardimage,
@@ -414,8 +413,7 @@ WHERE
     AND bmd.BankID = ? 
     AND mb.CityID = ? 
     AND bmd.BranchID = ?;
-
-  `;
+`;
 
   db.query(query, [merchantId, bankId, cityId, branchId], (err, results) => {
     if (err) return res.status(500).json({ error: "Error fetching discounts from the database." });
