@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import SearchCard from "../../assets/img/landing/main_search_card.png";
-import SearchShop from "../../assets/img/landing/main_search_shop.png";
+// import SearchCard from "../../assets/img/landing/main_search_card.png";
+// import SearchShop from "../../assets/img/landing/main_search_shop.png";
 import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
