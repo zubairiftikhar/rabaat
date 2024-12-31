@@ -86,7 +86,7 @@ const BranchToBankDetails = () => {
             <div className="row">
               {/* Display the filtered banks */}
               {banksToShow.map((bank) => (
-                <div className="col-md-4" key={bank.bank_id}>
+                <div className="col-md-2" key={bank.bank_id}>
                   <BankWithMerchantBranch
                     bank={bank}
                     branch_Id={branch_Id}
