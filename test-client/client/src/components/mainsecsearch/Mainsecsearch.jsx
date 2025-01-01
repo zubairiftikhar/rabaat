@@ -28,7 +28,7 @@ const Mainsecsearch = () => {
     getCity();
   }, [cityID]);
 
-  const backgroundImageUrl = `../src/assets/img/cities/${city.image}`;
+  const backgroundImageUrl = `../public/assets/img/cities/${city.image}`;
 
   useEffect(() => {
     if (keyword.trim() === "") {
