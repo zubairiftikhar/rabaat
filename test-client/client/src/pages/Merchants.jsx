@@ -1,14 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchMerchantsByCity } from "../services/api"; // Updated to fetch merchants by city only
+import { fetchMerchantsByCity, fetchCityById } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
-import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa"; // Import search and arrow icons
+import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 
 const Merchants = () => {
   const [cityId, setCityId] = useState(null);
+  const [city, setCity] = useState("");
   const [merchants, setMerchants] = useState([]);
   const [visibleRows, setVisibleRows] = useState(2);
   const [loadingMore, setLoadingMore] = useState(false);
@@ -17,6 +18,7 @@ const Merchants = () => {
   const [categories, setCategories] = useState([]);
   const sliderRef = useRef(null);
   const location = useLocation();
+  const autoScrollInterval = useRef(null);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -25,9 +27,21 @@ const Merchants = () => {
   }, [location]);
 
   useEffect(() => {
+    const getCity = async () => {
+      try {
+        const city = await fetchCityById(cityId);
+        setCity(city);
+      } catch (error) {
+        console.error("Error fetching city:", error);
+      }
+    };
+    getCity();
+  }, [cityId]);
+
+  useEffect(() => {
     const getMerchants = async () => {
       try {
-        const data = await fetchMerchantsByCity(cityId); // Updated API call
+        const data = await fetchMerchantsByCity(cityId);
         setMerchants(data.merchants);
 
         const uniqueCategories = [
@@ -53,15 +67,51 @@ const Merchants = () => {
   const handleCategoryFilter = (category) => {
     setSelectedCategory(category);
     setVisibleRows(2);
+    stopAutoScroll();
   };
 
   const handleSliderScroll = (direction) => {
-    const scrollAmount = 400; // Pixels to scroll per click
-    sliderRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
+    const slider = sliderRef.current;
+    const scrollAmount = slider.offsetWidth / 2;
+
+    if (direction === "left") {
+      slider.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+    } else {
+      slider.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+    stopAutoScroll();
   };
+
+  const startAutoScroll = () => {
+    if (autoScrollInterval.current) return;
+
+    autoScrollInterval.current = setInterval(() => {
+      const slider = sliderRef.current;
+      const maxScrollLeft = slider.scrollWidth - slider.offsetWidth;
+
+      if (slider.scrollLeft >= maxScrollLeft) {
+        slider.scrollLeft = 0;
+      } else {
+        slider.scrollLeft += 1; // Adjust this value to control speed
+      }
+    }, 20); // Adjust interval time for smoothness
+  };
+
+  const stopAutoScroll = () => {
+    clearInterval(autoScrollInterval.current);
+    autoScrollInterval.current = null;
+  };
+
+  useEffect(() => {
+    startAutoScroll();
+    return stopAutoScroll;
+  }, []);
 
   const filteredMerchants = merchants.filter((merchant) => {
     const matchesSearch = merchant.name
@@ -77,29 +127,18 @@ const Merchants = () => {
 
   return (
     <>
-      {/* <div className="bg_img_search_container">
-        <img
-          src={`/src/assets/img/banks/${city.image}`}
-          alt={bank.name}
-          className="dynamic-image"
-        />
-
-        <div className="search-wrapper">
-          <input type="text" placeholder="Search..." className="search-input" />
-        </div>
-      </div> */}
       <Breadcrumbs />
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Merchants in City {cityId}</h1>
+            <h1 className="main_heading">Merchants in {city.name}</h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY MERCHANTS</span>
               <span className="line"></span>
             </div>
 
-            {/* Category Slider with Arrow Buttons placed above search filter */}
+            {/* Category Slider */}
             <div className="d-flex align-items-center mb-4">
               <button
                 className="arrow-btn"
@@ -110,18 +149,29 @@ const Merchants = () => {
               <div
                 className="category-slider d-flex overflow-hidden px-3"
                 ref={sliderRef}
+                style={{ whiteSpace: "nowrap", overflowX: "auto" }}
               >
-                {categories.map((category, index) => (
-                  <button
-                    key={index}
-                    className={`category-btn ${
-                      selectedCategory === category ? "active" : ""
-                    }`}
-                    onClick={() => handleCategoryFilter(category)}
-                  >
-                    {category}
-                  </button>
-                ))}
+                <button
+                  className={`category-btn ${
+                    selectedCategory === "All" ? "active" : ""
+                  }`}
+                  onClick={() => handleCategoryFilter("All")}
+                >
+                  All
+                </button>
+                {categories
+                  .filter((category) => category !== "All")
+                  .map((category, index) => (
+                    <button
+                      key={index}
+                      className={`category-btn ${
+                        selectedCategory === category ? "active" : ""
+                      }`}
+                      onClick={() => handleCategoryFilter(category)}
+                    >
+                      {category}
+                    </button>
+                  ))}
               </div>
               <button
                 className="arrow-btn"
@@ -131,7 +181,7 @@ const Merchants = () => {
               </button>
             </div>
 
-            {/* Search Input with Icon */}
+            {/* Search Input */}
             <div className="d-flex pt-5 pb-5 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
                 <span className="input-group-text">
@@ -160,10 +210,7 @@ const Merchants = () => {
                 key={merchant.id}
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
-                <MerchantCard
-                  cityId={cityId} // City ID is passed to the MerchantCard
-                  merchant={merchant}
-                />
+                <MerchantCard cityId={cityId} merchant={merchant} />
               </div>
             ))
           ) : (
