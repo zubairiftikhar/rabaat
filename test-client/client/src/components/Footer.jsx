@@ -6,8 +6,8 @@ import { FaTiktok } from "react-icons/fa";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaYoutube } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
-import BackgroundImage from '../assets/img/landing/rabaat_footer.jpg';
-import Footer_logo from '../assets/img/landing/rabaat_footer_logo.png'
+import BackgroundImage from '../../public/assets/img/landing/rabaat_footer.jpg';
+import Footer_logo from '../../public/assets/img/landing/rabaat_footer_logo.png'
 
 const Footer = () => {
   return (

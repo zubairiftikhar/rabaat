@@ -5,7 +5,7 @@ import AuthModal from "./AuthModal";
 import LocationModal from "./LocationModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
-import rabaat_logo from "../assets/img/landing/Rabaat_logo.svg";
+import rabaat_logo from "../../public/assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 
