@@ -146,6 +146,78 @@ app.get("/api/merchant/:merchantId", (req, res) => {
 });
 
 
+// Fetch branch details by branch ID
+app.get("/api/branch/:branchId", (req, res) => {
+  const { branchId } = req.params;
+  const query = `
+    SELECT 
+      b.BranchID AS id,
+      b.BranchName AS name,
+      b.Address AS address,
+      b.image_path AS image_path,
+      c.CityName AS city,
+      m.MerchantName AS merchant
+    FROM merchantbranch b
+    LEFT JOIN city c ON b.CityID = c.CityID
+    LEFT JOIN merchant m ON b.MerchantID = m.MerchantID
+    WHERE b.BranchID = ?
+  `;
+
+  db.query(query, [branchId], (err, result) => {
+    if (err) return res.status(500).json(err);
+
+    if (result.length > 0) {
+      const branchData = {
+        id: result[0].id,
+        name: result[0].name,
+        address: result[0].address,
+        image_path: result[0].image_path,
+        city: result[0].city,
+        merchant: result[0].merchant
+      };
+
+      res.json(branchData);
+    } else {
+      res.status(404).json({ message: "Branch not found" });
+    }
+  });
+});
+
+// Fetch bank details by bank ID
+app.get("/api/bank/:bankId", (req, res) => {
+  const { bankId } = req.params;
+  const query = `
+    SELECT 
+      b.BankID AS id,
+      b.BankName AS name,
+      b.image_path AS image_path,
+      b.BankShortCode AS short_code
+    FROM bank b
+    LEFT JOIN bankmerchantdiscount bmd ON b.BankID = bmd.BankID
+    LEFT JOIN merchant m ON bmd.MerchantID = m.MerchantID
+    WHERE b.BankID = ?
+    GROUP BY b.BankID
+  `;
+
+  db.query(query, [bankId], (err, result) => {
+    if (err) return res.status(500).json(err);
+
+    if (result.length > 0) {
+      const bankData = {
+        id: result[0].id,
+        name: result[0].name,
+        image_path: result[0].image_path,
+        short_code: result[0].short_code,
+        merchants: result[0].merchants ? result[0].merchants.split(",") : []
+      };
+
+      res.json(bankData);
+    } else {
+      res.status(404).json({ message: "Bank not found" });
+    }
+  });
+});
+
 
 // Fetch Cards for a Merchant in a City and Bank
 app.get("/api/cards/:merchantId/:bankId/:cityId", (req, res) => {

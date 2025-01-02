@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchDiscountsForBranch } from "../services/api";
+import { fetchDiscountsForBranch, fetchBankByBankId } from "../services/api";
 import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css"; // Import the CSS file here
@@ -10,6 +10,7 @@ const BranchDiscount = () => {
   const location = useLocation();
   const [merchantId, setMerchantId] = useState(null);
   const [bankId, setbankId] = useState(null);
+  const [bank, setbank] = useState(null);
   const [branchId, setbranchId] = useState(null);
   const [discounts, setDiscounts] = useState([]);
   const [branchInfo, setBranchInfo] = useState(null);
@@ -26,6 +27,18 @@ const BranchDiscount = () => {
     const branchIdFromQuery = queryParams.get("BranchID");
     setbranchId(branchIdFromQuery);
   }, [location]);
+
+  useEffect(() => {
+    const fetchBankDetails = async () => {
+      try {
+        const data = await fetchBankByBankId(bankId); // Fetch banks using cityId and merchantId
+        setbank(data);
+      } catch (error) {
+        console.error("Error fetching bank details:", error);
+      }
+    };
+    fetchBankDetails();
+  }, [bankId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,6 +96,7 @@ const BranchDiscount = () => {
         <div className="branch-info">
           <h2>{branchInfo.branchName}</h2>
           <p>{branchInfo.branchAddress}</p>
+          <h3 className="text-end">Bank: {bank.name}</h3>
         </div>
       )}
       <h2>Discounts for this Branch</h2>

@@ -61,14 +61,11 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/banks/CityID=:cityId" element={<Banks />} />
+        <Route path="/banks" element={<Banks />} />
         <Route path="/merchants" element={<Merchants />} />
         <Route path="/deals" element={<Deals />} />
         <Route path="/branches" element={<BranchDetails />} />
-        <Route
-          path="/discounts/DiscountID=:discountId"
-          element={<DiscountDetail />}
-        />
+        <Route path="/discounts" element={<DiscountDetail />} />
         <Route path="/merchantdiscount" element={<MerchantDiscount />} />
         <Route path="/branchdiscount" element={<BranchDiscount />} />
         <Route path="/branch-details" element={<BranchToBankDetails />} />

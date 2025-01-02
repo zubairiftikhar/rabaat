@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { fetchDiscountsForMerchant } from "../services/api";
+import { fetchDiscountsForMerchant, fetchBankByBankId } from "../services/api";
 import DiscountCard from "../components/DiscountCard";
 
 const MerchantDiscount = () => {
@@ -10,6 +10,7 @@ const MerchantDiscount = () => {
   const [merchantId, setMerchantId] = useState(null);
   const [bankId, setbankId] = useState(null);
   const [discounts, setDiscounts] = useState([]);
+  const [bank, setbank] = useState([]);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -20,6 +21,18 @@ const MerchantDiscount = () => {
     const bankIdFromQuery = queryParams.get("BankID");
     setbankId(bankIdFromQuery);
   }, [location]);
+
+  useEffect(() => {
+    const fetchBankDetails = async () => {
+      try {
+        const data = await fetchBankByBankId(bankId); // Fetch banks using cityId and merchantId
+        setbank(data);
+      } catch (error) {
+        console.error("Error fetching bank details:", error);
+      }
+    };
+    fetchBankDetails();
+  }, [bankId]);
 
   useEffect(() => {
     const getDiscounts = async () => {
@@ -83,6 +96,7 @@ const MerchantDiscount = () => {
     <div className="container">
       <Breadcrumbs />
       <h2>Discounts for Merchant</h2>
+      <h3 className="text-end">Bank: {bank.name}</h3>
       {discounts.length === 0 && (
         <div className="alert alert-warning text-center">
           No discounts available for this merchant in the selected city and
