@@ -82,10 +82,10 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                     />
                     <span style={{ color: "#fff" }}>{loggedInUser}</span>
                     <button
-                      className="btn btn-danger ms-3"
+                      className="btn rabaat_login_btn ms-3"
                       onClick={handleLogout}
                     >
-                      Logout
+                      <span>Log Out</span>
                     </button>
                   </>
                 ) : (
@@ -93,7 +93,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                     className="btn rabaat_login_btn ms-3"
                     onClick={() => setShowAuthModal(true)}
                   >
-                    Log in
+                    <span>Log In</span>
                   </button>
                 )}
               </li>
