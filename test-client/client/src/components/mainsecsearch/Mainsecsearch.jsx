@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import SearchCard from "../../assets/img/landing/main_search_card.png";
-// import SearchShop from "../../assets/img/landing/main_search_shop.png";
 import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
@@ -12,6 +10,7 @@ const Mainsecsearch = () => {
   const [city, setCity] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [clicked, setClicked] = useState(false); // Track if a suggestion was clicked
   const navigate = useNavigate();
 
   const cityID = Cookies.get("selectedCityId");
@@ -31,6 +30,11 @@ const Mainsecsearch = () => {
   const backgroundImageUrl = `../public/assets/img/cities/${city.image}`;
 
   useEffect(() => {
+    if (clicked) {
+      setClicked(false); // Reset clicked state after handling the click
+      return;
+    }
+
     if (keyword.trim() === "") {
       setSuggestions([]);
       return;
@@ -40,7 +44,21 @@ const Mainsecsearch = () => {
       setLoading(true);
       try {
         const data = await fetchMerchantSearchResults(city.id, keyword);
-        setSuggestions(data);
+
+        // Sort results to prioritize branch name matches
+        const sortedData = data.sort((a, b) => {
+          const branchMatchA = a.branch_name
+            .toLowerCase()
+            .includes(keyword.toLowerCase());
+          const branchMatchB = b.branch_name
+            .toLowerCase()
+            .includes(keyword.toLowerCase());
+          if (branchMatchA && !branchMatchB) return -1;
+          if (!branchMatchA && branchMatchB) return 1;
+          return 0;
+        });
+
+        setSuggestions(sortedData);
       } catch (error) {
         console.error("Error fetching search results:", error);
       } finally {
@@ -53,13 +71,36 @@ const Mainsecsearch = () => {
     }, 500);
 
     return () => clearTimeout(delaySearch);
-  }, [keyword, city.id]);
+  }, [keyword, city.id, clicked]);
 
-  const handleMerchantClick = (Merchant_ID, Branch_ID) => {
+  const handleMerchantClick = (merchant) => {
+    const { merchant_id, branch_id, merchant_name, branch_address } = merchant;
+
+    // Update search input with the selected merchant name and branch address
+    setKeyword(`${merchant_name} - ${branch_address}`);
+
+    // Clear suggestions and set clicked state
+    setSuggestions([]);
+    setClicked(true);
+
+    // Navigate to the branch details page
     navigate(
-      `/branch-details?BranchID=${Branch_ID}&MerchantID=${Merchant_ID}&CityID=${city.id}`
+      `/branch-details?BranchID=${branch_id}&MerchantID=${merchant_id}&CityID=${city.id}`
     );
-    setKeyword(""); // Clear the search input
+  };
+
+  // Function to highlight matching parts of the text
+  const highlightMatch = (text, keyword) => {
+    const regex = new RegExp(`(${keyword})`, "gi");
+    return text.split(regex).map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} className="highlight-text">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
   };
 
   return (
@@ -98,32 +139,23 @@ const Mainsecsearch = () => {
                     <div
                       key={index}
                       className="suggestion-item"
-                      onClick={() =>
-                        handleMerchantClick(
-                          suggestion.merchant_id,
-                          suggestion.branch_id
-                        )
-                      }
+                      onClick={() => handleMerchantClick(suggestion)}
                     >
-                      {suggestion.merchant_name} - {suggestion.branch_address}
+                      {highlightMatch(
+                        `${suggestion.merchant_name} - ${suggestion.branch_address}`,
+                        keyword
+                      )}
                     </div>
                   ))}
                 </div>
-              ) : keyword.trim() !== "" && !loading ? (
+              ) : keyword.trim() !== "" &&
+                !loading &&
+                suggestions.length === 0 &&
+                !clicked ? (
                 <div className="no-results">No results found</div>
               ) : null}
             </div>
           </div>
-          {/* <div className="col-lg-5 col-md-12 col-sm-12">
-            <div className="d-flex justify-content-center gap-2">
-              <button className="btn btn-light btn-lg ms-5">
-                <BiSearch /> Search By Card <img src={SearchCard} alt="" />
-              </button>
-              <button className="btn btn-light btn-lg">
-                <BiSearch /> Search By Shop <img src={SearchShop} alt="" />
-              </button>
-            </div>
-          </div> */}
         </div>
       </div>
     </div>
