@@ -491,12 +491,6 @@ app.get("/api/branch-details/:cityId/:merchantId", (req, res) => {
   });
 });
 
-
-
-
-
-
-
 // User Authentication Routes
 app.post("/api/signup", async (req, res) => {
   const { name, email, password, confirm_password, city, bank_card } = req.body;

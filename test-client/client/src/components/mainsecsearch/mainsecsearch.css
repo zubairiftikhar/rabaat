@@ -103,3 +103,8 @@
     padding-left: 35px;  Adjust padding to fit the search icon
   } */
   
+  .highlight-text {
+    color: #f39c12; /* Highlight color */
+    font-weight: bold;
+  }
+  
