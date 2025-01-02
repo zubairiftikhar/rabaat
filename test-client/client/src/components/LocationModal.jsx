@@ -62,7 +62,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="lg">
+    <Modal show={show} onHide={onClose} size="md">
       <Modal.Header closeButton>
         <Modal.Title>Select Your City</Modal.Title>
       </Modal.Header>
