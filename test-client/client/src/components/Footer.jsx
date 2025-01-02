@@ -8,6 +8,7 @@ import { FaYoutube } from "react-icons/fa";
 import { IoLogoWhatsapp } from "react-icons/io";
 import BackgroundImage from '../../public/assets/img/landing/rabaat_footer.jpg';
 import Footer_logo from '../../public/assets/img/landing/rabaat_footer_logo.png'
+import { BiPointer } from "react-icons/bi";
 
 const Footer = () => {
   return (
@@ -35,7 +36,7 @@ const Footer = () => {
                     <a href="#!" className="text-white">
                       TERMS OF USE
                     </a>
-                    <a href="#!" className="text-white">
+                    <a onClick={() => window.location = 'mailto:contact@rabaat.com'} style={{cursor: 'pointer'}} className="text-white">
                       CONTACT US
                     </a>
                     <a href="#!" className="text-white">
@@ -44,21 +45,21 @@ const Footer = () => {
                   </h6>
                   {/* Section: Social */}
                   <section className="text-center my-3">
-                    <a href="#!" className="text-white me-4">
+                    <a href="https://www.facebook.com/profile.php?id=61568516926240&mibextid=ZbWKwL" target="blank" className="text-white me-4">
                       <FaFacebook className="footer_icons" />
                     </a>
-                    <a href="#!" className="text-white me-4">
+                    <a href="https://www.instagram.com/rabaat.official/" target="blank" className="text-white me-4">
                       <FaSquareInstagram className="footer_icons" />
                     </a>
-                    <a href="#!" className="text-white me-4">
+                    {/* <a href="#!" className="text-white me-4">
                       <FaTiktok className="footer_icons" />
-                    </a>
-                    <a href="#!" className="text-white me-4">
+                    </a> */}
+                    <a href="https://www.youtube.com/channel/UCRUtT9LOT1XbPafRYx714pg"target="blank"  className="text-white me-4">
                       <FaYoutube className="footer_icons" />
                     </a>
-                    <a href="#!" className="text-white me-4">
+                    {/* <a href="#!" className="text-white me-4">
                       <IoLogoWhatsapp className="footer_icons" />
-                    </a>
+                    </a> */}
                   </section>
                   {/* Section: Social */}
                 </div>
