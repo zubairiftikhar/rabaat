@@ -11,11 +11,14 @@
   margin-left: auto;
   /* Push links to the right */
 }
-
+.navbar-nav li{
+  display: contents;
+}
 .navbar-nav li a {
   color: #f0f0f0;
-  font-weight: 600;
-  padding: 8px 16px;
+  font-weight: 300;
+  padding: 8px;
+  text-decoration: none;
 }
 
 .navbar-nav li a:focus {
