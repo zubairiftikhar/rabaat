@@ -16,32 +16,30 @@ const Breadcrumbs = () => {
   const [branchName, setBranchName] = useState(null);
 
   useEffect(() => {
-    if (merchantId && branchId) {
-      const loadMerchantName = async () => {
-        if (merchantId) {
-          try {
-            const data = await fetchMerchantByMerchantId(merchantId);
-            setMerchantName(data.name || "Merchant");
-          } catch (error) {
-            console.error("Error fetching merchant:", error);
-          }
+    const loadMerchantName = async () => {
+      if (merchantId) {
+        try {
+          const data = await fetchMerchantByMerchantId(merchantId);
+          setMerchantName(data.name || "Merchant");
+        } catch (error) {
+          console.error("Error fetching merchant:", error);
         }
-      };
+      }
+    };
 
-      const loadBranchName = async () => {
-        if (branchId) {
-          try {
-            const data = await fetchBranchByBranchId(branchId);
-            setBranchName(data?.address || "Branch");
-          } catch (error) {
-            console.error("Error fetching branch:", error);
-          }
+    const loadBranchName = async () => {
+      if (branchId) {
+        try {
+          const data = await fetchBranchByBranchId(branchId);
+          setBranchName(data?.address || "Branch");
+        } catch (error) {
+          console.error("Error fetching branch:", error);
         }
-      };
+      }
+    };
 
-      loadMerchantName();
-      loadBranchName();
-    }
+    loadMerchantName();
+    loadBranchName();
   }, [merchantId, branchId]);
 
   // Build Breadcrumb Links
