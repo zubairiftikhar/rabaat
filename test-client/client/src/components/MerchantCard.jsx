@@ -33,7 +33,7 @@ const MerchantCard = ({ merchant, cityId }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`/src/assets/img/merchants/${merchant.image}`}
+        src={`/public/assets/img/merchants/${merchant.image}`}
         className="card-img-top marchant_card_img"
         alt={merchant.name}
       />

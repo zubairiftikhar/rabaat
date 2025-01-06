@@ -27,7 +27,7 @@ const DiscountCard = ({ discount }) => {
                 <span>{card.cardName}</span>
                 {card.cardImage && (
                   <img
-                    src={`/src/assets/img/cards/${card.cardImage}`}
+                    src={`/public/assets/img/cards/${card.cardImage}`}
                     alt={card.cardName}
                     style={{
                       width: "60px",

@@ -10,7 +10,7 @@ const BranchCard = ({ branch, merchantId, cityId }) => {
     >
       <div className="card marchant_b_card mb-4">
         <img
-          src={`/src/assets/img/merchants/${branch.image_path}`}
+          src={`/public/assets/img/merchants/${branch.image_path}`}
           className="card-img-top marchant_b_card_img"
           alt={branch.name}
         />

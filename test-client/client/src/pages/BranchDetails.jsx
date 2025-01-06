@@ -109,7 +109,7 @@ const BranchDetails = () => {
           <div className="row mt-5 marchant_branch_hero_row">
             <div className="col-lg-3 col-md-12 col-sm-12 p-0">
               <img
-                src={`/src/assets/img/merchants/${merchant.image_path}`}
+                src={`/public/assets/img/merchants/${merchant.image_path}`}
                 className="card-img-top"
                 alt={merchant.name}
                 style={{ width: "100%" }}

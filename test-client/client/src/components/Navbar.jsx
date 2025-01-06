@@ -65,6 +65,21 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
+                <a href="#!" className="nav_links">
+                  About us
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#!" className="nav_links">
+                  Blog
+                </a>
+              </li>
+              <li className="nav-item">
+                <a href="#!" className="nav_links">
+                  Contact
+                </a>
+              </li>
+              <li className="nav-item">
                 <button
                   className="btn btn-outline-light me-3"
                   onClick={onLocationChange}
