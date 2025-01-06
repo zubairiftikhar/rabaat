@@ -10,19 +10,21 @@ const BankWithMerchantBranch = ({ bank, branch_Id, cityId, merchant_Id }) => {
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
-    // Fetch maximum discount and card count for the merchant, branch, city, and bank
-    const getMaxDiscount = async () => {
-      const data = await fetchMaximumDiscount(
-        merchant_Id,
-        bank.bank_id,
-        cityId
-      );
-      if (data) {
-        setMaxDiscount(data.max_discount); // Set the fetched max discount
-        setCardCount(data.total_card_count); // Set the fetched total card count
-      }
-    };
-    getMaxDiscount();
+    if (merchant_Id && bank.bank_id && cityId) {
+      // Fetch maximum discount and card count for the merchant, branch, city, and bank
+      const getMaxDiscount = async () => {
+        const data = await fetchMaximumDiscount(
+          merchant_Id,
+          bank.bank_id,
+          cityId
+        );
+        if (data) {
+          setMaxDiscount(data.max_discount); // Set the fetched max discount
+          setCardCount(data.total_card_count); // Set the fetched total card count
+        }
+      };
+      getMaxDiscount();
+    }
   }, [merchant_Id, bank.bank_id, cityId]);
 
   const handleBankClick = () => {

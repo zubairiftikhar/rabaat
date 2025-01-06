@@ -8,15 +8,17 @@ const MerchantCard = ({ merchant, cityId }) => {
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
-    // Fetch maximum discount and card count for the merchant and city
-    const getMaxDiscount = async () => {
-      const data = await fetchMaximumDiscountAnyBank(merchant.id, cityId);
-      if (data) {
-        setMaxDiscount(data.max_discount); // Set the fetched max discount
-        setCardCount(data.total_card_count); // Set the fetched total card count
-      }
-    };
-    getMaxDiscount();
+    if (merchant.id && cityId) {
+      // Fetch maximum discount and card count for the merchant and city
+      const getMaxDiscount = async () => {
+        const data = await fetchMaximumDiscountAnyBank(merchant.id, cityId);
+        if (data) {
+          setMaxDiscount(data.max_discount); // Set the fetched max discount
+          setCardCount(data.total_card_count); // Set the fetched total card count
+        }
+      };
+      getMaxDiscount();
+    }
   }, [merchant.id, cityId]);
 
   const handleClick = () => {

@@ -16,26 +16,30 @@ const BranchToBankDetails = () => {
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more banks
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const cityIdFromQuery = queryParams.get("CityID");
-    setCityId(cityIdFromQuery);
-    const merchantIdFromQuery = queryParams.get("MerchantID");
-    setMerchantId(merchantIdFromQuery);
-    const branchIdFromQuery = queryParams.get("BranchID");
-    setbranchId(branchIdFromQuery);
+    if (location) {
+      const queryParams = new URLSearchParams(location.search);
+      const cityIdFromQuery = queryParams.get("CityID");
+      setCityId(cityIdFromQuery);
+      const merchantIdFromQuery = queryParams.get("MerchantID");
+      setMerchantId(merchantIdFromQuery);
+      const branchIdFromQuery = queryParams.get("BranchID");
+      setbranchId(branchIdFromQuery);
+    }
   }, [location]); // Get cityId and merchantId from the URL
 
   useEffect(() => {
-    const fetchBanks = async () => {
-      try {
-        const data = await fetchDiscountBanks(cityId, merchant_Id); // Fetch banks using cityId and merchantId
-        setBanksWithDiscounts(data);
-      } catch (error) {
-        console.error("Error fetching banks with discounts:", error);
-      }
-    };
+    if (cityId && merchant_Id) {
+      const fetchBanks = async () => {
+        try {
+          const data = await fetchDiscountBanks(cityId, merchant_Id); // Fetch banks using cityId and merchantId
+          setBanksWithDiscounts(data);
+        } catch (error) {
+          console.error("Error fetching banks with discounts:", error);
+        }
+      };
 
-    fetchBanks();
+      fetchBanks();
+    }
   }, [cityId, merchant_Id]);
 
   const loadMoreBanks = () => {

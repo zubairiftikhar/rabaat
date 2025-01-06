@@ -21,39 +21,45 @@ const Merchants = () => {
   const autoScrollInterval = useRef(null);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const cityIdFromQuery = queryParams.get("CityID");
-    setCityId(cityIdFromQuery);
+    if (location) {
+      const queryParams = new URLSearchParams(location.search);
+      const cityIdFromQuery = queryParams.get("CityID");
+      setCityId(cityIdFromQuery);
+    }
   }, [location]);
 
   useEffect(() => {
-    const getCity = async () => {
-      try {
-        const city = await fetchCityById(cityId);
-        setCity(city);
-      } catch (error) {
-        console.error("Error fetching city:", error);
-      }
-    };
-    getCity();
+    if (cityId) {
+      const getCity = async () => {
+        try {
+          const city = await fetchCityById(cityId);
+          setCity(city);
+        } catch (error) {
+          console.error("Error fetching city:", error);
+        }
+      };
+      getCity();
+    }
   }, [cityId]);
 
   useEffect(() => {
-    const getMerchants = async () => {
-      try {
-        const data = await fetchMerchantsByCity(cityId);
-        setMerchants(data.merchants);
+    if (cityId) {
+      const getMerchants = async () => {
+        try {
+          const data = await fetchMerchantsByCity(cityId);
+          setMerchants(data.merchants);
 
-        const uniqueCategories = [
-          "All",
-          ...new Set(data.merchants.map((merchant) => merchant.category)),
-        ];
-        setCategories(uniqueCategories);
-      } catch (error) {
-        console.error("Error fetching merchants:", error);
-      }
-    };
-    getMerchants();
+          const uniqueCategories = [
+            "All",
+            ...new Set(data.merchants.map((merchant) => merchant.category)),
+          ];
+          setCategories(uniqueCategories);
+        } catch (error) {
+          console.error("Error fetching merchants:", error);
+        }
+      };
+      getMerchants();
+    }
   }, [cityId]);
 
   const loadMore = () => {

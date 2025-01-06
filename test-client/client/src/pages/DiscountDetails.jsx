@@ -10,19 +10,20 @@ const DiscountDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getDiscountDetail = async () => {
-      try {
-        setLoading(true);
-        const data = await fetchDiscountDetail(discountId);
-        setDiscountDetail(data);
-      } catch (error) {
-        setError("Failed to fetch discount details.");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getDiscountDetail();
+    if (discountId) {
+      const getDiscountDetail = async () => {
+        try {
+          setLoading(true);
+          const data = await fetchDiscountDetail(discountId);
+          setDiscountDetail(data);
+        } catch (error) {
+          setError("Failed to fetch discount details.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      getDiscountDetail();
+    }
   }, [discountId]);
 
   if (loading) return <p>Loading...</p>;

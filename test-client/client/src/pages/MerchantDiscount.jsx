@@ -13,83 +13,89 @@ const MerchantDiscount = () => {
   const [bank, setbank] = useState([]);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const cityIdFromQuery = queryParams.get("CityID");
-    setCityId(cityIdFromQuery);
-    const merchantIdFromQuery = queryParams.get("MerchantID");
-    setMerchantId(merchantIdFromQuery);
-    const bankIdFromQuery = queryParams.get("BankID");
-    setbankId(bankIdFromQuery);
+    if (location) {
+      const queryParams = new URLSearchParams(location.search);
+      const cityIdFromQuery = queryParams.get("CityID");
+      setCityId(cityIdFromQuery);
+      const merchantIdFromQuery = queryParams.get("MerchantID");
+      setMerchantId(merchantIdFromQuery);
+      const bankIdFromQuery = queryParams.get("BankID");
+      setbankId(bankIdFromQuery);
+    }
   }, [location]);
 
   useEffect(() => {
-    const fetchBankDetails = async () => {
-      try {
-        const data = await fetchBankByBankId(bankId); // Fetch banks using cityId and merchantId
-        setbank(data);
-      } catch (error) {
-        console.error("Error fetching bank details:", error);
-      }
-    };
-    fetchBankDetails();
+    if (bankId) {
+      const fetchBankDetails = async () => {
+        try {
+          const data = await fetchBankByBankId(bankId); // Fetch banks using cityId and merchantId
+          setbank(data);
+        } catch (error) {
+          console.error("Error fetching bank details:", error);
+        }
+      };
+      fetchBankDetails();
+    }
   }, [bankId]);
 
   useEffect(() => {
-    const getDiscounts = async () => {
-      try {
-        const data = await fetchDiscountsForMerchant(
-          merchantId,
-          bankId,
-          cityId
-        );
+    if (merchantId && bankId && cityId) {
+      const getDiscounts = async () => {
+        try {
+          const data = await fetchDiscountsForMerchant(
+            merchantId,
+            bankId,
+            cityId
+          );
 
-        // Group discounts by discount amount and process card/branch details
-        const groupedDiscounts = data.reduce((acc, discount) => {
-          const key = discount.discount_amount;
-          if (!acc[key]) {
-            acc[key] = {
-              discount_amount: discount.discount_amount,
-              discount_type: discount.discount_type,
-              cards: new Map(
-                discount.cards.map(({ cardName, cardImage }) => [
-                  cardName,
-                  cardImage,
-                ])
-              ),
-              branches: discount.branches,
-            };
-          } else {
-            discount.cards.forEach(({ cardName, cardImage }) =>
-              acc[key].cards.set(cardName, cardImage)
-            );
-          }
-          return acc;
-        }, {});
+          // Group discounts by discount amount and process card/branch details
+          const groupedDiscounts = data.reduce((acc, discount) => {
+            const key = discount.discount_amount;
+            if (!acc[key]) {
+              acc[key] = {
+                discount_amount: discount.discount_amount,
+                discount_type: discount.discount_type,
+                cards: new Map(
+                  discount.cards.map(({ cardName, cardImage }) => [
+                    cardName,
+                    cardImage,
+                  ])
+                ),
+                branches: discount.branches,
+              };
+            } else {
+              discount.cards.forEach(({ cardName, cardImage }) =>
+                acc[key].cards.set(cardName, cardImage)
+              );
+            }
+            return acc;
+          }, {});
 
-        let formattedDiscounts = Object.values(groupedDiscounts).map(
-          (group) => ({
-            discount_amount: group.discount_amount,
-            discount_type: group.discount_type,
-            cards: Array.from(group.cards, ([cardName, cardImage]) => ({
-              cardName,
-              cardImage,
-            })),
-            branches: group.branches,
-          })
-        );
+          let formattedDiscounts = Object.values(groupedDiscounts).map(
+            (group) => ({
+              discount_amount: group.discount_amount,
+              discount_type: group.discount_type,
+              cards: Array.from(group.cards, ([cardName, cardImage]) => ({
+                cardName,
+                cardImage,
+              })),
+              branches: group.branches,
+            })
+          );
 
-        // Sort discounts in descending order by discount amount
-        formattedDiscounts = formattedDiscounts.sort(
-          (a, b) => b.discount_amount - a.discount_amount
-        );
+          // Sort discounts in descending order by discount amount
+          formattedDiscounts = formattedDiscounts.sort(
+            (a, b) => b.discount_amount - a.discount_amount
+          );
 
-        setDiscounts(formattedDiscounts);
-      } catch (error) {
-        console.error("Error fetching discounts:", error);
-      }
-    };
+          setDiscounts(formattedDiscounts);
+        } catch (error) {
+          console.error("Error fetching discounts:", error);
+        }
+      };
 
-    getDiscounts();
+      getDiscounts();
+    }
   }, [merchantId, bankId, cityId]);
 
   return (

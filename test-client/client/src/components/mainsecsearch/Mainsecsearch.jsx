@@ -16,61 +16,65 @@ const Mainsecsearch = () => {
   const cityID = Cookies.get("selectedCityId");
 
   useEffect(() => {
-    const getCity = async () => {
-      try {
-        const city = await fetchCityById(cityID);
-        setCity(city);
-      } catch (error) {
-        console.error("Error fetching city:", error);
-      }
-    };
-    getCity();
+    if (cityID) {
+      const getCity = async () => {
+        try {
+          const city = await fetchCityById(cityID);
+          setCity(city);
+        } catch (error) {
+          console.error("Error fetching city:", error);
+        }
+      };
+      getCity();
+    }
   }, [cityID]);
 
   const backgroundImageUrl = `../public/assets/img/cities/${city.image}`;
 
   useEffect(() => {
-    if (clicked) {
-      setClicked(false); // Reset clicked state after handling the click
-      return;
-    }
-
-    if (keyword.trim() === "") {
-      setSuggestions([]);
-      return;
-    }
-
-    const fetchSuggestions = async () => {
-      setLoading(true);
-      try {
-        const data = await fetchMerchantSearchResults(city.id, keyword);
-
-        // Sort results to prioritize branch name matches
-        const sortedData = data.sort((a, b) => {
-          const branchMatchA = a.branch_name
-            .toLowerCase()
-            .includes(keyword.toLowerCase());
-          const branchMatchB = b.branch_name
-            .toLowerCase()
-            .includes(keyword.toLowerCase());
-          if (branchMatchA && !branchMatchB) return -1;
-          if (!branchMatchA && branchMatchB) return 1;
-          return 0;
-        });
-
-        setSuggestions(sortedData);
-      } catch (error) {
-        console.error("Error fetching search results:", error);
-      } finally {
-        setLoading(false);
+    if (keyword && city.id && clicked) {
+      if (clicked) {
+        setClicked(false); // Reset clicked state after handling the click
+        return;
       }
-    };
 
-    const delaySearch = setTimeout(() => {
-      fetchSuggestions();
-    }, 500);
+      if (keyword.trim() === "") {
+        setSuggestions([]);
+        return;
+      }
 
-    return () => clearTimeout(delaySearch);
+      const fetchSuggestions = async () => {
+        setLoading(true);
+        try {
+          const data = await fetchMerchantSearchResults(city.id, keyword);
+
+          // Sort results to prioritize branch name matches
+          const sortedData = data.sort((a, b) => {
+            const branchMatchA = a.branch_name
+              .toLowerCase()
+              .includes(keyword.toLowerCase());
+            const branchMatchB = b.branch_name
+              .toLowerCase()
+              .includes(keyword.toLowerCase());
+            if (branchMatchA && !branchMatchB) return -1;
+            if (!branchMatchA && branchMatchB) return 1;
+            return 0;
+          });
+
+          setSuggestions(sortedData);
+        } catch (error) {
+          console.error("Error fetching search results:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      const delaySearch = setTimeout(() => {
+        fetchSuggestions();
+      }, 500);
+
+      return () => clearTimeout(delaySearch);
+    }
   }, [keyword, city.id, clicked]);
 
   const handleMerchantClick = (merchant) => {
