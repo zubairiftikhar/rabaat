@@ -1,6 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { fetchMerchantsByCity, fetchCityById } from "../services/api";
+import {
+  fetchMerchantsByCity,
+  fetchCityById,
+  fetchMaximumDiscountAnyBank,
+} from "../services/api";
 import MerchantCard from "../components/MerchantCard";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "../css/cityload.css";
@@ -11,8 +15,8 @@ const Merchants = () => {
   const [cityId, setCityId] = useState(null);
   const [city, setCity] = useState("");
   const [merchants, setMerchants] = useState([]);
+  const [discountedMerchants, setDiscountedMerchants] = useState([]);
   const [visibleRows, setVisibleRows] = useState(2);
-  const [loadingMore, setLoadingMore] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [categories, setCategories] = useState([]);
@@ -54,6 +58,22 @@ const Merchants = () => {
             ...new Set(data.merchants.map((merchant) => merchant.category)),
           ];
           setCategories(uniqueCategories);
+
+          const merchantsWithDiscounts = await Promise.all(
+            data.merchants.map(async (merchant) => {
+              const discountData = await fetchMaximumDiscountAnyBank(
+                merchant.id,
+                cityId
+              );
+              return {
+                ...merchant,
+                maxDiscount: discountData?.max_discount || 0,
+              };
+            })
+          );
+
+          merchantsWithDiscounts.sort((a, b) => b.maxDiscount - a.maxDiscount);
+          setDiscountedMerchants(merchantsWithDiscounts);
         } catch (error) {
           console.error("Error fetching merchants:", error);
         }
@@ -63,11 +83,7 @@ const Merchants = () => {
   }, [cityId]);
 
   const loadMore = () => {
-    setLoadingMore(true);
-    setTimeout(() => {
-      setVisibleRows((prevRows) => prevRows + 2);
-      setLoadingMore(false);
-    }, 1000);
+    setVisibleRows((prevRows) => prevRows + 2);
   };
 
   const handleCategoryFilter = (category) => {
@@ -104,9 +120,9 @@ const Merchants = () => {
       if (slider.scrollLeft >= maxScrollLeft) {
         slider.scrollLeft = 0;
       } else {
-        slider.scrollLeft += 1; // Adjust this value to control speed
+        slider.scrollLeft += 1;
       }
-    }, 20); // Adjust interval time for smoothness
+    }, 20);
   };
 
   const stopAutoScroll = () => {
@@ -119,7 +135,7 @@ const Merchants = () => {
     return stopAutoScroll;
   }, []);
 
-  const filteredMerchants = merchants.filter((merchant) => {
+  const filteredMerchants = discountedMerchants.filter((merchant) => {
     const matchesSearch = merchant.name
       .toLowerCase()
       .includes(searchQuery.toLowerCase());
@@ -129,7 +145,6 @@ const Merchants = () => {
   });
 
   const merchantsToShow = filteredMerchants.slice(0, visibleRows * 6);
-  const isLoadMoreDisabled = merchantsToShow.length >= filteredMerchants.length;
 
   return (
     <>
@@ -155,7 +170,6 @@ const Merchants = () => {
               <div
                 className="category-slider d-flex overflow-hidden px-3"
                 ref={sliderRef}
-                style={{ whiteSpace: "nowrap", overflowX: "auto" }}
               >
                 <button
                   className={`category-btn ${
@@ -209,13 +223,7 @@ const Merchants = () => {
         <div className="row">
           {merchantsToShow.length > 0 ? (
             merchantsToShow.map((merchant, index) => (
-              <div
-                className={`col-md-2 col-sm-12 fade-in ${
-                  loadingMore ? "loading" : ""
-                }`}
-                key={merchant.id}
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
+              <div className="col-md-2 col-sm-12 fade-in" key={merchant.id}>
                 <MerchantCard cityId={cityId} merchant={merchant} />
               </div>
             ))
@@ -235,9 +243,8 @@ const Merchants = () => {
               className="btn"
               style={{ backgroundColor: "red", color: "white" }}
               onClick={loadMore}
-              disabled={isLoadMoreDisabled}
             >
-              {loadingMore ? "Loading..." : "Load More"}
+              Load More
             </button>
           </div>
         )}
