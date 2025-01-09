@@ -7,7 +7,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import rabaat_logo from "../../public/assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
+import City from '../../public/assets/img/landing/city.png';
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 const Navbar = ({ selectedCity, onLocationChange }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -81,10 +83,10 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
               </li>
               <li className="nav-item">
                 <button
-                  className="btn btn-outline-light me-3"
+                  className="btn btn-outline-light mx-3"
                   onClick={onLocationChange}
                 >
-                  {`City: ${selectedCity ? selectedCity.name : "Select City"}`}
+                  <img src={City} className="me-1" alt="" />{` ${selectedCity ? selectedCity.name : "Select City"}`}<IoMdArrowDropdown />
                 </button>
               </li>
               <li className="nav-item">
