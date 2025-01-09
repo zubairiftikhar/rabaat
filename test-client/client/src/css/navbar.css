@@ -16,16 +16,29 @@
 }
 .navbar-nav li a {
   color: #f0f0f0;
-  font-weight: 300;
-  padding: 8px;
+  font-weight: 100;
+  padding: 2px;
   text-decoration: none;
+  margin: 6px 15px;
 }
 
 .navbar-nav li a:focus {
   color: #fff;
 }
 
-
+.btn-outline-light{
+  border: 1px solid red;
+  border-radius: 0;
+  font-size: 15px;
+}
+.btn-outline-light:hover{
+  border: 1px solid red;
+  background: transparent;
+  color: #fff;
+  transform: translate(-1px, -1px);
+  transition: 0.5s;
+  box-shadow: rgba(255, 1, 1, 0.582) 0px 1px 15px;
+}
 .rabaat_login_btn {
   appearance: none;
   background-color: #ffffff00;
@@ -113,7 +126,7 @@
   width: 0%;
   content: '.';
   color: transparent;
-  background: #f0f0f0;
+  background: #fa0000;
   height: 2px;
 }
 
