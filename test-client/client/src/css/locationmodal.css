@@ -6,6 +6,7 @@
   /* Prevents modal from being too tall */
   display: flex;
   flex-direction: column;
+  border-radius: 20px !important;
 }
 
 .custom-modal .modal-body {
@@ -21,22 +22,169 @@
   overflow-y: auto;
   /* Add scroll if dropdown content exceeds max height */
 }
-.modal_bg{
-  border-radius: 20px;
+
+.div_modal {
+  border: 2px solid red;
 }
+
 .modal_heading {
   text-align: center;
   flex: auto;
-  font-weight: 800;
-  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 24px;
+  color: rgb(0, 0, 0);
+}
+
+.rabaat_proc_city_btn {
+  appearance: none;
+  background-color: #ffffff00;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #000000;
+  border: 1px solid red;
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  opacity: 1;
+  outline: 0;
+  padding: 12px 15px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1), background-color 100ms cubic-bezier(.694, 0, 0.335, 1), color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.rabaat_proc_city_btn:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #ff0000;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.rabaat_proc_city_btn:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.rabaat_proc_city_btn:hover {
+  color: #ffffff;
+}
+
+.rabaat_proc_city_btn:after {
+  background-color: #ffffff;
+}
+
+.rabaat_proc_city_btn span {
+  z-index: 1;
+  position: relative;
+}
+
+.rabaat_cls_city_btn {
+  appearance: none;
+  background-color: #ffffff00;
+  border-width: 0;
+  box-sizing: border-box;
+  color: #000000;
+  border: 1px solid rgb(0, 0, 0);
+  border-radius: 0;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1em;
+  margin: 0;
+  opacity: 1;
+  outline: 0;
+  padding: 12px 15px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  text-rendering: geometricprecision;
+  text-transform: uppercase;
+  transition: opacity 300ms cubic-bezier(.694, 0, 0.335, 1), background-color 100ms cubic-bezier(.694, 0, 0.335, 1), color 100ms cubic-bezier(.694, 0, 0.335, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+.rabaat_cls_city_btn:before {
+  animation: opacityFallbackOut .5s step-end forwards;
+  backface-visibility: hidden;
+  background-color: #000000;
+  clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: translateZ(0);
+  transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
+  width: 100%;
+}
+
+.rabaat_cls_city_btn:hover:before {
+  animation: opacityFallbackIn 0s step-start forwards;
+  clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+}
+
+.rabaat_cls_city_btn:hover {
+  color: #ffffff;
+}
+
+.rabaat_cls_city_btn:after {
+  background-color: #ffffff;
+}
+
+.rabaat_cls_city_btn span {
+  z-index: 1;
+  position: relative;
+}
+
+.dropdown-toggle {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid red;
+  border-radius: 0;
   color: red;
 }
-.dropdown-toggle {
-  background: transparent !important;
-  border: none !important;
-  border-bottom: 1px solid red  !important;
-  border-radius: 0 !important;
-  color: red !important;
+
+.dropdown-toggle:hover {
+  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+}
+.dropdown-toggle:focus {
+  color: #fff;
+  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+}
+.dropdown-toggle:focus-visible {
+  box-shadow: none;
+  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+}
+.dropdown-toggle:active {
+  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
 }
 
 .city-option {
@@ -46,9 +194,17 @@
 }
 
 .city-option:hover {
-  background-color: #f1f1f1;
+  color: #ff0000;
+  background-color: #ffadad80;
 }
-
+.input-group {
+  border-bottom: 1px solid red;
+}
+.input-group-text{
+  background-color: transparent;
+  border-right: 0;
+  border: 0;
+}
 input[type="text"] {
   font-size: 16px;
   padding: 10px;
