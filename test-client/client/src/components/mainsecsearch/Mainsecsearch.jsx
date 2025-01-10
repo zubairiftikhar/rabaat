@@ -4,6 +4,8 @@ import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
+import Rabbit from '../../../public/assets/img/landing/rabbit_run.mov';
+
 
 const Mainsecsearch = () => {
   const [keyword, setKeyword] = useState("");
@@ -113,6 +115,7 @@ const Mainsecsearch = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
+          <video src={Rabbit}></video>
             <h3
               className="mb-3"
               style={{ textShadow: "2px 2px 4px #000000b8" }}
