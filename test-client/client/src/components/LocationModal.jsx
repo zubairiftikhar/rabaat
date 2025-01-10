@@ -76,7 +76,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
           <div className="mb-3">
             <Dropdown>
               <Dropdown.Toggle
-              variant="danger"
+
                 id="dropdown-basic"
                 className="w-100 py-3"
               >

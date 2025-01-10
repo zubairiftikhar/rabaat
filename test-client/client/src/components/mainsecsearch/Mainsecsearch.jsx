@@ -4,7 +4,7 @@ import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
-import Rabbit from '../../../public/assets/img/landing/rabbit_run.mov';
+import Rabbit from '../../../public/assets/img/landing/vid2.mp4';
 
 
 const Mainsecsearch = () => {
@@ -113,9 +113,11 @@ const Mainsecsearch = () => {
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
+      {/* <video autoPlay loop muted>
+        <source src={Rabbit} type="video/mp4"></source>
+      </video> */}
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
-          <video src={Rabbit}></video>
             <h3
               className="mb-3"
               style={{ textShadow: "2px 2px 4px #000000b8" }}
@@ -123,12 +125,12 @@ const Mainsecsearch = () => {
               Unlock Big <span className="highlight">Savings</span>
             </h3>
             <h3
-              className="mb-4"
+
               style={{ textShadow: "2px 2px 4px #000000b8" }}
             >
               Your Go-To Destination for Discounted Cards
             </h3>
-            <div className="search-bar mb-3">
+            <div className="search-bar mb-5">
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
