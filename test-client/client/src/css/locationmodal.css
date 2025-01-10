@@ -1,4 +1,44 @@
 /* Style the dropdown items for better visibility */
+.custom-modal .modal-content {
+  overflow: visible;
+  /* Ensures dropdown is visible */
+  max-height: 90vh;
+  /* Prevents modal from being too tall */
+  display: flex;
+  flex-direction: column;
+}
+
+.custom-modal .modal-body {
+  overflow: visible;
+  /* Allows dropdown to expand naturally */
+  padding-bottom: 0;
+  /* Adjust spacing for better appearance */
+}
+
+.dropdown-menu-scrollable {
+  max-height: 300px;
+  /* Restrict dropdown height */
+  overflow-y: auto;
+  /* Add scroll if dropdown content exceeds max height */
+}
+.modal_bg{
+  border-radius: 20px;
+}
+.modal_heading {
+  text-align: center;
+  flex: auto;
+  font-weight: 800;
+  font-size: 30px;
+  color: red;
+}
+.dropdown-toggle {
+  background: transparent !important;
+  border: none !important;
+  border-bottom: 1px solid red  !important;
+  border-radius: 0 !important;
+  color: red !important;
+}
+
 .city-option {
   font-size: 16px;
   padding: 10px;

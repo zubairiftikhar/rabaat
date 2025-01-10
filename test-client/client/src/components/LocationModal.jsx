@@ -60,83 +60,89 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
       navigate(`/merchants?CityID=${selectedCity.id}`);
     }
   };
+  const gradientStyle = {
+    background: "linear-gradient(294deg, rgba(232,84,83,1) 23%, rgba(253,42,78,1) 79%)"
+  };
 
   return (
-    <Modal show={show} onHide={onClose} size="md">
-      <Modal.Header closeButton>
-        <Modal.Title>Select Your City</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <div className="mb-3">
-          <Dropdown>
-            <Dropdown.Toggle
+    <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom-modal">
+      <div className="div">
+        <Modal.Header>
+          {/* remove the closeButton from header for removing x on modal */}
+          <Modal.Title className="modal_heading">Select Your City</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <div className="mb-3">
+            <Dropdown>
+              <Dropdown.Toggle
               variant="success"
-              id="dropdown-basic"
-              className="w-100 py-3"
-            >
-              {selectedCity ? selectedCity.name : "-- Choose City --"}
-            </Dropdown.Toggle>
+                id="dropdown-basic"
+                className="w-100 py-3"
+              >
+                {selectedCity ? selectedCity.name : "Choose City"}
+              </Dropdown.Toggle>
 
-            <Dropdown.Menu
-              className="w-100"
-              style={{ maxHeight: "300px", overflowY: "auto" }}
-            >
-              {/* Search Field inside the dropdown, not a selectable item */}
-              <div className="px-3 py-2">
-                <div className="input-group">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text">
-                      <FaSearch
-                        style={{
-                          fontSize: "23px",
-                          height: "100%",
-                          lineHeight: "32px",
-                        }}
-                      />
-                    </span>
+              <Dropdown.Menu
+                className="w-100 dropdown-menu-scrollable"
+              >
+                {/* Search Field inside the dropdown */}
+                <div className="px-3 py-2">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">
+                        <FaSearch
+                          style={{
+                            fontSize: "23px",
+                            height: "100%",
+                            lineHeight: "32px",
+                          }}
+                        />
+                      </span>
+                    </div>
+                    <input
+                      type="text"
+                      className="form-control search-input"
+                      placeholder="Search by city name"
+                      value={searchQuery}
+                      onChange={handleSearchChange} // Trigger the search on change
+                    />
                   </div>
-                  <input
-                    type="text"
-                    className="form-control search-input"
-                    placeholder="Search by city name"
-                    value={searchQuery}
-                    onChange={handleSearchChange} // Trigger the search on change
-                  />
                 </div>
-              </div>
 
-              {/* City options filtered based on search query */}
-              {filteredCities.length === 0 ? (
-                <Dropdown.Item disabled>No cities found</Dropdown.Item>
-              ) : (
-                filteredCities.map((city) => (
-                  <Dropdown.Item
-                    key={city.id}
-                    as="button"
-                    onClick={() => handleCityChange(city)} // Select city
-                    className="city-option"
-                  >
-                    {city.name}
-                  </Dropdown.Item>
-                ))
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
-        </div>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button variant="secondary" onClick={onClose}>
-          Close
-        </Button>
-        <Button
-          variant="primary"
-          onClick={handleProceed}
-          disabled={!selectedCity}
-        >
-          Proceed
-        </Button>
-      </Modal.Footer>
+                {/* City options filtered based on search query */}
+                {filteredCities.length === 0 ? (
+                  <Dropdown.Item disabled>No cities found</Dropdown.Item>
+                ) : (
+                  filteredCities.map((city) => (
+                    <Dropdown.Item
+                      key={city.id}
+                      as="button"
+                      onClick={() => handleCityChange(city)} // Select city
+                      className="city-option"
+                    >
+                      {city.name}
+                    </Dropdown.Item>
+                  ))
+                )}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={onClose}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={handleProceed}
+            disabled={!selectedCity}
+          >
+            Proceed
+          </Button>
+        </Modal.Footer>
+      </div>
     </Modal>
+
   );
 };
 
