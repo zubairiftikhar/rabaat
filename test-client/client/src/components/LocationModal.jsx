@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Dropdown } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa"; // Import icon for search
+import '../css/locationmodal.css';
 
 const LocationModal = ({ show, onClose, onCityChange }) => {
   const [cities, setCities] = useState([]);
@@ -65,8 +66,8 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom-modal">
-      <div className="div">
+    <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom_modal">
+      <div className="div_modal">
         <Modal.Header>
           {/* remove the closeButton from header for removing x on modal */}
           <Modal.Title className="modal_heading">Select Your City</Modal.Title>
@@ -75,7 +76,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
           <div className="mb-3">
             <Dropdown>
               <Dropdown.Toggle
-              variant="success"
+
                 id="dropdown-basic"
                 className="w-100 py-3"
               >
@@ -129,16 +130,16 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={onClose}>
-            Close
-          </Button>
-          <Button
-            variant="primary"
+          <button
+            className="rabaat_proc_city_btn"
             onClick={handleProceed}
             disabled={!selectedCity}
           >
-            Proceed
-          </Button>
+            <span>Proceed</span>
+          </button>
+          <button className="rabaat_cls_city_btn ms-3" onClick={onClose}>
+            <span>Close</span>
+          </button>
         </Modal.Footer>
       </div>
     </Modal>
