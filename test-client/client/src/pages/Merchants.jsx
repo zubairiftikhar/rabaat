@@ -10,6 +10,7 @@ import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
+import { Helmet } from "react-helmet";
 
 const Merchants = () => {
   const { cityName } = useParams(); // Get city name from URL
@@ -148,6 +149,14 @@ const Merchants = () => {
   return (
     <>
       <Breadcrumbs />
+      <Helmet>
+        <title>{`Rabaat | Discover Top Deals & Discounts In ${city.name}`}</title>
+        <meta
+          name="description"
+          content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${city.name}!`}
+        />
+        <meta name="keywords" content="React, SEO, React Helmet" />
+      </Helmet>
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
