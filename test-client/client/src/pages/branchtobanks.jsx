@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom"; // To access merchantId and cityId from the URL
+import { useLocation, useParams } from "react-router-dom"; // To access merchantId and cityId from the URL
 import { fetchDiscountBanks } from "../services/api"; // Function to fetch banks offering discounts
 import BankWithMerchantBranch from "../components/bankswithmerchantbranch";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 import Breadcrumbs from "../components/Breadcrumbs";
 
 const BranchToBankDetails = () => {
+  const { cityName, merchantName, branchAddress } = useParams();
   const [cityId, setCityId] = useState(null);
   const location = useLocation();
   const [merchant_Id, setMerchantId] = useState(null);
@@ -92,6 +93,9 @@ const BranchToBankDetails = () => {
               {banksToShow.map((bank) => (
                 <div className="col-md-2" key={bank.bank_id}>
                   <BankWithMerchantBranch
+                    cityName={cityName}
+                    merchantName={merchantName}
+                    branchAddress={branchAddress}
                     bank={bank}
                     branch_Id={branch_Id}
                     cityId={cityId}

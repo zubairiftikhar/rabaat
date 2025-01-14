@@ -12,6 +12,7 @@ import { FaSearch } from "react-icons/fa"; // Import search icon
 import "./stylepages.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import BankWithMerchant from "../components/bankswithmerchant";
+import { Helmet } from "react-helmet";
 
 const BranchDetails = () => {
   const { cityName, merchantName } = useParams();
@@ -105,6 +106,14 @@ const BranchDetails = () => {
   return (
     <div className="container">
       <Breadcrumbs />
+      <Helmet>
+        <title>{`Rabaat | ${merchant.name}`}</title>
+        <meta
+          name="description"
+          content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${merchant.name}!`}
+        />
+        <meta name="keywords" content="React, SEO, React Helmet" />
+      </Helmet>
       {merchant && (
         <>
           <div className="row mt-5 marchant_branch_hero_row">
@@ -162,6 +171,8 @@ const BranchDetails = () => {
           {branchesToShow.map((branch) => (
             <div className="col-md-2" key={branch.id}>
               <BranchCard
+                cityName={cityName}
+                merchantName={merchantName}
                 branch={branch}
                 merchantId={merchantId} // Removed bankId from here
                 cityId={cityId}

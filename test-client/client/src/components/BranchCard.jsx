@@ -2,11 +2,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const BranchCard = ({ branch, merchantId, cityId }) => {
+const BranchCard = ({ cityName, merchantName, branch, merchantId, cityId }) => {
+  const replaceSpacesWithUnderscore = (name) => {
+    return name.replace(/\s+/g, "_");
+  };
   return (
     <Link
-      to={`/branch-details?BranchID=${branch.id}&MerchantID=${merchantId}&CityID=${cityId}`} // Removed bankId from the link
-      className="text-decoration-none" // Removes underline
+      to={`/${cityName}/${replaceSpacesWithUnderscore(
+        merchantName
+      )}/Branch/${replaceSpacesWithUnderscore(branch.address)}?BranchID=${
+        branch.id
+      }&MerchantID=${merchantId}&CityID=${cityId}`}
+      className="text-decoration-none"
     >
       <div className="card marchant_b_card mb-4">
         <img

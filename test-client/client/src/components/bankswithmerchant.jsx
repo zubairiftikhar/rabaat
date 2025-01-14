@@ -41,7 +41,7 @@ const BankWithMerchant = ({
     navigate(
       `/${replaceSpacesWithUnderscore(cityName)}/${replaceSpacesWithUnderscore(
         merchantName
-      )}/${replaceSpacesWithUnderscore(
+      )}/Bank/${replaceSpacesWithUnderscore(
         bank.bank_name
       )}?MerchantID=${merchant_Id}&BankID=${bank.bank_id}&CityID=${cityId}`
     );

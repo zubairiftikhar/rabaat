@@ -67,11 +67,17 @@ const App = () => {
         <Route path="/:cityName/:merchantName" element={<BranchDetails />} />
         <Route path="/discounts" element={<DiscountDetail />} />
         <Route
-          path="/:cityName/:merchantName/:bankName"
+          path="/:cityName/:merchantName/Bank/:bankName"
           element={<MerchantDiscount />}
         />
-        <Route path="/branchdiscount" element={<BranchDiscount />} />
-        <Route path="/branch-details" element={<BranchToBankDetails />} />
+        <Route
+          path="/:cityName/:merchantName/Bank/:bankName/:branchAddress"
+          element={<BranchDiscount />}
+        />
+        <Route
+          path="/:cityName/:merchantName/Branch/:branchAddress"
+          element={<BranchToBankDetails />}
+        />
       </Routes>
       <Footer />
     </div>

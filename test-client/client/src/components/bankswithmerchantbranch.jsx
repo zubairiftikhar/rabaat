@@ -4,7 +4,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./componentstyle.css";
 import { fetchMaximumDiscount } from "../services/api"; // Import the function
 
-const BankWithMerchantBranch = ({ bank, branch_Id, cityId, merchant_Id }) => {
+const BankWithMerchantBranch = ({
+  cityName,
+  merchantName,
+  branchAddress,
+  bank,
+  branch_Id,
+  cityId,
+  merchant_Id,
+}) => {
+  const replaceSpacesWithUnderscore = (name) => {
+    return name.replace(/\s+/g, "_");
+  };
   const navigate = useNavigate(); // Initialize useNavigate
   const [maxDiscount, setMaxDiscount] = useState(null); // State to store the maximum discount
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
@@ -29,7 +40,15 @@ const BankWithMerchantBranch = ({ bank, branch_Id, cityId, merchant_Id }) => {
 
   const handleBankClick = () => {
     navigate(
-      `/branchdiscount?MerchantID=${merchant_Id}&BranchID=${branch_Id}&BankID=${bank.bank_id}&CityID=${cityId}`
+      `/${cityName}/${replaceSpacesWithUnderscore(
+        merchantName
+      )}/Bank/${replaceSpacesWithUnderscore(
+        bank.bank_name
+      )}/${replaceSpacesWithUnderscore(
+        branchAddress
+      )}?MerchantID=${merchant_Id}&BranchID=${branch_Id}&BankID=${
+        bank.bank_id
+      }&CityID=${cityId}`
     );
   };
 
