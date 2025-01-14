@@ -1,6 +1,6 @@
 // src/components/BranchDetails.jsx
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
 import {
@@ -14,6 +14,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import BankWithMerchant from "../components/bankswithmerchant";
 
 const BranchDetails = () => {
+  const { cityName, merchantName } = useParams();
   const [cityId, setCityId] = useState(null);
   const location = useLocation();
   const [merchantId, setMerchantId] = useState(null);
@@ -146,6 +147,8 @@ const BranchDetails = () => {
         {banksWithDiscounts.map((bank) => (
           <div className="col-md-2" key={bank.bank_id}>
             <BankWithMerchant
+              cityName={cityName}
+              merchantName={merchantName}
               bank={bank}
               cityId={cityId}
               merchant_Id={merchantId}

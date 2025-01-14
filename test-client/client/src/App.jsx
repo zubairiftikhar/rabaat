@@ -30,7 +30,7 @@ const App = () => {
       setSelectedCity({ id: cityId, name: cityName });
 
       if (location.pathname === "/") {
-        navigate(`/merchants?CityID=${cityId}`);
+        navigate(`/${cityName}?CityID=${cityId}`);
       }
     } else {
       // Show location modal for new users
@@ -45,7 +45,7 @@ const App = () => {
     Cookies.set("selectedCityName", city.name);
 
     setShowLocationModal(false);
-    navigate(`/merchants?CityID=${city.id}`);
+    navigate(`/${city.name}?CityID=${city.id}`);
   };
 
   return (
@@ -62,11 +62,14 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/banks" element={<Banks />} />
-        <Route path="/merchants" element={<Merchants />} />
+        <Route path="/:cityName" element={<Merchants />} />
         <Route path="/deals" element={<Deals />} />
-        <Route path="/branches" element={<BranchDetails />} />
+        <Route path="/:cityName/:merchantName" element={<BranchDetails />} />
         <Route path="/discounts" element={<DiscountDetail />} />
-        <Route path="/merchantdiscount" element={<MerchantDiscount />} />
+        <Route
+          path="/:cityName/:merchantName/:bankName"
+          element={<MerchantDiscount />}
+        />
         <Route path="/branchdiscount" element={<BranchDiscount />} />
         <Route path="/branch-details" element={<BranchToBankDetails />} />
       </Routes>

@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Dropdown } from "react-bootstrap";
 import { FaSearch } from "react-icons/fa"; // Import icon for search
-import '../css/locationmodal.css';
+import "../css/locationmodal.css";
 
 const LocationModal = ({ show, onClose, onCityChange }) => {
   const [cities, setCities] = useState([]);
@@ -58,15 +58,22 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
       Cookies.set("selectedCityId", selectedCity.id);
       Cookies.set("selectedCityName", selectedCity.name);
       // Navigate to the merchant page based on the city ID
-      navigate(`/merchants?CityID=${selectedCity.id}`);
+      navigate(`/${selectedCity.name}?CityID=${selectedCity.id}`);
     }
   };
   const gradientStyle = {
-    background: "linear-gradient(294deg, rgba(232,84,83,1) 23%, rgba(253,42,78,1) 79%)"
+    background:
+      "linear-gradient(294deg, rgba(232,84,83,1) 23%, rgba(253,42,78,1) 79%)",
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom_modal">
+    <Modal
+      show={show}
+      onHide={onClose}
+      size="md"
+      style={{ borderRadius: "25px" }}
+      className="custom_modal"
+    >
       <div className="div_modal">
         <Modal.Header>
           {/* remove the closeButton from header for removing x on modal */}
@@ -75,17 +82,11 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
         <Modal.Body>
           <div className="mb-3">
             <Dropdown>
-              <Dropdown.Toggle
-
-                id="dropdown-basic"
-                className="w-100 py-3"
-              >
+              <Dropdown.Toggle id="dropdown-basic" className="w-100 py-3">
                 {selectedCity ? selectedCity.name : "Choose City"}
               </Dropdown.Toggle>
 
-              <Dropdown.Menu
-                className="w-100 dropdown-menu-scrollable"
-              >
+              <Dropdown.Menu className="w-100 dropdown-menu-scrollable">
                 {/* Search Field inside the dropdown */}
                 <div className="px-3 py-2">
                   <div className="input-group">
@@ -143,7 +144,6 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
         </Modal.Footer>
       </div>
     </Modal>
-
   );
 };
 

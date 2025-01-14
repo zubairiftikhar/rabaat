@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchMaximumDiscountAnyBank } from "../services/api"; // Import the function
+import { fetchMaximumDiscountAnyBank, fetchCityById } from "../services/api"; // Import the function
 
 const MerchantCard = ({ merchant, cityId }) => {
+  const replaceSpacesWithUnderscore = (name) => {
+    return name.replace(/\s+/g, "_");
+  };
+
   const navigate = useNavigate();
   const [maxDiscount, setMaxDiscount] = useState(null); // State to store the maximum discount
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
+  const [city, setCity] = useState(null);
 
   useEffect(() => {
     if (merchant.id && cityId) {
@@ -17,13 +22,24 @@ const MerchantCard = ({ merchant, cityId }) => {
           setCardCount(data.total_card_count); // Set the fetched total card count
         }
       };
+      const getCity = async () => {
+        const data = await fetchCityById(cityId);
+        if (data) {
+          setCity(data); // Set the fetched City
+        }
+      };
+      getCity();
       getMaxDiscount();
     }
   }, [merchant.id, cityId]);
 
   const handleClick = () => {
     // Navigate to BranchDetails page with merchant and city details
-    navigate(`/branches?MerchantID=${merchant.id}&CityID=${cityId}`);
+    navigate(
+      `/${replaceSpacesWithUnderscore(city.name)}/${replaceSpacesWithUnderscore(
+        merchant.name
+      )}?MerchantID=${merchant.id}&CityID=${cityId}`
+    );
   };
 
   return (

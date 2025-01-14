@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import {
   fetchMerchantsByCity,
   fetchCityById,
@@ -12,6 +12,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 
 const Merchants = () => {
+  const { cityName } = useParams(); // Get city name from URL
   const [cityId, setCityId] = useState(null);
   const [city, setCity] = useState("");
   const [merchants, setMerchants] = useState([]);
@@ -25,11 +26,9 @@ const Merchants = () => {
   const autoScrollInterval = useRef(null);
 
   useEffect(() => {
-    if (location) {
-      const queryParams = new URLSearchParams(location.search);
-      const cityIdFromQuery = queryParams.get("CityID");
-      setCityId(cityIdFromQuery);
-    }
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
   }, [location]);
 
   useEffect(() => {
