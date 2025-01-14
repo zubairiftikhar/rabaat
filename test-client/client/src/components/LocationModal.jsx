@@ -5,6 +5,7 @@ import { fetchCities } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { Dropdown } from "react-bootstrap";
+import City from '../../public/assets/img/landing/city.png';
 import { FaSearch } from "react-icons/fa"; // Import icon for search
 import '../css/locationmodal.css';
 
@@ -80,7 +81,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
                 id="dropdown-basic"
                 className="w-100 py-3"
               >
-                {selectedCity ? selectedCity.name : "Choose City"}
+                <img src={City} className="me-1" alt="" />{selectedCity ? selectedCity.name : "Choose City"}
               </Dropdown.Toggle>
 
               <Dropdown.Menu

@@ -28,7 +28,7 @@ const AuthModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (type === "login") {
+    if (type === "loggin") {
       try {
         const response = await loginUser(formData.email, formData.password);
 
@@ -109,6 +109,7 @@ const AuthModal = ({
 
   return (
     <Modal show={show} onHide={handleClose}>
+      
       <Modal.Header closeButton>
         <Modal.Title>{type === "login" ? "Login" : "Signup"}</Modal.Title>
       </Modal.Header>
@@ -200,6 +201,7 @@ const AuthModal = ({
               <Button variant="link" onClick={toggleType}>
                 Login here
               </Button>
+             
             </p>
           )}
         </div>
