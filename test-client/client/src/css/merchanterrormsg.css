@@ -18,3 +18,8 @@
   color: #555;
   font-style: italic;
 }
+
+/* Add this to your CSS file to apply spacing */
+.merchant-card-spacing {
+  padding: 10px;
+}

@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
 import rabaat_logo from "../../public/assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
-import City from '../../public/assets/img/landing/city.png';
+import City from "../../public/assets/img/landing/city.png";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 import { IoMdArrowDropdown } from "react-icons/io";
 
@@ -86,7 +86,9 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                   className="btn btn-outline-light mx-3"
                   onClick={onLocationChange}
                 >
-                  <img src={City} className="me-1" alt="" />{` ${selectedCity ? selectedCity.name : "Select City"}`}<IoMdArrowDropdown />
+                  <img src={City} className="me-1" alt="" />
+                  {` ${selectedCity ? selectedCity.name : "Select City"}`}
+                  <IoMdArrowDropdown />
                 </button>
               </li>
               <li className="nav-item">
