@@ -23,18 +23,7 @@
   /* Add scroll if dropdown content exceeds max height */
 }
 
-.div_modal {
-  border: 2px solid red;
-}
 
-.modal_heading {
-  text-align: center;
-  flex: auto;
-  text-transform: uppercase;
-  font-weight: 700;
-  font-size: 24px;
-  color: rgb(201 0 0);
-}
 
 .rabaat_proc_city_btn {
   appearance: none;
@@ -102,10 +91,10 @@
 
 .rabaat_cls_city_btn {
   appearance: none;
-  background-color: #ffffff00;
+  background-color: #000000;
   border-width: 0;
   box-sizing: border-box;
-  color: #000000;
+  color: #ffffff;
   border: 1px solid rgb(0, 0, 0);
   border-radius: 0;
   cursor: pointer;
@@ -134,7 +123,7 @@
 .rabaat_cls_city_btn:before {
   animation: opacityFallbackOut .5s step-end forwards;
   backface-visibility: hidden;
-  background-color: #000000;
+  background-color: #960000;
   clip-path: polygon(-1% 0, 0 0, -25% 100%, -1% 100%);
   content: "";
   height: 100%;
@@ -178,14 +167,14 @@
 }
 .dropdown-toggle:focus {
   color: #fff;
-  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+  background: radial-gradient(circle, rgba(253, 42, 78, 1) 23%, rgba(232, 84, 83, 1) 79%);
 }
 .dropdown-toggle:focus-visible {
   box-shadow: none;
-  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+  background: radial-gradient(circle, rgba(253, 42, 78, 1) 23%, rgba(232, 84, 83, 1) 79%);
 }
 .dropdown-toggle:active {
-  background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+  background: radial-gradient(circle, rgba(253, 42, 78, 1) 23%, rgba(232, 84, 83, 1) 79%);
 }
 
 .city-option {

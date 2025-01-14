@@ -3,6 +3,8 @@ import { Modal, Button, Form } from "react-bootstrap";
 import { loginUser, signupUser } from "../services/api";
 import Cookies from "js-cookie"; // Import js-cookie to manage cookies
 import Swal from "sweetalert2";
+import rabaat_logo from "../../public/assets/img/landing/rabaatlogopng.png";
+import "../css/authmodal.css"; // Import the updated CSS file
 
 const AuthModal = ({
   show,
@@ -28,26 +30,22 @@ const AuthModal = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (type === "loggin") {
+    if (type === "login") {
       try {
         const response = await loginUser(formData.email, formData.password);
-
-        // Save the JWT token in a cookie
         Cookies.set("authToken", response.token); // Store the token in a cookie
-
         handleSuccess(response.name); // Set user in Navbar
         handleClose();
 
-        // Display a beautiful welcome popup after successful login
         Swal.fire({
           title: "Welcome Back!",
           text: `Welcome back, ${response.name}! Explore exclusive discounts on top brands, across cities and banks, only at Rabaat.`,
           icon: "success",
           confirmButtonText: "Let's Start",
           customClass: {
-            confirmButton: "btn btn-primary", // Use your button style
+            confirmButton: "btn btn-primary",
           },
-          buttonsStyling: false, // Use custom styles
+          buttonsStyling: false,
         });
       } catch (error) {
         Swal.fire({
@@ -56,7 +54,7 @@ const AuthModal = ({
           icon: "error",
           confirmButtonText: "Retry",
           customClass: {
-            confirmButton: "btn btn-danger", // Style for retry button
+            confirmButton: "btn btn-danger",
           },
           buttonsStyling: false,
         });
@@ -79,7 +77,7 @@ const AuthModal = ({
         await signupUser(formData);
         Swal.fire({
           title: "Signup Successful!",
-          text: `Welcome, ${formData.name}! Your account has been successfully created. Start exploring exclusive discounts on top brands at Rabaat.`,
+          text: `Welcome, ${formData.name}! Your account has been successfully created.`,
           icon: "success",
           confirmButtonText: "Login Now",
           customClass: {
@@ -109,8 +107,8 @@ const AuthModal = ({
 
   return (
     <Modal show={show} onHide={handleClose}>
-      
-      <Modal.Header closeButton>
+      <img src={rabaat_logo} className="login_logo_img" alt="Rabaat" style={{ width: "75px" }} />
+      <Modal.Header style={{textAlign: 'center'}}>
         <Modal.Title>{type === "login" ? "Login" : "Signup"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -183,9 +181,14 @@ const AuthModal = ({
               </Form.Group>
             </>
           )}
-          <Button variant="primary" type="submit">
+          <div className="text-center">
+
+          <button className="rabaat_proc_city_btn px-5 my-4" type="submit">
+            <span>
             {type === "login" ? "Login" : "Signup"}
-          </Button>
+            </span>
+          </button>
+          </div>
         </Form>
         <div className="mt-3 text-center">
           {type === "login" ? (
@@ -201,7 +204,6 @@ const AuthModal = ({
               <Button variant="link" onClick={toggleType}>
                 Login here
               </Button>
-             
             </p>
           )}
         </div>

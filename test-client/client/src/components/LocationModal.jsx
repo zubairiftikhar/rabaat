@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 import { Dropdown } from "react-bootstrap";
 import City from '../../public/assets/img/landing/city.png';
 import { FaSearch } from "react-icons/fa"; // Import icon for search
+import rabaat_logo from "../../public/assets/img/landing/rabaatlogopng.png";
 import '../css/locationmodal.css';
 
 const LocationModal = ({ show, onClose, onCityChange }) => {
@@ -68,6 +69,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
 
   return (
     <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom_modal">
+      <img src={rabaat_logo} className="login_logo_img" alt="Rabaat" style={{ width: "75px" }} />
       <div className="div_modal">
         <Modal.Header>
           {/* remove the closeButton from header for removing x on modal */}
