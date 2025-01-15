@@ -95,11 +95,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 {loggedInUser ? (
                   <>
                     <FaUserCircle
-                      className="me-2"
+                      className="m-2"
                       size={20}
                       style={{ color: "#fff" }}
                     />
-                    <span style={{ color: "#fff" }}>{loggedInUser}</span>
+                    <span className="my-2" style={{ color: "#fff" }}>{loggedInUser}</span>
                     <button
                       className="btn rabaat_login_btn ms-3"
                       onClick={handleLogout}
