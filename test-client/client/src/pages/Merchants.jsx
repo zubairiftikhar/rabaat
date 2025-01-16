@@ -11,6 +11,7 @@ import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
+import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 
 const Merchants = () => {
   const { cityName } = useParams();
@@ -132,6 +133,7 @@ const Merchants = () => {
 
   return (
     <>
+      <Mainsecsearch />
       <Breadcrumbs />
       <Helmet>
         <title>{`Rabaat | Discover Top Deals & Discounts In ${cityName}`}</title>

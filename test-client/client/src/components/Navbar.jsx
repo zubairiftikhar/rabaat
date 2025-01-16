@@ -8,7 +8,6 @@ import "../css/navbar.css";
 import rabaat_logo from "../../public/assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
 import City from "../../public/assets/img/landing/city.png";
-import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 const Navbar = ({ selectedCity, onLocationChange }) => {
@@ -131,7 +130,6 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           onCityChange={updateCity}
         />
       </div>
-      <Mainsecsearch />
     </>
   );
 };
