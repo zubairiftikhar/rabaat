@@ -37,7 +37,7 @@ const AllBanks = () => {
         <div className="row">
           <div className="col-lg-12 col-sm">
             <h1 className="main_heading_bank_landing pt-5">Banks</h1>
-            <div className="side_border_dots_bank_landing pt-3 pb-5">
+            <div className="side_border_dots_bank_landing py-3">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY BANKS</span>
               <span className="line"></span>

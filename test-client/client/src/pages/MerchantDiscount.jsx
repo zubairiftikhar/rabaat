@@ -103,10 +103,9 @@ const MerchantDiscount = () => {
   return (
     <>
       <div className="bank-page-container">
-        {/* Banner Section */}
         <div className="bank-banner">
           <img
-            src={Bank} // Replace with actual banner image URL
+            src={Bank}
             alt="HBL Banner"
             className="banner-image"
           />
@@ -119,23 +118,18 @@ const MerchantDiscount = () => {
           </div>
         </div>
 
-        {/* Breadcrumb Section */}
-        <Breadcrumbs />
-
-        {/* Hospital Information Section */}
-        <div className="hospital-info">
+        {/* <div className="hospital-info">
           <h3 className="hospital-name">Ai Raza Hospital</h3>
           <p className="hospital-address">
             Al Razi Hospital - 2-C, Main
             M.M.Alam Road, Gulberg 3, Lahore - Pakistan
           </p>
-        </div>
+        </div> */}
       </div>
       <div className="container">
         <Breadcrumbs />
         <div class="side_border_dots pt-3 pb-5"><span class="line"></span><span class="text">Discounts for Merchant</span><span class="line"></span></div>
-   
-        <h3 className="text-end">Bank: {bank.name}</h3>
+        {/* <h3 className="text-end">Bank: {bank.name}</h3> */}
         {discounts.length === 0 && (
           <div className="alert alert-warning text-center">
             No discounts available for this merchant in the selected city and
