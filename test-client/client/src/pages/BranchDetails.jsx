@@ -9,6 +9,10 @@ import {
   fetchDiscountBanks,
 } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
+
+import BankIcon from '../../public/assets/img/landing/bank_icon.png'
+import DiscountIcon from '../../public/assets/img/landing/discount_icon.png'
+import MarchentIcon from '../../public/assets/img/landing/marchent_icon.png'
 import "./stylepages.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import BankWithMerchant from "../components/bankswithmerchant";
@@ -104,99 +108,143 @@ const BranchDetails = () => {
   const isLoadMoreDisabled = branchesToShow.length >= filteredBranches.length; // Disable button if all branches are loaded
 
   return (
-    <div className="container">
-      <Breadcrumbs />
-      <Helmet>
-        <title>{`Rabaat | ${merchant.name}`}</title>
-        <meta
-          name="description"
-          content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${merchant.name}!`}
-        />
-        <meta name="keywords" content="React, SEO, React Helmet" />
-      </Helmet>
-      {merchant && (
-        <>
-          <div className="row mt-5 marchant_branch_hero_row">
-            <div className="col-lg-3 col-md-12 col-sm-12 p-0">
-              <img
-                src={`/public/assets/img/merchants/${merchant.image_path}`}
-                className="card-img-top"
-                alt={merchant.name}
-                style={{ width: "100%" }}
-              />
-            </div>
-            <div className="col-lg-9 col-md-12 col-sm-12">
-              <div className="marchant_branch_hero_content">
-                <h2>{merchant.name}</h2>
-              </div>
-              <div className="marchant_branch_hero_content1">
-                <p>Branches: {branchesCount.branch_count}</p>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
-      {/* Search Input for Filtering Branches */}
-      <div className="d-flex mt-5 page_search">
-        <div className="input-group" style={{ maxWidth: "300px" }}>
-          <span className="input-group-text">
-            <FaSearch />
-          </span>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Search Branch Here..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+    <>
+      <div className="brand-container">
+        <div className="brand-images">
+          <img
+            src={`/public/assets/img/merchant_banner/${merchant.image_path}`}
+            alt="adidas_1"
           />
         </div>
-      </div>
-      <h2 className="mt-5">Banks</h2>
-      <div className="row">
-        {banksWithDiscounts.map((bank) => (
-          <div className="col-md-2" key={bank.bank_id}>
-            <BankWithMerchant
-              cityName={cityName}
-              merchantName={merchantName}
-              bank={bank}
-              cityId={cityId}
-              merchant_Id={merchantId}
+        <div className="brand-header">
+          <div className="brand-logo">
+            <img
+              src={`/public/assets/img/merchants/${merchant.image_path}`}
+              alt={merchant.name}
             />
           </div>
-        ))}
+          <div className="brand-info">
+            <h1 className="brand-title">{merchant.name}</h1>
+            <p className="brand-description">
+              Step into the world of Adidas, where innovation meets style and
+              performance drives every design. Whether you’re on the field, at the
+              gym, or in the streets, Adidas gear is crafted to help you push
+              boundaries and unleash your full potential. Embrace the perfect
+              blend of comfort, durability, and iconic fashion.
+            </p>
+          </div>
+
+          <div className="stats_container_fluid">
+            <div className="stats-container">
+              <div className="stat-button">
+              <img src={BankIcon} alt="" /> No of Banks <span>7</span>
+              </div>
+              <div className="stat-button">
+              <img src={DiscountIcon} alt="" /> Max Discount <span>7</span>
+              </div>
+            </div>
+            
+            <div className="stat-button">
+            <img src={MarchentIcon} alt="" /> Branches <span>{branchesCount.branch_count}</span>
+            </div>
+          </div>
+        </div>
       </div>
-      <h2 className="mt-5">Branches</h2>
-      {branchesToShow.length > 0 ? (
+
+      <div className="container">
+        <Breadcrumbs />
+        <Helmet>
+          <title>{`Rabaat | ${merchant.name}`}</title>
+          <meta
+            name="description"
+            content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${merchant.name}!`}
+          />
+          <meta name="keywords" content="React, SEO, React Helmet" />
+        </Helmet>
+        {merchant && (
+          <>
+            <div className="row mt-5 marchant_branch_hero_row">
+              <div className="col-lg-3 col-md-12 col-sm-12 p-0">
+                <img
+                  src={`/public/assets/img/merchants/${merchant.image_path}`}
+                  className="card-img-top"
+                  alt={merchant.name}
+                  style={{ width: "100%" }}
+                />
+              </div>
+              <div className="col-lg-9 col-md-12 col-sm-12">
+                <div className="marchant_branch_hero_content">
+                  <h2>{merchant.name}</h2>
+                </div>
+                <div className="marchant_branch_hero_content1">
+                  <p>Branches: {branchesCount.branch_count}</p>
+                </div>
+              </div>
+            </div>
+          </>
+        )}
+        {/* Search Input for Filtering Branches */}
+        <div className="d-flex mt-5 page_search">
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <span className="input-group-text">
+              <FaSearch />
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Branch Here..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+            />
+          </div>
+        </div>
+        <h2 className="mt-5">Banks</h2>
         <div className="row">
-          {branchesToShow.map((branch) => (
-            <div className="col-md-2" key={branch.id}>
-              <BranchCard
+          {banksWithDiscounts.map((bank) => (
+            <div className="col-md-2" key={bank.bank_id}>
+              <BankWithMerchant
                 cityName={cityName}
                 merchantName={merchantName}
-                branch={branch}
-                merchantId={merchantId} // Removed bankId from here
+                bank={bank}
                 cityId={cityId}
+                merchant_Id={merchantId}
               />
             </div>
           ))}
         </div>
-      ) : (
-        <p>No branches available for this merchant.</p>
-      )}
-      {/* Load More Button for Branches */}
-      {filteredBranches.length > branchesToShow.length && (
-        <div className="text-center mt-4">
-          <button
-            className="btn"
-            style={{ backgroundColor: "red", color: "white" }}
-            onClick={loadMoreBranches}
-            disabled={isLoadMoreDisabled} // Disable if all branches are loaded
-          >
-            {loadingMore ? "Loading..." : "Load More"}
-          </button>
-        </div>
-      )}
-    </div>
+        <h2 className="mt-5">Branches</h2>
+        {branchesToShow.length > 0 ? (
+          <div className="row">
+            {branchesToShow.map((branch) => (
+              <div className="col-md-2" key={branch.id}>
+                <BranchCard
+                  cityName={cityName}
+                  merchantName={merchantName}
+                  branch={branch}
+                  merchantId={merchantId} // Removed bankId from here
+                  cityId={cityId}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No branches available for this merchant.</p>
+        )}
+        {/* Load More Button for Branches */}
+        {filteredBranches.length > branchesToShow.length && (
+          <div className="text-center mt-4">
+            <button
+              className="btn"
+              style={{ backgroundColor: "red", color: "white" }}
+              onClick={loadMoreBranches}
+              disabled={isLoadMoreDisabled} // Disable if all branches are loaded
+            >
+              {loadingMore ? "Loading..." : "Load More"}
+            </button>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

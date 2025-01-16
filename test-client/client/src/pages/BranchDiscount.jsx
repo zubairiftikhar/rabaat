@@ -4,6 +4,8 @@ import { fetchDiscountsForBranch, fetchBankByBankId } from "../services/api";
 import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css";
+import Bank from '../../public/assets/img/landing/hbl.png'
+
 
 const BranchDiscount = () => {
   const location = useLocation();
@@ -90,30 +92,58 @@ const BranchDiscount = () => {
     .map((percentage) => groupedDiscounts[percentage]);
 
   return (
-    <div className="container">
-      <Breadcrumbs />
-      {branchInfo && (
+    <>
+      <div className="bank-page-container">
+        <div className="bank-banner">
+          <img
+            src={Bank}
+            alt="HBL Banner"
+            className="banner-image"
+          />
+          <div className="bank-info">
+            {/* <img
+              src={`../../../public/assets/img/banks/${bank.image_path}`}
+              alt={bank.name}
+            /> */}
+            <h2 className="bank-name">{bank?.name}</h2>
+          </div>
+        </div>
+
+        <Breadcrumbs />
+        {branchInfo && (
+          <div className="hospital-info">
+            <h2 className="hospital-name">{branchInfo.branchName}</h2>
+            <p className="hospital-address">
+              {branchInfo.branchAddress}
+            </p>
+          </div>
+        )}
+      </div>
+      <div className="container">
+        {/* <Breadcrumbs />
+
         <div className="branch-info">
           <h2>{branchInfo.branchName}</h2>
           <p>{branchInfo.branchAddress}</p>
           <h3 className="text-end">Bank: {bank?.name}</h3>
         </div>
-      )}
-      {discounts.length === 0 && (
-        <div className="alert alert-warning text-center">
-          No discounts available for this merchant in the selected city and
-          bank.
-        </div>
-      )}
-      <h2>Discounts for this Branch</h2>
-      <div className="discount-cards">
-        {sortedDiscounts.map((discountGroup) => (
-          <div key={discountGroup.percentage} className="discount-row">
-            <BranchDiscountCard discount={discountGroup} />
+
+        {discounts.length === 0 && (
+          <div className="alert alert-warning text-center">
+            No discounts available for this merchant in the selected city and
+            bank.
           </div>
-        ))}
+        )} */}
+        <h2>Discounts for this Branch</h2>
+        <div className="discount-cards">
+          {sortedDiscounts.map((discountGroup) => (
+            <div key={discountGroup.percentage} className="discount-row">
+              <BranchDiscountCard discount={discountGroup} />
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

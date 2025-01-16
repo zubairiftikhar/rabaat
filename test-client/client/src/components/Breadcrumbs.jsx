@@ -65,7 +65,7 @@ const Breadcrumbs = () => {
     <div className="container">
       <div className="row">
         <div className="col-lg-12">
-          <nav aria-label="breadcrumb" className="mt-2 mb-4">
+          <nav aria-label="breadcrumb" className="">
             <ol className="breadcrumb">
               {breadcrumbLinks.map((crumb, index) => (
                 <li
