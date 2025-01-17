@@ -27,6 +27,10 @@ const Merchants = () => {
   const autoScrollInterval = useRef(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
     const cityIdFromQuery = queryParams.get("CityID");
     setCityId(cityIdFromQuery);
@@ -237,7 +241,11 @@ const Merchants = () => {
                           className="col-md-2 col-sm-12 fade-in merchant-card-spacing"
                           key={merchant.id}
                         >
-                          <MerchantCard cityId={cityId} merchant={merchant} />
+                          <MerchantCard
+                            cityName={cityName}
+                            cityId={cityId}
+                            merchant={merchant}
+                          />
                         </div>
                       ))}
                     </div>

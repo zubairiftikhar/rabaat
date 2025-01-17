@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
 import { fetchDiscountsForMerchant, fetchBankByBankId } from "../services/api";
 import DiscountCard from "../components/DiscountCard";
-import './stylepages.css';
-import Bank from '../../public/assets/img/landing/hbl.png'
+import "./stylepages.css";
+import Bank from "../../public/assets/img/landing/hbl.png";
 
 const MerchantDiscount = () => {
   const [cityId, setCityId] = useState(null);
@@ -13,6 +13,10 @@ const MerchantDiscount = () => {
   const [bankId, setbankId] = useState(null);
   const [discounts, setDiscounts] = useState([]);
   const [bank, setbank] = useState([]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (location) {
@@ -104,11 +108,7 @@ const MerchantDiscount = () => {
     <>
       <div className="bank-page-container">
         <div className="bank-banner">
-          <img
-            src={Bank}
-            alt="HBL Banner"
-            className="banner-image"
-          />
+          <img src={Bank} alt="HBL Banner" className="banner-image" />
           <div className="bank-info">
             <img
               src={`../../../public/assets/img/banks/${bank.image_path}`}
@@ -128,7 +128,11 @@ const MerchantDiscount = () => {
       </div>
       <div className="container">
         <Breadcrumbs />
-        <div class="side_border_dots pt-3 pb-5"><span class="line"></span><span class="text">Discounts for Merchant</span><span class="line"></span></div>
+        <div class="side_border_dots pt-3 pb-5">
+          <span class="line"></span>
+          <span class="text">Discounts for Merchant</span>
+          <span class="line"></span>
+        </div>
         {/* <h3 className="text-end">Bank: {bank.name}</h3> */}
         {discounts.length === 0 && (
           <div className="alert alert-warning text-center">

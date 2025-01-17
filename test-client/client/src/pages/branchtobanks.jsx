@@ -17,6 +17,10 @@ const BranchToBankDetails = () => {
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more banks
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (location) {
       const queryParams = new URLSearchParams(location.search);
       const cityIdFromQuery = queryParams.get("CityID");

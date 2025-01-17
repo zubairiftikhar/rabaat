@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchMaximumDiscountAnyBank, fetchCityById } from "../services/api"; // Import the function
 
-const MerchantCard = ({ merchant, cityId }) => {
+const MerchantCard = ({ cityName, merchant, cityId }) => {
   const replaceSpacesWithUnderscore = (name) => {
     return name.replace(/\s+/g, "_");
   };
@@ -36,7 +36,7 @@ const MerchantCard = ({ merchant, cityId }) => {
   const handleClick = () => {
     // Navigate to BranchDetails page with merchant and city details
     navigate(
-      `/${replaceSpacesWithUnderscore(city.name)}/${replaceSpacesWithUnderscore(
+      `/${replaceSpacesWithUnderscore(cityName)}/${replaceSpacesWithUnderscore(
         merchant.name
       )}?MerchantID=${merchant.id}&CityID=${cityId}`
     );

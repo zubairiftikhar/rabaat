@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import AuthModal from "./AuthModal";
 import LocationModal from "./LocationModal";
@@ -9,6 +9,8 @@ import rabaat_logo from "../../public/assets/img/landing/Rabaat_logo.svg";
 import Cookies from "js-cookie";
 import City from "../../public/assets/img/landing/city.png";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { BiSearch } from "react-icons/bi";
+import { fetchMerchantSearchResults } from "../services/api.js";
 
 const Navbar = ({ selectedCity, onLocationChange }) => {
   const [showAuthModal, setShowAuthModal] = useState(false);
@@ -16,17 +18,22 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [currentCity, setCurrentCity] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
-  // Update state when the city changes
+  const location = useLocation();
+  const navigate = useNavigate();
+  const cityID = Cookies.get("selectedCityId");
   const updateCity = (cityName) => {
     setCurrentCity(cityName);
     Cookies.set("selectedCityName", cityName);
   };
 
-  // Handle successful login
   const handleSuccess = (userName) => {
     setLoggedInUser(userName);
-    Cookies.set("loggedInUser", userName, { expires: 7 }); // Store in cookies
+    Cookies.set("loggedInUser", userName, { expires: 7 });
   };
 
   useEffect(() => {
@@ -41,8 +48,82 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
 
   const handleLogout = () => {
     Cookies.remove("loggedInUser");
-    Cookies.remove("authToken"); // Remove JWT token on logout
+    Cookies.remove("authToken");
     setLoggedInUser(null);
+  };
+
+  const isCityPage = /^\/[a-zA-Z]+$/.test(location.pathname);
+
+  useEffect(() => {
+    if (clicked) {
+      setClicked(false);
+      return;
+    }
+
+    if (searchQuery.trim() === "") {
+      setSuggestions([]);
+      return;
+    }
+
+    const fetchSuggestions = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchMerchantSearchResults(cityID, searchQuery);
+        const sortedData = data.sort((a, b) => {
+          const branchMatchA = a.branch_name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          const branchMatchB = b.branch_name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          if (branchMatchA && !branchMatchB) return -1;
+          if (!branchMatchA && branchMatchB) return 1;
+          return 0;
+        });
+        setSuggestions(sortedData);
+      } catch (error) {
+        console.error("Error fetching search results:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    const delaySearch = setTimeout(() => {
+      fetchSuggestions();
+    }, 500);
+
+    return () => clearTimeout(delaySearch);
+  }, [searchQuery, clicked]);
+
+  const handleMerchantClick = (merchant) => {
+    const { merchant_id, branch_id, merchant_name, branch_address } = merchant;
+
+    setSearchQuery(`${merchant_name} - ${branch_address}`);
+    setSuggestions([]);
+    setClicked(true);
+
+    navigate(
+      `/${currentCity}/${merchant_name.replace(
+        /\s+/g,
+        "_"
+      )}/Branch/${branch_address.replace(
+        /\s+/g,
+        "_"
+      )}?BranchID=${branch_id}&MerchantID=${merchant_id}&CityID=${cityID}`
+    );
+  };
+
+  const highlightMatch = (text, keyword) => {
+    const regex = new RegExp(`(${keyword})`, "gi");
+    return text.split(regex).map((part, index) =>
+      regex.test(part) ? (
+        <span key={index} className="highlight-text">
+          {part}
+        </span>
+      ) : (
+        part
+      )
+    );
   };
 
   return (
@@ -52,6 +133,40 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           <Link className="navbar-brand" to="/">
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
+          {!isCityPage && (
+            <div className="search-bar ms-3">
+              <BiSearch className="mainsearchicon" />
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              {loading && <div className="loader">Loading...</div>}
+              {suggestions.length > 0 ? (
+                <div className="suggestions-list">
+                  {suggestions.map((suggestion, index) => (
+                    <div
+                      key={index}
+                      className="suggestion-item"
+                      onClick={() => handleMerchantClick(suggestion)}
+                    >
+                      {highlightMatch(
+                        `${suggestion.merchant_name} - ${suggestion.branch_address}`,
+                        searchQuery
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : searchQuery.trim() !== "" &&
+                !loading &&
+                suggestions.length === 0 &&
+                !clicked ? (
+                <div className="no-results">No results found</div>
+              ) : null}
+            </div>
+          )}
           <button
             className="navbar-toggler"
             type="button"
@@ -98,7 +213,9 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                       size={20}
                       style={{ color: "#fff" }}
                     />
-                    <span className="my-2" style={{ color: "#fff" }}>{loggedInUser}</span>
+                    <span className="my-2" style={{ color: "#fff" }}>
+                      {loggedInUser}
+                    </span>
                     <button
                       className="btn rabaat_login_btn ms-3"
                       onClick={handleLogout}
@@ -122,7 +239,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           show={showAuthModal}
           handleClose={() => setShowAuthModal(false)}
           initialType={authModalType}
-          handleSuccess={handleSuccess} // Pass handleSuccess to AuthModal
+          handleSuccess={handleSuccess}
         />
         <LocationModal
           show={showLocationModal}

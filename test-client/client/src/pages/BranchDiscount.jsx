@@ -4,8 +4,7 @@ import { fetchDiscountsForBranch, fetchBankByBankId } from "../services/api";
 import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css";
-import Bank from '../../public/assets/img/landing/hbl.png'
-
+import Bank from "../../public/assets/img/landing/hbl.png";
 
 const BranchDiscount = () => {
   const location = useLocation();
@@ -14,6 +13,10 @@ const BranchDiscount = () => {
   const [branchInfo, setBranchInfo] = useState(null);
   const [bank, setBank] = useState(null);
   const [error, setError] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   // Parse query params on component mount or location change
   useEffect(() => {
@@ -95,11 +98,7 @@ const BranchDiscount = () => {
     <>
       <div className="bank-page-container">
         <div className="bank-banner">
-          <img
-            src={Bank}
-            alt="HBL Banner"
-            className="banner-image"
-          />
+          <img src={Bank} alt="HBL Banner" className="banner-image" />
           <div className="bank-info">
             {/* <img
               src={`../../../public/assets/img/banks/${bank.image_path}`}
@@ -113,9 +112,7 @@ const BranchDiscount = () => {
         {branchInfo && (
           <div className="hospital-info">
             <h2 className="hospital-name">{branchInfo.branchName}</h2>
-            <p className="hospital-address">
-              {branchInfo.branchAddress}
-            </p>
+            <p className="hospital-address">{branchInfo.branchAddress}</p>
           </div>
         )}
       </div>

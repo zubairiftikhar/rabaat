@@ -10,6 +10,10 @@ const DiscountDetail = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     if (discountId) {
       const getDiscountDetail = async () => {
         try {

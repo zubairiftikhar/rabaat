@@ -7,12 +7,13 @@ import {
   fetchMerchantByMerchantId,
   fetchBranchCount,
   fetchDiscountBanks,
+  fetchMaximumDiscountAnyBank,
 } from "../services/api";
 import { FaSearch } from "react-icons/fa"; // Import search icon
 
-import BankIcon from '../../public/assets/img/landing/bank_icon.png'
-import DiscountIcon from '../../public/assets/img/landing/discount_icon.png'
-import MarchentIcon from '../../public/assets/img/landing/marchent_icon.png'
+import BankIcon from "../../public/assets/img/landing/bank_icon.png";
+import DiscountIcon from "../../public/assets/img/landing/discount_icon.png";
+import MarchentIcon from "../../public/assets/img/landing/marchent_icon.png";
 import "./stylepages.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import BankWithMerchant from "../components/bankswithmerchant";
@@ -25,11 +26,16 @@ const BranchDetails = () => {
   const [merchantId, setMerchantId] = useState(null);
   const [branches, setBranches] = useState([]);
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
+  const [banksMaxDiscount, setBanksMaxDiscount] = useState([]);
   const [branchesCount, setBranchesCount] = useState([]);
   const [merchant, setMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBranches, setVisibleBranches] = useState(6); // State for visible branches (6 initially)
   const [loadingMore, setLoadingMore] = useState(false); // State for loading more branches
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   useEffect(() => {
     if (location) {
@@ -82,6 +88,15 @@ const BranchDetails = () => {
           console.error("Error fetching branches:", error);
         }
       };
+      const getBanksMaxDiscount = async () => {
+        try {
+          const data = await fetchMaximumDiscountAnyBank(merchantId, cityId);
+          setBanksMaxDiscount(data);
+        } catch (error) {
+          console.error("Error fetching branches:", error);
+        }
+      };
+      getBanksMaxDiscount();
       getBranchesCount();
       getBranches();
       getMerchants();
@@ -126,26 +141,32 @@ const BranchDetails = () => {
           <div className="brand-info">
             <h1 className="brand-title">{merchant.name}</h1>
             <p className="brand-description">
-              Step into the world of Adidas, where innovation meets style and
-              performance drives every design. Whether you’re on the field, at the
-              gym, or in the streets, Adidas gear is crafted to help you push
-              boundaries and unleash your full potential. Embrace the perfect
-              blend of comfort, durability, and iconic fashion.
+              {`
+              Explore unbeatable deals and discounts exclusively available at
+              ${merchant.name}, brought to you by various leading banks in
+              Pakistan. Whether you're dining at a restaurant, shopping for
+              trendy clothes, or planning a fun day out, enjoy incredible
+              savings with your bank's offers. Stay up-to-date with the latest
+              discounts and make the most of your bank cards. With rabaat.com,
+              accessing discounts is just a click away!`}
             </p>
           </div>
 
           <div className="stats_container_fluid">
             <div className="stats-container">
               <div className="stat-button">
-              <img src={BankIcon} alt="" /> No of Banks <span>7</span>
+                <img src={BankIcon} alt="" /> No of Cards{" "}
+                <span>{banksMaxDiscount.total_card_count}</span>
               </div>
               <div className="stat-button">
-              <img src={DiscountIcon} alt="" /> Max Discount <span>7</span>
+                <img src={DiscountIcon} alt="" /> Max Discount{" "}
+                <span>{banksMaxDiscount.max_discount}%</span>
               </div>
             </div>
-            
+
             <div className="stat-button">
-            <img src={MarchentIcon} alt="" /> Branches <span>{branchesCount.branch_count}</span>
+              <img src={MarchentIcon} alt="" /> Branches{" "}
+              <span>{branchesCount.branch_count}</span>
             </div>
           </div>
         </div>
@@ -161,28 +182,6 @@ const BranchDetails = () => {
           />
           <meta name="keywords" content="React, SEO, React Helmet" />
         </Helmet>
-        {merchant && (
-          <>
-            <div className="row mt-5 marchant_branch_hero_row">
-              <div className="col-lg-3 col-md-12 col-sm-12 p-0">
-                <img
-                  src={`/public/assets/img/merchants/${merchant.image_path}`}
-                  className="card-img-top"
-                  alt={merchant.name}
-                  style={{ width: "100%" }}
-                />
-              </div>
-              <div className="col-lg-9 col-md-12 col-sm-12">
-                <div className="marchant_branch_hero_content">
-                  <h2>{merchant.name}</h2>
-                </div>
-                <div className="marchant_branch_hero_content1">
-                  <p>Branches: {branchesCount.branch_count}</p>
-                </div>
-              </div>
-            </div>
-          </>
-        )}
         {/* Search Input for Filtering Branches */}
         <div className="d-flex mt-5 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
