@@ -198,19 +198,23 @@ const BranchDetails = () => {
           </div>
         </div>
         <h2 className="mt-5">Banks</h2>
-        <div className="row">
-          {banksWithDiscounts.map((bank) => (
-            <div className="col-md-2" key={bank.bank_id}>
-              <BankWithMerchant
-                cityName={cityName}
-                merchantName={merchantName}
-                bank={bank}
-                cityId={cityId}
-                merchant_Id={merchantId}
-              />
-            </div>
-          ))}
-        </div>
+        {banksWithDiscounts.length > 0 ? (
+          <div className="row">
+            {banksWithDiscounts.map((bank) => (
+              <div className="col-md-2" key={bank.bank_id}>
+                <BankWithMerchant
+                  cityName={cityName}
+                  merchantName={merchantName}
+                  bank={bank}
+                  cityId={cityId}
+                  merchant_Id={merchantId}
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <p>No banks available for this merchant.</p>
+        )}
         <h2 className="mt-5">Branches</h2>
         {branchesToShow.length > 0 ? (
           <div className="row">
