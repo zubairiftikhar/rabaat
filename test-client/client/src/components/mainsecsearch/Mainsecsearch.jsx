@@ -158,11 +158,6 @@ const Mainsecsearch = () => {
                     </div>
                   ))}
                 </div>
-              ) : keyword.trim() !== "" &&
-                !loading &&
-                suggestions.length === 0 &&
-                !clicked ? (
-                <div className="no-results">No results found</div>
               ) : null}
             </div>
           </div>

@@ -128,7 +128,7 @@ const BranchDetails = () => {
         <div className="brand-images">
           <img
             src={`/public/assets/img/merchant_banner/${merchant.image_path}`}
-            alt="adidas_1"
+            alt={merchant.name}
           />
         </div>
         <div className="brand-header">

@@ -4,8 +4,10 @@ import {
   fetchMerchantByMerchantId,
   fetchBranchByBranchId,
 } from "../services/api";
+import Cookies from "js-cookie";
 
 const Breadcrumbs = () => {
+  const cityName = Cookies.get("selectedCityName");
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const merchantId = queryParams.get("MerchantID");
@@ -44,13 +46,13 @@ const Breadcrumbs = () => {
 
   // Build Breadcrumb Links
   const breadcrumbLinks = [
-    { name: "Home", path: `/merchants?CityID=${cityId}` },
+    { name: "Home", path: `/${cityName}?CityID=${cityId}` },
   ];
 
   if (merchantName) {
     breadcrumbLinks.push({
       name: merchantName,
-      path: `/branches?MerchantID=${merchantId}&CityID=${cityId}`,
+      path: `/${cityName}/${merchantName}?MerchantID=${merchantId}&CityID=${cityId}`,
     });
   }
 

@@ -159,11 +159,6 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                     </div>
                   ))}
                 </div>
-              ) : searchQuery.trim() !== "" &&
-                !loading &&
-                suggestions.length === 0 &&
-                !clicked ? (
-                <div className="no-results">No results found</div>
               ) : null}
             </div>
           )}
