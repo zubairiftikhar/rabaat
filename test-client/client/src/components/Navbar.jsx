@@ -134,7 +134,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
-            <div className="search-bar ms-3">
+            <div className="search-bar ms-3" style={{bottom: '15px'}}>
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
