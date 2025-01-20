@@ -11,9 +11,11 @@
   margin-left: auto;
   /* Push links to the right */
 }
-.navbar-nav li{
+
+.navbar-nav li {
   display: contents;
 }
+
 .navbar-nav li a {
   color: #f0f0f0;
   font-weight: 100;
@@ -26,12 +28,13 @@
   color: #fff;
 }
 
-.btn-outline-light{
+.btn-outline-light {
   border: 1px solid red;
   border-radius: 0;
   font-size: 15px;
 }
-.btn-outline-light:hover{
+
+.btn-outline-light:hover {
   border: 1px solid red;
   background: transparent;
   color: #fff;
@@ -39,6 +42,7 @@
   transition: 0.5s;
   box-shadow: rgba(255, 1, 1, 0.582) 0px 1px 15px;
 }
+
 .rabaat_login_btn {
   appearance: none;
   background-color: #ffffff00;
@@ -89,6 +93,7 @@
   animation: opacityFallbackIn 0s step-start forwards;
   clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
 }
+
 .rabaat_login_btn:hover {
   color: #FFFFFF;
 }
@@ -102,6 +107,39 @@
   position: relative;
 }
 
+.top_search-bar {
+  background: transparent;
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #ffffff;
+}
+
+.top_mainsearchicon {
+  color: #ffffff;
+  font-size: 20px;
+}
+
+.top_form-control {
+  background: transparent;
+  border: 0;
+}
+
+.top_form-control:focus-visible {
+  border: none;
+  outline: none;
+  color: aliceblue;
+}
+
+.top_form-control:focus {
+  border: none;
+  color: aliceblue;
+  outline: none;
+}
+
+.top_form-control[type="text"] {
+  font-size: 16px;
+  padding: 4px 8px;
+}
 
 .navbar-nav li a,
 .navbar-nav li a:after,
