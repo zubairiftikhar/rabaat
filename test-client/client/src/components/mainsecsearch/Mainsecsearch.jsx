@@ -4,7 +4,7 @@ import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
-import Rabbit from "../../../public/assets/img/landing/vid2.mp4";
+import Rabbit from "../../../public/assets/img/landing/rabbit.webm";
 
 const Mainsecsearch = () => {
   const replaceSpacesWithUnderscore = (name) => {
@@ -119,9 +119,9 @@ const Mainsecsearch = () => {
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
-        {/* <video autoPlay loop muted>
-        <source src={Rabbit} type="video/mp4"></source>
-      </video> */}
+        <video autoPlay loop muted className="rabbit rabbit1">
+          <source src={Rabbit} type="video/mp4"></source>
+        </video>
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
             {/* <h3
