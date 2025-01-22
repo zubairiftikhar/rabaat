@@ -21,8 +21,9 @@ const BranchCard = ({ cityName, merchantName, branch, merchantId, cityId }) => {
           className="card-img-top marchant_b_card_img"
           alt={branch.name}
         />
-        <h5 className="card-title marchant_b_card_h5">{branch.name}</h5>
-        <p className="card-text">{branch.address}</p>
+        {/* <h5 className="card-title marchant_b_card_h5">{branch.name}</h5> */}
+        <h5 className="offer-title pt-2">{branch.name}</h5>
+        <p className="offer-title" style={{color: '#6e6e6e', fontSize: '12px'}}>{branch.address}</p>
       </div>
     </Link>
   );

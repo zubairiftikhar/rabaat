@@ -238,7 +238,7 @@ const Merchants = () => {
                     >
                       {merchants.map((merchant) => (
                         <div
-                          className="col-md-2 col-sm-12 fade-in merchant-card-spacing"
+                          className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
                           key={merchant.id}
                         >
                           <MerchantCard

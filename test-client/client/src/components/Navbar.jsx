@@ -128,7 +128,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
 
   return (
     <>
-      <div className="container-fluid px-5 rabaat_nav_bg">
+      <div className="container-fluid rabaat_nav_bg">
         <nav className="navbar navbar-expand-lg">
           <Link className="navbar-brand" to="/">
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
