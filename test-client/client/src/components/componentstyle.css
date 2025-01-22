@@ -234,7 +234,7 @@
   top: -24px;
   font-size: 18px;
   font-weight: bold;
-  width: 170px;
+  width: 146px;
   margin-right: auto;
   margin-left: auto;
   background-color: red;
@@ -311,6 +311,7 @@
 
   .mainsearchicon {
     left: 40%;
+    top: 34px;
   }
 
   .rabbit {
