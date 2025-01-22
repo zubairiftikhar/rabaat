@@ -13,7 +13,7 @@
 
 .rabbit1 {
   bottom: 0%;
-  z-index: 100;
+  z-index: 1;
   animation: drift 17s linear infinite;
 }
 
@@ -141,4 +141,11 @@
   color: #f39c12;
   /* Highlight color */
   font-weight: bold;
+}
+
+@media only screen and (max-width: 600px) {
+  .search-bar input {
+    padding: 4px 20px;
+    font-size: 14px;
+  }
 }

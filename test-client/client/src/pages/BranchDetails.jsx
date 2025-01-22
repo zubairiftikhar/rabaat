@@ -201,7 +201,7 @@ const BranchDetails = () => {
         {banksWithDiscounts.length > 0 ? (
           <div className="row">
             {banksWithDiscounts.map((bank) => (
-              <div className="col-md-2" key={bank.bank_id}>
+              <div className="col-md-2 col-sm-12" key={bank.bank_id}>
                 <BankWithMerchant
                   cityName={cityName}
                   merchantName={merchantName}

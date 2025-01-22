@@ -70,10 +70,10 @@
 }
 
 .brand-logo {
-  width: 165px;
-  height: 165px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
-  border-radius: 10%;
+  border-radius: 13%;
   border: 3px solid #e40046;
   position: relative;
   bottom: 104px;
@@ -81,8 +81,8 @@
 }
 
 .brand-logo img {
-  height: 160px;
-  border-radius: 9%;
+  height: 144px;
+  border-radius: 11%;
 }
 
 .brand-info {
@@ -109,16 +109,16 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
-  margin: 20px 0;
+  margin: 0;
 }
 
 .brand-images img {
   flex: 1;
   object-fit: cover;
-  width: auto;
+  width: 100%;
   border: 3px solid red;
   border-radius: 20px;
-  height: 60vh;
+  height: 45vh;
   background-size: cover;
   background-position: center;
 }
@@ -133,7 +133,7 @@
 }
 
 .stat-button {
-  width: 220px;
+  width: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -143,7 +143,7 @@
   color: white;
   font-size: 14px;
   font-weight: bold;
-  padding: 10px 20px;
+  padding: 6px;
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -246,3 +246,42 @@
 }
 
 /* END CARD PAGE */
+
+
+@media only screen and (max-width: 600px) {
+  .brand-header {
+    flex-direction: column;
+    max-width: 100%;
+  }
+
+  .brand-logo {
+    position: inherit;
+    margin-right: auto;
+  }
+
+  .brand-images {
+    display: none;
+  }
+
+  .brand-description {
+    font-size: 18px;
+  }
+
+  .stats_container_fluid {
+    width: 105%;
+  }
+
+  .bank-info {
+    padding: 0;
+  }
+
+  .bank-name {
+    font-size: 18px;
+  }
+
+  /* .brand-images img {
+    border: 2px solid red;
+    border-radius: 10px;
+    height: 12vh;
+  } */
+}
