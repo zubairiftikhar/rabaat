@@ -98,12 +98,15 @@ const BranchDiscount = () => {
     <>
       <div className="bank-page-container">
         <div className="bank-banner">
-          <img src={Bank} alt="HBL Banner" className="banner-image" />
+          <img
+            src={`../../../../public/assets/img/banks_banner/${bank?.image_path}`}
+            alt={bank?.name}
+          />
           <div className="bank-info">
-            {/* <img
-              src={`../../../public/assets/img/banks/${bank.image_path}`}
+            <img
+              src={`../../../../public/assets/img/banks/${bank.image_path}`}
               alt={bank.name}
-            /> */}
+            />
             <h2 className="bank-name">{bank?.name}</h2>
           </div>
         </div>
