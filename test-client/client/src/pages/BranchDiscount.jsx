@@ -104,8 +104,8 @@ const BranchDiscount = () => {
           />
           <div className="bank-info">
             <img
-              src={`../../../../public/assets/img/banks/${bank.image_path}`}
-              alt={bank.name}
+              src={`../../../../public/assets/img/banks/${bank?.image_path}`}
+              alt={bank?.name}
             />
             <h2 className="bank-name">{bank?.name}</h2>
           </div>
