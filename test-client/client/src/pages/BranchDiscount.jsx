@@ -100,7 +100,7 @@ const BranchDiscount = () => {
         <div className="bank-banner">
           <img
             src={`../../../../public/assets/img/banks_banner/${bank?.image_path}`}
-            alt={bank?.name}
+            alt={bank?.name} className="banner-image"
           />
           <div className="bank-info">
             <img
