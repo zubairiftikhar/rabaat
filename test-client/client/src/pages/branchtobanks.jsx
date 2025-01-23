@@ -126,7 +126,6 @@ const BranchToBankDetails = () => {
                     accessing discounts is just a click away!`}
             </p>
           </div>
-
           <div className="stats_container_fluid">
             <div className="stats-container">
               <div className="stat-button">
