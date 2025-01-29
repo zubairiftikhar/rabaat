@@ -126,6 +126,16 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
     );
   };
 
+  const handleAboutUs = () => {
+    navigate(`/AboutUs`);
+  };
+  const handleBlog = () => {
+    navigate(`/Blog`);
+  };
+  const handleContact = () => {
+    navigate(`/Contact`);
+  };
+
   return (
     <>
       <div className="container-fluid rabaat_nav_bg">
@@ -134,7 +144,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
-            <div className="search-bar ms-3" style={{bottom: '15px'}}>
+            <div className="search-bar ms-3" style={{ bottom: "15px" }}>
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
@@ -176,17 +186,17 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <a href="#!" className="nav_links">
+                <a className="nav_links" onClick={handleAboutUs}>
                   About us
                 </a>
               </li>
               <li className="nav-item">
-                <a href="#!" className="nav_links">
+                <a className="nav_links" onClick={handleBlog}>
                   Blog
                 </a>
               </li>
               <li className="nav-item">
-                <a href="#!" className="nav_links">
+                <a className="nav_links" onClick={handleContact}>
                   Contact
                 </a>
               </li>

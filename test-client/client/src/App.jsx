@@ -12,6 +12,8 @@ import MerchantDiscount from "./pages/MerchantDiscount";
 import BranchDiscount from "./pages/BranchDiscount";
 import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
+import AboutUs from "./pages/AboutUs";
+import ContactUs from "./pages/ContactUs";
 import Cookies from "js-cookie";
 
 const App = () => {
@@ -61,6 +63,8 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/AboutUs" element={<AboutUs />} />
+        <Route path="/Contact" element={<ContactUs />} />
         <Route path="/banks" element={<Banks />} />
         <Route path="/:cityName" element={<Merchants />} />
         <Route path="/deals" element={<Deals />} />
