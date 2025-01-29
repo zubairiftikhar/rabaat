@@ -4,7 +4,6 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import { fetchDiscountsForMerchant, fetchBankByBankId } from "../services/api";
 import DiscountCard from "../components/DiscountCard";
 import "./stylepages.css";
-import Bank from "../../public/assets/img/landing/hbl.png";
 
 const MerchantDiscount = () => {
   const [cityId, setCityId] = useState(null);
@@ -110,7 +109,8 @@ const MerchantDiscount = () => {
         <div className="bank-banner">
           <img
             src={`../../../public/assets/img/banks_banner/${bank.image_path}`}
-            alt={bank.name} className="banner-image"
+            alt={bank.name}
+            className="banner-image"
           />
           <div className="bank-info">
             <img
