@@ -247,6 +247,41 @@
 
 /* END CARD PAGE */
 
+/* START ABOUT PAGE CSS */
+.about_bg {
+  width: 100%;
+  background-size: cover;
+}
+
+.rabbit_about {
+  position: absolute;
+  left: 5%;
+  width: 15%;
+}
+
+.cont_about {
+  /* background-color: #cc472c; */
+  text-align: center;
+}
+
+.about_page p {
+  color: #000000;
+  padding: 10px 0;
+}
+
+.about_page {
+  width: 70%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.about_page p span {
+  color: #b30000;
+  font-weight: 700;
+}
+
+/* END ABOUT PAGE CSS */
+
 
 @media only screen and (max-width: 600px) {
   .brand-header {
