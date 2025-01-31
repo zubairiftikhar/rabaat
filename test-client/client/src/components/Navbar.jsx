@@ -129,9 +129,6 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   const handleAboutUs = () => {
     navigate(`/AboutUs`);
   };
-  const handleBlog = () => {
-    navigate(`/Blog`);
-  };
   const handleContact = () => {
     navigate(`/Contact`);
   };
@@ -191,7 +188,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav_links" onClick={handleBlog}>
+                <a href="https://blog.rabaat.com/" className="nav_links">
                   Blog
                 </a>
               </li>
