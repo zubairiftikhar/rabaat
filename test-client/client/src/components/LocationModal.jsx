@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import { fetchCities } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
@@ -8,7 +7,7 @@ import { Dropdown } from "react-bootstrap";
 import City from "../../public/assets/img/landing/city.png";
 import { FaSearch } from "react-icons/fa"; // Import icon for search
 import rabaat_logo from "../../public/assets/img/landing/rabaatlogopng.png";
-import '../css/locationmodal.css';
+import "../css/locationmodal.css";
 
 const LocationModal = ({ show, onClose, onCityChange }) => {
   const [cities, setCities] = useState([]);
@@ -50,27 +49,38 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
   const handleCityChange = (city) => {
     setSelectedCity(city); // Set selected city from the filtered list
     setSearchQuery(""); // Clear search field
-  };
 
-  const handleProceed = () => {
-    if (selectedCity) {
-      onCityChange(selectedCity); // Optional callback
+    // Trigger the proceed action when a city is selected
+    if (city) {
+      onCityChange(city); // Optional callback
       onClose(); // Close the modal
       // Save the selected city to cookies
-      Cookies.set("selectedCityId", selectedCity.id);
-      Cookies.set("selectedCityName", selectedCity.name);
+      Cookies.set("selectedCityId", city.id);
+      Cookies.set("selectedCityName", city.name);
       // Navigate to the merchant page based on the city ID
-      navigate(`/${selectedCity.name}?CityID=${selectedCity.id}`);
+      navigate(`/${city.name}?CityID=${city.id}`);
     }
   };
+
   const gradientStyle = {
     background:
       "linear-gradient(294deg, rgba(232,84,83,1) 23%, rgba(253,42,78,1) 79%)",
   };
 
   return (
-    <Modal show={show} onHide={onClose} size="md" style={{ borderRadius: '25px' }} className="custom_modal">
-      <img src={rabaat_logo} className="login_logo_img" alt="Rabaat" style={{ width: "75px" }} />
+    <Modal
+      show={show}
+      onHide={onClose}
+      size="md"
+      style={{ borderRadius: "25px" }}
+      className="custom_modal"
+    >
+      <img
+        src={rabaat_logo}
+        className="login_logo_img"
+        alt="Rabaat"
+        style={{ width: "75px" }}
+      />
       <div className="div_modal">
         <Modal.Header>
           {/* remove the closeButton from header for removing x on modal */}
@@ -117,7 +127,7 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
                     <Dropdown.Item
                       key={city.id}
                       as="button"
-                      onClick={() => handleCityChange(city)} // Select city
+                      onClick={() => handleCityChange(city)} // Select city and proceed
                       className="city-option"
                     >
                       {city.name}
@@ -128,18 +138,6 @@ const LocationModal = ({ show, onClose, onCityChange }) => {
             </Dropdown>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <button
-            className="rabaat_proc_city_btn"
-            onClick={handleProceed}
-            disabled={!selectedCity}
-          >
-            <span>Proceed</span>
-          </button>
-          <button className="rabaat_cls_city_btn ms-3" onClick={onClose}>
-            <span>Close</span>
-          </button>
-        </Modal.Footer>
       </div>
     </Modal>
   );
