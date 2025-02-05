@@ -1,0 +1,84 @@
+/* Main container styling */
+.search-container {
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid red;
+}
+
+/* Title styling */
+.search-title {
+  text-align: center;
+  color: red;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+/* Dropdown container */
+.dropdown-container {
+  margin-bottom: 15px;
+}
+
+/* Custom select styling */
+.custom-select .css-1s2u09g-control {
+  border: 2px solid red !important;
+  border-radius: 5px !important;
+  background-color: white !important;
+  color: red !important;
+}
+
+/* Hover effect for dropdown */
+.custom-select .css-1s2u09g-control:hover {
+  border-color: darkred !important;
+}
+
+/* Focused state */
+.custom-select .css-1pahdxg-control {
+  border-color: red !important;
+  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5) !important;
+}
+
+/* Styling for each dropdown option */
+.option-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Text inside options */
+.option-text {
+  font-size: 14px;
+  color: black;
+}
+
+/* Image inside options */
+.option-image {
+  width: 30px;
+  height: 20px;
+  margin-left: 10px;
+}
+.proceed-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 15px;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.proceed-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.proceed-btn:hover:not(:disabled) {
+  background-color: darkred;
+}

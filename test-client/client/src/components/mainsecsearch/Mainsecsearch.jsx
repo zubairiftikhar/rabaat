@@ -112,6 +112,12 @@ const Mainsecsearch = () => {
       )
     );
   };
+  const cityName = city.name;
+
+  // Navigate to Search-By-Bank page
+  const handleSearchWithBankCard = () => {
+    navigate(`/${cityName}/${cityID}/Search-By-Bank`);
+  };
 
   return (
     <div
@@ -124,12 +130,6 @@ const Mainsecsearch = () => {
         </video>
         <div className="row">
           <div className="col-lg-7 col-md-12 col-sm-12">
-            {/* <h3
-              className="mb-3"
-              style={{ textShadow: "2px 2px 4px #000000b8" }}
-            >
-              Unlock Big <span className="highlight">Savings</span>
-            </h3> */}
             <h3 style={{ textShadow: "2px 2px 4px #000000b8" }}>
               SWIPE SMART SAVE MORE
             </h3>
@@ -160,6 +160,13 @@ const Mainsecsearch = () => {
                 </div>
               ) : null}
             </div>
+            {/* Button for Search with Bank Card */}
+            <button
+              className="btn btn-primary"
+              onClick={handleSearchWithBankCard}
+            >
+              Search with Bank Card
+            </button>
           </div>
         </div>
       </div>

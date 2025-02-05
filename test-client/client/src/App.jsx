@@ -15,6 +15,8 @@ import LocationModal from "./components/LocationModal";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Cookies from "js-cookie";
+import SearchByBank from "./pages/SearchByBank";
+import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
 
 const App = () => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -63,10 +65,18 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route
+          path="/:cityName/:cityID/Search-By-Bank"
+          element={<SearchByBank />}
+        />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/banks" element={<Banks />} />
         <Route path="/:cityName" element={<Merchants />} />
+        <Route
+          path="/:cityName/:bankName/:cardName/:cityID"
+          element={<MerchantsByBankAndCard />}
+        />
         <Route path="/deals" element={<Deals />} />
         <Route path="/:cityName/:merchantName" element={<BranchDetails />} />
         <Route path="/discounts" element={<DiscountDetail />} />

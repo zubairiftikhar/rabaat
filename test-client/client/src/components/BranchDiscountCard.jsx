@@ -8,17 +8,11 @@ const BranchDiscountCard = ({ discount }) => {
       <div className="discount-card-container shadow-sm rounded-4 mb-3">
         {/* Card Header */}
         <div className="discount-card-header text-white">
-          <h5 className="card-title mb-0">
-            {discount.percentage}% Discount
-          </h5>
+          <h5 className="card-title mb-0">{discount.percentage}% Discount</h5>
         </div>
 
         {/* Card Body */}
         <div className="discount-card-body">
-          <p className="card-text">
-            <strong>Applicable Cards:</strong>
-          </p>
-
           {/* Cards Grid */}
           <div className="discount-card-grid">
             {discount.cards && discount.cards.length > 0 ? (

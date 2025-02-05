@@ -55,6 +55,21 @@ app.get("/api/allbanks", (req, res) => {
   });
 });
 
+// Route to get cards by bank ID
+app.get("/api/cards/:bankId", (req, res) => {
+  const { bankId } = req.params;
+
+  const query = "SELECT * FROM card WHERE BankID = ?";
+  
+  // Fetch the cards related to the selected bank
+  db.query(query, [bankId], (err, result) => {
+    if (err) {
+      console.error("Error fetching cards for bank:", err);
+      return res.status(500).json({ error: "Failed to fetch cards" });
+    }
+    res.json(result);
+  });
+});
 
 // 2. Fetch banks for a specific city
 app.get("/api/banks/:cityId", (req, res) => {
@@ -109,6 +124,47 @@ app.get("/api/merchants/:cityId", (req, res) => {
     }
   });
 });
+
+
+//Fetch merchants that have discounts for the specified bank and card in the given city
+app.get("/api/merchantsbycitybankandcard/:cityId/:bankName/:cardName", (req, res) => {
+  const { cityId, bankName, cardName } = req.params;
+
+  const query = `
+    SELECT DISTINCT
+      m.MerchantID AS merchant_id,
+      m.MerchantName AS merchant_name,
+      m.Category AS merchant_category,
+      m.ImagePath AS merchant_image
+    FROM merchant m
+    JOIN merchantcitylink mcl ON m.MerchantID = mcl.MerchantID
+    JOIN bankmerchantdiscount bmd ON m.MerchantID = bmd.MerchantID
+    JOIN bank b ON bmd.BankID = b.BankID
+    JOIN card c ON b.BankID = c.BankID
+    JOIN carddiscount cd ON c.CardID = cd.CardID AND bmd.DiscountID = cd.DiscountID
+    WHERE bmd.CityName = ?
+    AND b.BankName = ?
+    AND c.CardName = ?
+  `;
+
+  db.query(query, [cityId, bankName, cardName], (err, results) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ error: "Error fetching merchants from the database." });
+    }
+
+    // Format response
+    const merchants = results.map(row => ({
+      id: row.merchant_id,
+      name: row.merchant_name,
+      category: row.merchant_category,
+      image: row.merchant_image,
+    }));
+
+    res.json({ merchants });
+  });
+});
+
 
 
 // Fetch merchant by merchant id

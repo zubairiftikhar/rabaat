@@ -10,10 +10,21 @@ export const fetchCities = async () => {
   return response.data; // Return the cities data
 };
 
-// Fetch all cities
+// Fetch all Banks
 export const fetchallBanks = async () => {
   const response = await api.get("/allbanks");
   return response.data; // Return the cities data
+};
+
+// Function to get the list of cards based on the selected bank
+export const getCardsByBank = async (bankId) => {
+  try {
+    const response = await api.get(`/cards/${bankId}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching cards for bank ${bankId}:`, error);
+    throw error;
+  }
 };
 
 // Fetch city details by cityId
@@ -74,6 +85,11 @@ export const fetchMaximumDiscountAnyBank = async (merchantId, cityId) => {
 
 export const fetchMerchantsByCity = async (cityId) => {
   const response = await api.get(`/merchants/${cityId}`);
+  return response.data;
+};
+
+export const fetchMerchantsByCityBankAndCard = async (CityName,bankName,cardName) => {
+  const response = await api.get(`/merchantsbycitybankandcard/${CityName}/${bankName}/${cardName}`);
   return response.data;
 };
 

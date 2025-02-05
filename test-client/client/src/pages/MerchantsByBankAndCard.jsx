@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import {
-  fetchMerchantsByCity,
-  fetchCityById,
+  fetchMerchantsByCityBankAndCard,
   fetchMaximumDiscountAnyBank,
 } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
@@ -11,13 +10,11 @@ import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
-import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
 import Loader from "../components/Loader.jsx";
 
-const Merchants = () => {
-  const { cityName } = useParams();
-  const [cityId, setCityId] = useState(null);
-  const [city, setCity] = useState("");
+const MerchantsByBankAndCard = () => {
+  const { cityName, bankName, cardName, cityID } = useParams();
+  const cityId = cityID;
   const [merchants, setMerchants] = useState([]);
   const [discountedMerchants, setDiscountedMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -28,36 +25,30 @@ const Merchants = () => {
   const autoScrollInterval = useRef(null);
   const [loading, setLoading] = useState(true);
 
+  const formatDbName = (urlName) => {
+    return urlName
+      .split("-") // Split by hyphen
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
+      .join(" "); // Join words back with spaces
+  };
+
+  const BankName = formatDbName(bankName);
+  const CardName = formatDbName(cardName);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
-  useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const cityIdFromQuery = queryParams.get("CityID");
-    setCityId(cityIdFromQuery);
-  }, [location]);
-
-  useEffect(() => {
-    if (cityId) {
-      const getCity = async () => {
-        try {
-          const city = await fetchCityById(cityId);
-          setCity(city);
-        } catch (error) {
-          console.error("Error fetching city:", error);
-        }
-      };
-      getCity();
-    }
-  }, [cityId]);
 
   useEffect(() => {
     if (cityId) {
       setLoading(true);
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantsByCity(cityId);
+          const data = await fetchMerchantsByCityBankAndCard(
+            cityName,
+            BankName,
+            CardName
+          );
           setMerchants(data.merchants);
 
           const uniqueCategories = [
@@ -142,7 +133,6 @@ const Merchants = () => {
 
   return (
     <>
-      <Mainsecsearch />
       <Breadcrumbs />
       <Helmet>
         <title>{`Rabaat | Discover Top Deals & Discounts In ${cityName}`}</title>
@@ -286,4 +276,4 @@ const Merchants = () => {
   );
 };
 
-export default Merchants;
+export default MerchantsByBankAndCard;
