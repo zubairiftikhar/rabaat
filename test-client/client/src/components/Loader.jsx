@@ -1,10 +1,11 @@
 import React from "react";
 import "../css/loader.css"; // Import loader CSS
+import LoadRabit from '../../public/assets/img/landing/load_rabbit.gif'
 
 const Loader = () => {
   return (
-    <div className="spinner-container">
-      <div className="loading-spinner"></div>
+    <div className="custom-loader">
+      <div className="loader-icon"> <img src={LoadRabit} alt="Loading..." /> </div>
     </div>
   );
 };
