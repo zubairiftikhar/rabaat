@@ -12,7 +12,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
-import Loader from "../components/Loader.jsx";
+import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
 const Merchants = () => {
   const { cityName } = useParams();
@@ -222,66 +222,65 @@ const Merchants = () => {
         </div>
       </div>
 
-      {/* Conditionally render the loader while data is being fetched */}
-      {loading ? (
-        <div className="text-center py-5">
-          <Loader /> {/* Spinner component to show loading state */}
-        </div>
-      ) : (
-        <div className="container">
-          {categorizedMerchants.length > 0 ? (
-            categorizedMerchants.map(
-              ({ category, merchants }) =>
-                (activeCategory === "All" || activeCategory === category) && (
-                  <div key={category} className="category-section">
-                    <h2 className="category-heading">{category}</h2>
-                    <div className="d-flex align-items-center">
-                      <button
-                        className="arrow-btn"
-                        onClick={() => handleSliderScroll("left", category)}
-                      >
-                        <FaChevronLeft />
-                      </button>
-
-                      <div
-                        className="merchant-slider d-flex overflow-hidden px-3"
-                        ref={(el) => (sliderRefs.current[category] = el)}
-                      >
-                        {merchants.map((merchant) => (
-                          <div
-                            className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
-                            key={merchant.id}
-                          >
-                            <MerchantCard
-                              cityName={cityName}
-                              cityId={cityId}
-                              merchant={merchant}
-                            />
-                          </div>
-                        ))}
-                      </div>
-
-                      <button
-                        className="arrow-btn"
-                        onClick={() => handleSliderScroll("right", category)}
-                      >
-                        <FaChevronRight />
-                      </button>
+      <div className="container">
+        {loading ? (
+          <div className="row">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                <SkeletonMerchantCard />
+              </div>
+            ))}
+          </div>
+        ) : categorizedMerchants.length > 0 ? (
+          categorizedMerchants.map(
+            ({ category, merchants }) =>
+              (activeCategory === "All" || activeCategory === category) && (
+                <div key={category} className="category-section">
+                  <h2 className="category-heading">{category}</h2>
+                  <div className="d-flex align-items-center">
+                    <button
+                      className="arrow-btn"
+                      onClick={() => handleSliderScroll("left", category)}
+                    >
+                      <FaChevronLeft />
+                    </button>
+                    <div
+                      className="merchant-slider d-flex overflow-hidden px-3"
+                      ref={(el) => (sliderRefs.current[category] = el)}
+                    >
+                      {merchants.map((merchant) => (
+                        <div
+                          className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
+                          key={merchant.id}
+                        >
+                          <MerchantCard
+                            cityName={cityName}
+                            cityId={cityId}
+                            merchant={merchant}
+                          />
+                        </div>
+                      ))}
                     </div>
+                    <button
+                      className="arrow-btn"
+                      onClick={() => handleSliderScroll("right", category)}
+                    >
+                      <FaChevronRight />
+                    </button>
                   </div>
-                )
-            )
-          ) : (
-            <div className="text-center mt-5 no-merchants-message">
-              <h3 className="no-merchants-title">No Merchants Found</h3>
-              <p className="no-merchants-description">
-                Try selecting a different category or adjusting your search
-                criteria.
-              </p>
-            </div>
-          )}
-        </div>
-      )}
+                </div>
+              )
+          )
+        ) : (
+          <div className="text-center mt-5 no-merchants-message">
+            <h3 className="no-merchants-title">No Merchants Found</h3>
+            <p className="no-merchants-description">
+              Try selecting a different category or adjusting your search
+              criteria.
+            </p>
+          </div>
+        )}
+      </div>
     </>
   );
 };
