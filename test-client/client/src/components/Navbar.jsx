@@ -21,7 +21,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [isToggled, setIsToggled] = useState(false); // State for tracking toggle button
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -55,11 +55,6 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   const isCityPage = /^\/[a-zA-Z]+$/.test(location.pathname);
 
   useEffect(() => {
-    if (clicked) {
-      setClicked(false);
-      return;
-    }
-
     if (searchQuery.trim() === "") {
       setSuggestions([]);
       return;
@@ -93,14 +88,13 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
     }, 500);
 
     return () => clearTimeout(delaySearch);
-  }, [searchQuery, clicked]);
+  }, [searchQuery]);
 
   const handleMerchantClick = (merchant) => {
     const { merchant_id, branch_id, merchant_name, branch_address } = merchant;
 
     setSearchQuery(`${merchant_name} - ${branch_address}`);
     setSuggestions([]);
-    setClicked(true);
 
     navigate(
       `/${currentCity}/${merchant_name.replace(
@@ -131,6 +125,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
   };
   const handleContact = () => {
     navigate(`/Contact`);
+  };
+
+  // Toggle button handler
+  const handleToggle = () => {
+    setIsToggled(!isToggled);
   };
 
   return (
@@ -170,17 +169,18 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             </div>
           )}
           <button
-            className="navbar-toggler"
+            className={`navbar-toggler ${isToggled ? "open" : ""}`}
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#navbarNav"
             aria-controls="navbarNav"
-            aria-expanded="false"
+            aria-expanded={isToggled ? "true" : "false"}
             aria-label="Toggle navigation"
+            onClick={handleToggle}
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div className={`collapse navbar-collapse ${isToggled ? "show" : ""}`} id="navbarNav">
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <a className="nav_links" onClick={handleAboutUs}>
@@ -219,7 +219,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                       {loggedInUser}
                     </span>
                     <button
-                      className="btn rabaat_login_btn ms-3"
+                      className="btn rabaat_login_btn mx-3"
                       onClick={handleLogout}
                     >
                       <span>Log Out</span>
@@ -227,7 +227,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                   </>
                 ) : (
                   <button
-                    className="btn rabaat_login_btn ms-3"
+                    className="btn rabaat_login_btn mx-3"
                     onClick={() => setShowAuthModal(true)}
                   >
                     <span>Log In</span>

@@ -211,11 +211,13 @@ nav.fill ul li a {
 }
 
 /* Default Toggle Button Icon */
+/* Default Toggle Button Icon */
 .navbar-toggler-icon {
   position: relative;
   width: 24px;
   height: 2px;
-  background-color: white; /* Middle Line */
+  background-color: white;
+  /* Middle Line */
   transition: all 0.3s ease;
 }
 
@@ -227,7 +229,8 @@ nav.fill ul li a {
   left: 0;
   width: 24px;
   height: 2px;
-  background-color: white; /* Same as middle line */
+  background-color: white;
+  /* Same as middle line */
   transition: all 0.3s ease;
 }
 
@@ -243,7 +246,8 @@ nav.fill ul li a {
 
 /* Cross (X) State */
 .navbar-toggler.open .navbar-toggler-icon {
-  background-color: transparent; /* Hide the middle line */
+  background-color: transparent;
+  /* Hide the middle line */
 }
 
 /* Cross (X) State - Top Line */
@@ -258,6 +262,39 @@ nav.fill ul li a {
   transform: rotate(-45deg);
 }
 
+/* Ensure the toggle button is aligned correctly */
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+  margin-left: auto;
+  /* Push the toggle button to the right */
+}
+
+/* Adjust the navbar toggler for mobile screens */
+@media (max-width: 991.98px) {
+  .navbar-toggler {
+    display: block;
+    /* Ensure the toggle button is visible */
+  }
+
+  .navbar-collapse {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: rgb(0 0 0);
+    z-index: 1000;
+    /* width: 100%; */
+    padding: 20px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .btn-outline-light {
+    margin-bottom: 15px;
+  }
+}
+
 
 @media only screen and (max-width: 1000px) {
   .footer_links {
@@ -268,7 +305,8 @@ nav.fill ul li a {
   .footer_links a {
     padding: 11px 0px;
   }
-  .navbar{
+
+  .navbar {
     flex-wrap: nowrap;
   }
 }
