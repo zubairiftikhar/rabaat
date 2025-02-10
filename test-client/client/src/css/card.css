@@ -195,13 +195,13 @@
 /* END CSS FOR MARCHANT BRANCHES */
 @media only screen and (max-width: 600px) {
   .marchant_card {
-    width: 300px;
+    width: 235px;
     margin-left: auto;
     margin-right: auto;
   }
 
   .marchant_b_card {
-    width: 300px;
+    width: 235px;
     margin-left: auto;
     margin-right: auto;
   }
