@@ -82,6 +82,16 @@ export const fetchMaximumDiscountAnyBank = async (merchantId, cityId) => {
   }
 };
 
+export const fetchMaximumDiscountBankAndCard = async (merchantId, cityId, bankName, cardName) => {
+  try {
+    const response = await api.get(`/maximum-discount-specific-bank-card/${merchantId}/${cityId}/${bankName}/${cardName}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching maximum discount:", error);
+    return null;
+  }
+};
+
 
 export const fetchMerchantsByCity = async (cityId) => {
   const response = await api.get(`/merchants/${cityId}`);
@@ -96,6 +106,12 @@ export const fetchMerchantsByCityBankAndCard = async (CityName,bankName,cardName
 // Fetch Discounts for a Merchant in a City and Bank
 export const fetchDiscountsForMerchant = async (merchantId, bankId, cityId) => {
   const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}`);
+  return response.data;
+};
+
+// Fetch Discounts for a Merchant in a City and Bank and Card
+export const fetchDiscountsForMerchantForCard = async (merchantId, bankName, cityId, cardName) => {
+  const response = await api.get(`/cardDiscounts/${merchantId}/${bankName}/${cityId}/${cardName}`);
   return response.data;
 };
 
@@ -123,6 +139,11 @@ export const fetchBranchByBranchId = async (branchId) => {
 
 export const fetchBankByBankId = async (bankId) => {
   const response = await api.get(`/bank/${bankId}`);
+  return response.data;
+};
+
+export const fetchBankByBankName = async (bankName) => {
+  const response = await api.get(`/bankbyName/${bankName}`);
   return response.data;
 };
 

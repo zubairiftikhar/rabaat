@@ -4,7 +4,7 @@ import {
   fetchMerchantsByCityBankAndCard,
   fetchMaximumDiscountAnyBank,
 } from "../services/api";
-import MerchantCard from "../components/MerchantCard";
+import MerchantBankCard from "../components/MerchantBankCard";
 import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
@@ -242,10 +242,12 @@ const MerchantsByBankAndCard = () => {
                             className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
                             key={merchant.id}
                           >
-                            <MerchantCard
+                            <MerchantBankCard
                               cityName={cityName}
                               cityId={cityId}
                               merchant={merchant}
+                              bankName={BankName}
+                              cardName={CardName}
                             />
                           </div>
                         ))}
