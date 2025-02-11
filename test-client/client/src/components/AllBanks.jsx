@@ -46,9 +46,8 @@ const AllBanks = () => {
               <div className="row">
                 {banksToShow.map((bank, index) => (
                   <div
-                    className={`col-md-3 fade-in ${
-                      loadingMore ? "loading" : ""
-                    }`} // Apply animation class conditionally
+                    className={`col-md-3 fade-in ${loadingMore ? "loading" : ""
+                      }`} // Apply animation class conditionally
                     key={bank.id}
                     style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
                   >
@@ -58,8 +57,10 @@ const AllBanks = () => {
               </div>
               {banksToShow.length < allbanks.length && ( // Show button if more banks are available
                 <div className="text-center mt-4">
-                  <button className="btn" style={{backgroundColor: 'red', color: 'white'}} onClick={loadMore}>
-                    {loadingMore ? "Loading..." : "Load More"}
+                  <button className="btn rabaat_login_btn" style={{ background: 'transparent', color: 'black' }} onClick={loadMore}>
+                    <span>
+                      {loadingMore ? "Loading..." : "Load More"}
+                    </span>
                   </button>
                 </div>
               )}
