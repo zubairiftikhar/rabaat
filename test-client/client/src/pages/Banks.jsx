@@ -122,6 +122,7 @@ const Banks = () => {
             <button
               className="btn"
               style={{ backgroundColor: "red", color: "white" }}
+              className="btn rabaat_login_btn" style={{ background: 'transparent', color: 'black' }}
               onClick={loadMore}
               disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
             >

@@ -190,12 +190,14 @@ const BranchToBankDetails = () => {
             {filteredBanks.length > banksToShow.length && (
               <div className="text-center mt-4">
                 <button
-                  className="btn"
-                  style={{ backgroundColor: "red", color: "white" }}
+                  className="btn rabaat_login_btn"
+                  style={{ background: 'transparent', color: 'black' }}
                   onClick={loadMoreBanks}
                   disabled={isLoadMoreDisabled} // Disable if all banks are loaded
                 >
-                  {loadingMore ? "Loading..." : "Load More"}
+                  <span>
+                    {loadingMore ? "Loading..." : "Load More"}
+                  </span>
                 </button>
               </div>
             )}

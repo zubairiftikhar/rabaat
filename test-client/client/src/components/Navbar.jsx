@@ -188,7 +188,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a href="https://blog.rabaat.com/" className="nav_links">
+                <a href="https://blog.rabaat.com/" target="blank" className="nav_links">
                   Blog
                 </a>
               </li>

@@ -317,6 +317,9 @@
   .rabbit {
     display: none;
   }
+  .breadcrumb {
+    padding: 0px;
+  }
 }
 
 /* END Media query RESPONSIVENESS */
