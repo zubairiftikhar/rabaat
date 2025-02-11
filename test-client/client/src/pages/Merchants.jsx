@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   fetchMerchantsByCity,
   fetchCityById,
@@ -140,9 +140,32 @@ const Merchants = () => {
       .filter(({ merchants }) => merchants.length > 0);
   }, [discountedMerchants, categories, searchQuery, activeCategory]);
 
+  const navigate = useNavigate();
+
+  const handleBankButtonclick = () => {
+    navigate(`/${cityName}/Banks?CityID=${cityId}`);
+  };
   return (
     <>
       <Mainsecsearch />
+      <div className="container">
+        <div className="row">
+          <div className="col-6">
+            <button type="button" className="w-100 btn btn-danger">
+              Merchants
+            </button>
+          </div>
+          <div className="col-6">
+            <button
+              type="button"
+              className="w-100 btn btn-danger"
+              onClick={() => handleBankButtonclick()}
+            >
+              Banks
+            </button>
+          </div>
+        </div>
+      </div>
       <Breadcrumbs />
       <Helmet>
         <title>{`Rabaat | Discover Top Deals & Discounts In ${cityName}`}</title>

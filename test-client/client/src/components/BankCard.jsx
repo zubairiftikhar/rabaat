@@ -2,7 +2,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
-import '../css/card.css';
+import "../css/card.css";
 
 const BankCard = ({ bank, cityId }) => {
   const navigate = useNavigate(); // Initialize useNavigate
@@ -18,7 +18,7 @@ const BankCard = ({ bank, cityId }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../public/assets/img/banks/${bank.image_path}`}
+        src={`../public/assets/img/banks/${bank.image}`}
         className="card-img-top std-img"
         alt={bank.name}
       />

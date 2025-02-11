@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchBanksByCity, fetchCityById } from "../services/api";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
+import { fetchBanksByCityName } from "../services/api";
 import BankCard from "../components/BankCard";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
@@ -8,26 +8,31 @@ import "../components/mainsecsearch/mainsecsearch.css";
 import "../css/cityload.css";
 
 const Banks = () => {
-  const { cityId } = useParams();
+  const { cityName } = useParams();
   const [banks, setBanks] = useState([]);
-  const [city, setCity] = useState([]);
+  const [cityId, setCityId] = useState(null);
+  const location = useLocation();
   const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
   useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const cityIdFromQuery = queryParams.get("CityID");
+    setCityId(cityIdFromQuery);
+  }, [location]);
+
+  useEffect(() => {
     const getBanks = async () => {
       try {
-        const data = await fetchBanksByCity(cityId);
+        const data = await fetchBanksByCityName(cityName);
         setBanks(data);
-        const cityData = await fetchCityById(cityId);
-        setCity(cityData);
       } catch (error) {
         console.error("Error fetching banks:", error);
       }
     };
     getBanks();
-  }, [cityId]);
+  }, [cityName]);
 
   const loadMore = () => {
     setLoadingMore(true); // Start the animation
@@ -45,13 +50,37 @@ const Banks = () => {
 
   const isLoadMoreDisabled = banksToShow.length >= filteredBanks.length; // Disable if all banks are loaded
 
+  const navigate = useNavigate();
+
+  const handleMerchantButtonclick = () => {
+    navigate(`/${cityName}?CityID=${cityId}`);
+  };
+
   return (
     <>
-      <Mainsecsearch city={city} />
+      <Mainsecsearch />
+      <div className="container">
+        <div className="row">
+          <div className="col-6">
+            <button
+              type="button"
+              className="w-100 btn btn-danger"
+              onClick={() => handleMerchantButtonclick()}
+            >
+              Merchants
+            </button>
+          </div>
+          <div className="col-6">
+            <button type="button" className="w-100 btn btn-danger">
+              Banks
+            </button>
+          </div>
+        </div>
+      </div>
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Banks in {city.name}</h1>
+            <h1 className="main_heading">Banks in {cityName}</h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY BANKS</span>
@@ -91,7 +120,8 @@ const Banks = () => {
         {filteredBanks.length > banksToShow.length && (
           <div className="text-center mt-4">
             <button
-              className="btn" style={{backgroundColor: 'red', color: 'white'}}
+              className="btn"
+              style={{ backgroundColor: "red", color: "white" }}
               onClick={loadMore}
               disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
             >

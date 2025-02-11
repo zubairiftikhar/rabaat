@@ -86,6 +86,21 @@ app.get("/api/banks/:cityId", (req, res) => {
   });
 });
 
+app.get("/api/banksByCityName/:cityName", (req, res) => {
+  const { cityName } = req.params;
+  const query = `
+    SELECT DISTINCT b.BankID AS id, b.BankName AS name, b.image_path AS image
+    FROM bank b
+    JOIN citybanklink cb ON b.BankID = cb.BankID
+    JOIN city c ON cb.CityID = c.CityID
+    WHERE c.CityName = ?
+  `;
+  db.query(query, [cityName], (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
 
 // Fetch merchants and their associated data for a specific city
 app.get("/api/merchants/:cityId", (req, res) => {
