@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import ReactPixel from "react-facebook-pixel";
 import Home from "./pages/Home";
 import Banks from "./pages/Banks";
 import Merchants from "./pages/Merchants";
@@ -42,6 +43,16 @@ const App = () => {
       setShowLocationModal(true);
     }
   }, [navigate, location]);
+
+  useEffect(() => {
+    const options = {
+      autoConfig: true,
+      debug: false,
+    };
+
+    ReactPixel.init("3828318167481588", null, options); // Replace with your actual Pixel ID
+    ReactPixel.pageView(); // Track initial page view
+  }, []);
 
   const handleCitySelection = (city) => {
     // Save selected city to state and cookies
