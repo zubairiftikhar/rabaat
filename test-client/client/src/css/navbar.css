@@ -23,6 +23,7 @@
   padding: 2px;
   text-decoration: none;
   margin: 6px 15px;
+  cursor: pointer;
 }
 
 .navbar-nav li a:focus {

@@ -280,6 +280,127 @@
   font-weight: 700;
 }
 
+
+
+/* CONATCT PAGE CSS */
+/* Background Image with Red Shade */
+.contact-page {
+  position: relative;
+  background: url("../../public/assets/img/landing/contact_bg.png") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+/* Red Overlay */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgb(247 38 38 / 28%);
+  /* Red shade overlay */
+  z-index: 1;
+  color: #ffffff;
+  font-size: 60px;
+  text-transform: uppercase;
+  font-weight: 100;
+
+}
+
+/* Contact Container */
+.contact-container {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  z-index: 2;
+  width: 80%;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Contact Cards */
+.contact-card {
+  background: rgb(0 0 0 / 44%);
+  backdrop-filter: blur(5px);
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  color: #ffffff;
+  min-width: 250px;
+  flex: 1;
+}
+
+/* Email Button */
+.contact-btn {
+  background: white;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.contact-btn:hover {
+  background: black;
+  color: white;
+}
+
+/* Social Icons */
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 24px;
+  margin-top: 45px;
+}
+
+.social-icons a {
+  color: #fff;
+}
+
+.social-icons a:hover {
+  color: #ff0000;
+}
+
+.social-icons svg {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.social-icons svg:hover {
+  transform: scale(1.2);
+}
+
+/* QR Code */
+.qr-code {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .contact-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .contact-card {
+    width: 90%;
+  }
+}
+
+
 /* END ABOUT PAGE CSS */
 
 
@@ -314,12 +435,14 @@
     font-size: 18px;
   }
 
-  .stat-button{
+  .stat-button {
     font-size: 12px;
   }
+
   .breadcrumb {
     margin: 20px 0;
   }
+
   /* .brand-images img {
     border: 2px solid red;
     border-radius: 10px;

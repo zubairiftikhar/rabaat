@@ -9,7 +9,7 @@ const AboutUs = () => {
     <video autoPlay loop muted className="rabbit_about">
       <source src={Rabbit_about} type="video/mp4"></source>
     </video>
-            <h1 className="main_heading py-4">About Rabaat</h1>
+    <h1 className="main_heading py-4">About Rabaat</h1>
     <div className="container-fluid cont_about">
       <div className="row">
         <div className="col-lg-12 col-sm-12">
