@@ -14,7 +14,7 @@ import BranchDiscount from "./pages/BranchDiscount";
 import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
 import AboutUs from "./pages/AboutUs";
-import ContactUs from "./pages/ContactUs";
+import ContactUs from "./pages/contactus";
 import Cookies from "js-cookie";
 import SearchByBank from "./pages/SearchByBank";
 import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
