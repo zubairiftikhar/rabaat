@@ -32,7 +32,7 @@
 
 .btn-outline-light {
   border: 1px solid red;
-  border-radius: 0;
+  border-radius: 10px;
   font-size: 15px;
 }
 
@@ -52,7 +52,7 @@
   box-sizing: border-box;
   color: #ffffff;
   border: 1px solid red;
-  border-radius: 0;
+  border-radius: 10px;
   cursor: pointer;
   display: inline-block;
   font-size: 14px;
@@ -90,12 +90,14 @@
   transform: translateZ(0);
   transition: clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1), -webkit-clip-path .5s cubic-bezier(.165, 0.84, 0.44, 1);
   width: 100%;
+  border-radius: 10px;
 }
 
 .rabaat_login_btn:hover:before {
   color: #FFFFFF;
   animation: opacityFallbackIn 0s step-start forwards;
   clip-path: polygon(0 0, 101% 0, 101% 101%, 0 101%);
+  border-radius: 10px;
 }
 
 .rabaat_login_btn:hover {

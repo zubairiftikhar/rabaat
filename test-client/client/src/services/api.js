@@ -4,6 +4,8 @@ const api = axios.create({
     baseURL: "http://localhost:8081/api", // Update with your server's base URL
 });
 
+// https://api.rabaat.com/api
+
 // Fetch all cities
 export const fetchCities = async () => {
   const response = await api.get("/cities");

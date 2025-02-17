@@ -7,6 +7,10 @@ const BASE_URL = "https://rabaat.com";
 const API_BASE = "http://localhost:8081/api";
 const FRONTEND_PUBLIC_PATH = "C:/Office Projects/Rabaat_workspace/rabaat/test-client/client/public/sitemap.xml";
 
+// const BASE_URL = "https://rabaat.com";
+// const API_BASE = "https://api.rabaat.com/api";
+// const FRONTEND_PUBLIC_PATH = "https://rabaat.com/public/sitemap.xml";
+
 // Function to fetch dynamic data
 const fetchData = async (endpoint) => {
   try {
