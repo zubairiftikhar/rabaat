@@ -7,8 +7,8 @@ const jwt = require("jsonwebtoken");
 const app = express();
 app.use(cors());
 app.use(express.json());
-const sitemapRoutes = require("./sitemap");
-app.use("/", sitemapRoutes);
+// const sitemapRoutes = require("./sitemap");
+// app.use("/", sitemapRoutes);
 
 
 // Database Connection
@@ -59,13 +59,13 @@ app.get("/api/allbanks", (req, res) => {
 });
 
 // Route to get cards by bank ID
-app.get("/api/cards/:bankId", (req, res) => {
-  const { bankId } = req.params;
+app.get("/api/cards/:bankName", (req, res) => {
+  const { bankName } = req.params;
 
-  const query = "SELECT * FROM card WHERE BankID = ?";
+  const query = "SELECT * FROM card WHERE BankName = ?";
   
   // Fetch the cards related to the selected bank
-  db.query(query, [bankId], (err, result) => {
+  db.query(query, [bankName], (err, result) => {
     if (err) {
       console.error("Error fetching cards for bank:", err);
       return res.status(500).json({ error: "Failed to fetch cards" });
@@ -145,8 +145,8 @@ app.get("/api/merchants/:cityId", (req, res) => {
 
 
 //Fetch merchants that have discounts for the specified bank and card in the given city
-app.get("/api/merchantsbycitybankandcard/:cityId/:bankName/:cardName", (req, res) => {
-  const { cityId, bankName, cardName } = req.params;
+app.get("/api/merchantsbycitybankandcard/:cityName/:bankName/:cardName", (req, res) => {
+  const { cityName, bankName, cardName } = req.params;
 
   const query = `
     SELECT DISTINCT
@@ -165,7 +165,7 @@ app.get("/api/merchantsbycitybankandcard/:cityId/:bankName/:cardName", (req, res
     AND c.CardName = ?
   `;
 
-  db.query(query, [cityId, bankName, cardName], (err, results) => {
+  db.query(query, [cityName, bankName, cardName], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: "Error fetching merchants from the database." });

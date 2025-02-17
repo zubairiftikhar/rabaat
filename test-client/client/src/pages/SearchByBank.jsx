@@ -23,7 +23,7 @@ const SearchByBank = () => {
         const bankData = await fetchallBanks();
         setBanks(
           bankData.map((bank) => ({
-            value: bank.id,
+            value: bank.name,
             label: (
               <div className="option-content">
                 <span className="option-text">{bank.name}</span>

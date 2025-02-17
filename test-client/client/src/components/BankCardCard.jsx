@@ -4,11 +4,11 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/card.css";
 
-const BankCard = ({ bank, cityId, cityName }) => {
+const BankCardCard = ({ card, cityID, cityName, bankName }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleBankClick = () => {
-    navigate(`/${cityName}/${bank.name}/Cards/${cityId}`); // Navigate to Merchants page with bankId and cityId
+    navigate(`/${cityName}/${bankName}/${card.CardName}/${cityID}`); // Navigate to Merchants page with bankId and cityId
   };
 
   return (
@@ -18,13 +18,13 @@ const BankCard = ({ bank, cityId, cityName }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../public/assets/img/banks/${bank.image}`}
+        src={`/public/assets/img/cards/${card.image_path}`}
         className="card-img-top std-img"
-        alt={bank.name}
+        alt={card.CardName}
       />
-      <h5 className="card-title card_city_name">{bank.name}</h5>
+      <h5 className="card-title card_city_name">{card.CardName}</h5>
     </div>
   );
 };
 
-export default BankCard;
+export default BankCardCard;

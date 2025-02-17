@@ -17,12 +17,12 @@ export const fetchallBanks = async () => {
 };
 
 // Function to get the list of cards based on the selected bank
-export const getCardsByBank = async (bankId) => {
+export const getCardsByBank = async (bankName) => {
   try {
-    const response = await api.get(`/cards/${bankId}`);
+    const response = await api.get(`/cards/${bankName}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching cards for bank ${bankId}:`, error);
+    console.error(`Error fetching cards for bank ${bankName}:`, error);
     throw error;
   }
 };

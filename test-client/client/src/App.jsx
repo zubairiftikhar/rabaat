@@ -19,6 +19,7 @@ import Cookies from "js-cookie";
 import SearchByBank from "./pages/SearchByBank";
 import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
 import MerchantBankCardDiscount from "./pages/MerchantBankCardDiscount";
+import Cards from "./pages/Cards";
 
 const App = () => {
   const [selectedCity, setSelectedCity] = useState(null);
@@ -89,6 +90,7 @@ const App = () => {
           path="/:cityName/:bankName/:cardName/:cityID"
           element={<MerchantsByBankAndCard />}
         />
+        <Route path="/:cityName/:bankName/Cards/:cityID" element={<Cards />} />
         <Route
           path="/BankDiscount/:bankName/:cardName/:merchantName"
           element={<MerchantBankCardDiscount />}
