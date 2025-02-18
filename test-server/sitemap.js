@@ -7,10 +7,6 @@ const BASE_URL = "https://rabaat.com";
 const API_BASE = "http://localhost:8081/api";
 const FRONTEND_PUBLIC_PATH = "C:/Office Projects/Rabaat_workspace/rabaat/test-client/client/public/sitemap.xml";
 
-// const BASE_URL = "https://rabaat.com";
-// const API_BASE = "https://api.rabaat.com/api";
-// const FRONTEND_PUBLIC_PATH = "https://rabaat.com/public/sitemap.xml";
-
 // Function to fetch dynamic data
 const fetchData = async (endpoint) => {
   try {
@@ -23,8 +19,7 @@ const fetchData = async (endpoint) => {
 };
 
 // Helper function to format URLs properly
-const replaceSpacesWithUnderscore = (str) => 
-  str ? str.replace(/\s+/g, "_") : "";
+const replaceSpacesWithUnderscore = (str) => (str ? str.replace(/\s+/g, "_") : "");
 
 const generateSitemap = async () => {
   let urls = [
@@ -32,7 +27,7 @@ const generateSitemap = async () => {
     `${BASE_URL}/aboutus`,
     `${BASE_URL}/contact`,
     `${BASE_URL}/deals`,
-    `${BASE_URL}/discounts`
+    `${BASE_URL}/discounts`,
   ];
 
   // Fetch cities
@@ -44,8 +39,10 @@ const generateSitemap = async () => {
     urls.push(`${BASE_URL}/${cityName}/Banks?CityID=${city.id}`);
 
     // Fetch merchants for each city
-    const merchants = await fetchData(`/merchants/${city.id}`);
-    for (const merchant of merchants.merchants) {
+    const merchantsResponse = await fetchData(`/merchants/${city.id}`);
+    const merchants = merchantsResponse?.merchants || [];
+    
+    for (const merchant of merchants) {
       const merchantName = replaceSpacesWithUnderscore(merchant.name);
       urls.push(`${BASE_URL}/${cityName}/${merchantName}?MerchantID=${merchant.id}&CityID=${city.id}`);
 
@@ -60,21 +57,21 @@ const generateSitemap = async () => {
     // Fetch banks for each city and add merchant-bank URLs
     const banks = await fetchData("/allbanks");
     for (const bank of banks) {
-      const bankName = replaceSpacesWithUnderscore(bank.bank_name);
+      const bankName = replaceSpacesWithUnderscore(bank.name);
       urls.push(`${BASE_URL}/merchants/${bank.id}/${city.id}`);
       urls.push(`${BASE_URL}/Bank/${bankName}`);
 
-      for (const merchant of merchants.merchants) {
+      for (const merchant of merchants) {
         const merchantName = replaceSpacesWithUnderscore(merchant.name);
 
         // Bank URL for merchant
-        urls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}?MerchantID=${merchant.id}&BankID=${bank.bank_id}&CityID=${city.id}`);
+        urls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}?MerchantID=${merchant.id}&BankID=${bank.id}&CityID=${city.id}`);
 
         // Fetch branches for each merchant and bank
         const branches = await fetchData(`/branches/${merchant.id}/${city.id}`);
         for (const branch of branches) {
           const branchAddress = replaceSpacesWithUnderscore(branch.address);
-          urls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}/${branchAddress}?MerchantID=${merchant.id}&BranchID=${branch.id}&BankID=${bank.bank_id}&CityID=${city.id}`);
+          urls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}/${branchAddress}?MerchantID=${merchant.id}&BranchID=${branch.id}&BankID=${bank.id}&CityID=${city.id}`);
         }
       }
     }
@@ -83,17 +80,22 @@ const generateSitemap = async () => {
   // Fetch all banks and add BankDiscount URLs
   const banks = await fetchData("/allbanks");
   for (const bank of banks) {
-    const bankName = replaceSpacesWithUnderscore(bank.bank_name);
-    
-    // Fetch all cards for bank discounts
-    const cards = await fetchData(`/cards/${bank.bank_id}`);
-    for (const card of cards) {
-      const cardName = replaceSpacesWithUnderscore(card.card_name);
-      urls.push(`${BASE_URL}/BankDiscount/${bankName}/${cardName}`);
+    const bankName = replaceSpacesWithUnderscore(bank.name);
 
-      for (const merchant of await fetchData("/allMerchants")) {
-        const merchantName = replaceSpacesWithUnderscore(merchant.name);
-        urls.push(`${BASE_URL}/BankDiscount/${bankName}/${cardName}/${merchantName}?CityID=${merchant.city_id}&MerchantID=${merchant.id}`);
+    // Fetch all cards for bank discounts
+    const cards = await fetchData(`/cards/${bank.name}`);
+    for (const card of cards) {
+      const cardName = replaceSpacesWithUnderscore(card.CardName);
+      urls.push(`${BASE_URL}/BankDiscount/${bankName}/${cardName}`);
+      
+      for (const city of cities) {
+        const merchantsResponse = await fetchData(`/merchants/${city.id}`);
+        const merchants = merchantsResponse?.merchants || [];
+
+        for (const merchant of merchants) {
+          const merchantName = replaceSpacesWithUnderscore(merchant.name);
+          urls.push(`${BASE_URL}/BankDiscount/${bankName}/${cardName}/${merchantName}?CityID=${city.id}&MerchantID=${merchant.id}`);
+        }
       }
     }
   }
@@ -102,11 +104,11 @@ const generateSitemap = async () => {
   for (const city of cities) {
     const cityName = replaceSpacesWithUnderscore(city.name);
     for (const bank of banks) {
-      const bankName = replaceSpacesWithUnderscore(bank.bank_name);
+      const bankName = replaceSpacesWithUnderscore(bank.name);
       
-      const cards = await fetchData(`/cards/${bank.bank_id}`);
+      const cards = await fetchData(`/cards/${bank.name}`);
       for (const card of cards) {
-        const cardName = replaceSpacesWithUnderscore(card.card_name);
+        const cardName = replaceSpacesWithUnderscore(card.CardName);
         urls.push(`${BASE_URL}/${cityName}/${bankName}/${cardName}/${city.id}`);
       }
     }
@@ -114,7 +116,7 @@ const generateSitemap = async () => {
 
   // Generate XML sitemap
   const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-  urls.map(url => `<url><loc>${url.replace(/&/g, '&amp;')}</loc></url>`).join("\n")  +
+    urls.map(url => `<url><loc>${url.replace(/&/g, "&amp;")}</loc></url>`).join("\n") +
     "\n</urlset>";
 
   fs.writeFileSync(FRONTEND_PUBLIC_PATH, sitemapContent);
