@@ -4,6 +4,8 @@ import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
+import Rabaat_shop_img from '../../../public/assets/img/landing/rabaat_shops_icon.png';
+import Card_image from '../../../public/assets/img/landing/rabaat_card.png';
 import Rabbit from "../../../public/assets/img/landing/rabbit.webm";
 
 const Mainsecsearch = () => {
@@ -33,7 +35,7 @@ const Mainsecsearch = () => {
     }
   }, [cityID]);
 
-  const backgroundImageUrl = `../public/assets/img/cities/${city.image}`;
+  const backgroundImageUrl = `../public/assets/img/cities/rabaat_city_bg.jpg`;
 
   useEffect(() => {
     if (clicked) {
@@ -125,25 +127,30 @@ const Mainsecsearch = () => {
       style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
-        <video autoPlay loop muted className="rabbit rabbit1">
+        {/* <video autoPlay loop muted className="rabbit rabbit1">
           <source src={Rabbit} type="video/mp4"></source>
-        </video>
+        </video> */}
         <div className="row">
-          <div className="col-lg-7 col-md-12 col-sm-12">
+          <div className="col-lg-12 col-md-12 col-sm-12 text-center">
             <h3 style={{ textShadow: "2px 2px 4px #000000b8" }}>
-              SWIPE SMART SAVE MORE
+              Your One-Stop Destination for Discounts & Lifestyle Hacks
             </h3>
-            <div className="search-bar mb-5">
-              <BiSearch className="mainsearchicon" />
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Ask me anything"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-              />
+            <div className="search_bar">
+              <div className="search_container">
+                <img src={Rabaat_shop_img} alt="Shop Icon" className="shop-icon" />
+                <input
+                  type="text"
+                  className="form-control"
+                  placeholder="Search by Shop / Branch"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                />
+                <div className="search-button">
+                  <BiSearch className="search-icon" />
+                </div>
+              </div>
               {loading && <div className="loader">Loading...</div>}
-              {suggestions.length > 0 ? (
+              {suggestions.length > 0 && (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (
                     <div
@@ -158,15 +165,14 @@ const Mainsecsearch = () => {
                     </div>
                   ))}
                 </div>
-              ) : null}
+              )}
             </div>
+
             {/* Button for Search with Bank Card */}
-            <button
-              className="btn btn-primary"
-              onClick={handleSearchWithBankCard}
-            >
-              Search with Bank Card
-            </button>
+            <div className="card_button" type="btn" onClick={handleSearchWithBankCard}>
+              <img src={Card_image} alt="" />
+              Search by Bank Card
+            </div>
           </div>
         </div>
       </div>

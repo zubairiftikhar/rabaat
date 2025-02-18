@@ -1,7 +1,7 @@
 .hero-section {
   background-size: cover;
   background-position: center;
-  height: 60vh;
+  height: 67vh;
   padding: 20px;
 }
 
@@ -35,26 +35,76 @@
   /* Highlight text color */
 }
 
-.search-bar input {
-  border: 2px solid #ff4d4d;
-  border-radius: 25px;
-  padding: 10px 50px;
-  font-size: 16px;
-  box-shadow: rgb(0 0 0 / 71%) 0px 0px 24px;
+.search_bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 30px 0;
 }
 
-.mainsearchicon {
+.search_container {
+  display: flex;
+  align-items: center;
+  background: white;
+  border-radius: 30px;
+  padding: 0 0 0 15px;
+  width: 50%;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
   position: relative;
-  top: 39px;
-  left: 15px;
-  color: #787878;
-  font-size: 26px;
-
 }
 
-.search-bar input:focus {
+.shop-icon {
+  width: 25px;
+  height: 25px;
+  margin-right: 10px;
+}
+
+.form-control {
+  flex: 1;
+  border: none !important;
+  font-size: 14px;
+  padding: 10px;
   outline: none;
-  box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);
+  background: transparent;
+}
+
+.form-control:focus {
+  border: none;
+}
+
+.search-button {
+  background: red;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.search-icon {
+  color: white;
+  font-size: 20px;
+}
+
+.suggestions-list {
+  background: white;
+  width: 50%;
+  border-radius: 5px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  margin-top: 5px;
+  position: absolute;
+}
+
+.suggestion-item {
+  padding: 10px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+}
+
+.suggestion-item:hover {
+  background: #f4f4f4;
 }
 
 .btn-lg {
@@ -70,6 +120,17 @@
 
 .btn-lg img {
   width: 30px;
+}
+
+.card_button {
+  width: 230px;
+  border-radius: 20px;
+  padding: 10px 11px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #ff0b0b;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  font-weight: 600;
 }
 
 @media (max-width: 768px) {
@@ -145,9 +206,32 @@
 }
 
 @media only screen and (max-width: 600px) {
-  .search-bar input {
-    padding: 4px 10px;
+  .search_container {
+    width: 90%;
+    padding: 6px 10px;
+  }
+
+  .form-control {
     font-size: 14px;
+    padding: 8px;
+  }
+
+  .search-button {
+    width: 35px;
+    height: 35px;
+  }
+
+  .search-icon {
+    font-size: 18px;
+  }
+
+  .shop-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .suggestions-list {
+    width: 80%;
   }
 
   .form-control {
