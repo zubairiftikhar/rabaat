@@ -149,20 +149,25 @@ const Merchants = () => {
     <>
       <Mainsecsearch />
       <div className="container">
-        <div className="row">
-          <div className="col-6">
-            <button type="button" className="w-100 btn btn-danger">
-              Merchants
-            </button>
-          </div>
-          <div className="col-6">
-            <button
-              type="button"
-              className="w-100 btn btn-danger"
-              onClick={() => handleBankButtonclick()}
-            >
-              Banks
-            </button>
+        <div className="row justify-content-center">
+          <div className="col-12 pt-5">
+            <div className="switch-buttons">
+              <button
+                type="button"
+                className={`switch-btn ${location.pathname.includes("Banks") ? "" : "active"}`}
+                onClick={() => navigate(`/${cityName}?CityID=${cityId}`)}
+              >
+                Merchants
+              </button>
+              <button
+                type="button"
+                className={`switch-btn ${location.pathname.includes("Banks") ? "active" : ""}`}
+                onClick={() => navigate(`/${cityName}/Banks?CityID=${cityId}`)}
+              >
+                Banks
+              </button>
+              <div className={`switch-slider ${location.pathname.includes("Banks") ? "move-right" : ""}`}></div>
+            </div>
           </div>
         </div>
       </div>
@@ -199,9 +204,8 @@ const Merchants = () => {
                   ref={(el) => (sliderRefs.current["categories"] = el)}
                 >
                   <button
-                    className={`category-btn ${
-                      activeCategory === "All" ? "active" : ""
-                    }`}
+                    className={`category-btn ${activeCategory === "All" ? "active" : ""
+                      }`}
                     onClick={() => setActiveCategory("All")}
                   >
                     All
@@ -209,9 +213,8 @@ const Merchants = () => {
                   {categories.map((category) => (
                     <button
                       key={category}
-                      className={`category-btn ${
-                        activeCategory === category ? "active" : ""
-                      }`}
+                      className={`category-btn ${activeCategory === category ? "active" : ""
+                        }`}
                       onClick={() => setActiveCategory(category)}
                     >
                       {category}

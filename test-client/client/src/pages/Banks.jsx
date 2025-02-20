@@ -60,23 +60,28 @@ const Banks = () => {
     <>
       <Mainsecsearch />
       <div className="container">
-        <div className="row">
-          <div className="col-6">
-            <button
-              type="button"
-              className="w-100 btn btn-danger"
-              onClick={() => handleMerchantButtonclick()}
-            >
-              Merchants
-            </button>
-          </div>
-          <div className="col-6">
-            <button type="button" className="w-100 btn btn-danger">
-              Banks
-            </button>
-          </div>
-        </div>
+  <div className="row justify-content-center">
+    <div className="col-12 py-5">
+      <div className="switch-buttons">
+        <button
+          type="button"
+          className={`switch-btn ${location.pathname.includes("Banks") ? "" : "active"}`}
+          onClick={() => navigate(`/${cityName}?CityID=${cityId}`)}
+        >
+          Merchants
+        </button>
+        <button
+          type="button"
+          className={`switch-btn ${location.pathname.includes("Banks") ? "active" : ""}`}
+          onClick={() => navigate(`/${cityName}/Banks?CityID=${cityId}`)}
+        >
+          Banks
+        </button>
+        <div className={`switch-slider ${location.pathname.includes("Banks") ? "move-right" : ""}`}></div>
       </div>
+    </div>
+  </div>
+</div>
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
