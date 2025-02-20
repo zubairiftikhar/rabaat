@@ -16,6 +16,7 @@
     opacity: 0;
     transform: translateY(20px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -24,42 +25,53 @@
 
 /* Remove the glow effect (outline or box-shadow) on focus */
 
-.page_search span{
+.page_search span {
   border: none;
-    border-bottom: 1px solid black;
-    border-radius: 0;
-    background: transparent;
+  border-bottom: 1px solid black;
+  border-radius: 0;
+  background: transparent;
 }
-.page_search input{
+
+.page_search input {
   border: none;
   border-bottom: 1px solid black;
   border-radius: 0;
 }
-.page_search input:focus{
+
+.page_search input:focus {
   box-shadow: 0 0 0 .25rem rgba(255, 255, 255, 0);
 }
+
 .search-input:focus {
-  outline: none; /* Remove the outline */
-  box-shadow: none; /* Remove any box-shadow */
+  outline: none;
+  /* Remove the outline */
+  box-shadow: none;
+  /* Remove any box-shadow */
 }
 
 /* Adjust the width and styling of the search input */
 .search-container .input-group {
-  max-width: 400px; /* Set the maximum width of the input */
-  margin: 0 auto; /* Center the input */
+  max-width: 400px;
+  /* Set the maximum width of the input */
+  margin: 0 auto;
+  /* Center the input */
 }
 
 .search-input {
-  border-radius: 25px; /* Rounded corners for the input */
+  border-radius: 25px;
+  /* Rounded corners for the input */
 }
 
 .input-group-text {
-  background-color: #f8f9fa; /* Light background for the icon */
-  border-right: 0; /* Remove right border to make it smoother */
+  background-color: #f8f9fa;
+  /* Light background for the icon */
+  border-right: 0;
+  /* Remove right border to make it smoother */
 }
 
 .search-container .input-group-text svg {
-  color: #007bff; /* Blue color for the icon */
+  color: #007bff;
+  /* Blue color for the icon */
 }
 
 
@@ -131,14 +143,16 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5); /* Default Darkness */
+  background: rgba(0, 0, 0, 0.5);
+  /* Default Darkness */
   transition: background 0.5s ease-in-out;
   z-index: 1;
 }
 
 /* Darker on Hover */
 .bg_img_search_container:hover::before {
-  background: rgba(0, 0, 0, 0.7); /* Darker Effect on Hover */
+  background: rgba(0, 0, 0, 0.7);
+  /* Darker Effect on Hover */
 }
 
 .bg_img_search_container:hover .dynamic-image {
@@ -153,11 +167,14 @@
   transform: translate(-50%, -50%);
   width: 60%;
   max-width: 600px;
-  z-index: 2; /* Above overlay */
+  z-index: 2;
+  /* Above overlay */
 }
-.search-wrapper:hover{
+
+.search-wrapper:hover {
   box-shadow: rgb(254 254 255 / 20%) 7px 0px 23px 0px;
 }
+
 /* Search Input */
 .search-input {
   width: 100%;
@@ -167,10 +184,71 @@
   border-radius: 40px;
   outline: none;
 }
-.search-input:hover{
+
+.search-input:hover {
   transform: translate(2px, -4px);
   transition: .5s;
 }
+
+/* START SWITCHES BUTTON CSS */
+/* Switch Button Container */
+.switch-buttons {
+  position: relative;
+  display: flex;
+  width: 100%;
+  /* Adjust width */
+  height: 45px;
+  background: #d1d1d1;
+  border-radius: 30px;
+  overflow: hidden;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px;
+  position: relative;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Button Styles */
+.switch-btn {
+  flex: 1;
+  border: none;
+  background: transparent;
+  color: #9e0500;
+  font-weight: bold;
+  font-size: 16px;
+  z-index: 2;
+  cursor: pointer;
+  transition: color 0.3s ease-in-out;
+  padding: 10px 0;
+  text-align: center;
+  position: relative;
+  text-transform: uppercase;
+}
+
+/* Active Button Text Color */
+.switch-btn.active {
+  color: white;
+}
+
+/* Background Slider */
+.switch-slider {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, #570001, #ff0000);
+  border-radius: 30px;
+  transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  left: 0;
+  box-shadow: 0px 4px 10px rgba(255, 78, 80, 0.5);
+}
+
+/* Move Background Right When Active */
+.switch-slider.move-right {
+  transform: translateX(100%);
+  transition: transform 300ms linear;
+}
+
+/* END SWITCHES BUTTON CSS */
 
 /* Responsive Design */
 @media (max-width: 768px) {
