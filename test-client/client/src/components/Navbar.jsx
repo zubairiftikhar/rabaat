@@ -149,7 +149,6 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              {loading && <div className="loader">Loading...</div>}
               {suggestions.length > 0 ? (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (
@@ -180,7 +179,10 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className={`collapse navbar-collapse ${isToggled ? "show" : ""}`} id="navbarNav">
+          <div
+            className={`collapse navbar-collapse ${isToggled ? "show" : ""}`}
+            id="navbarNav"
+          >
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
                 <a className="nav_links" onClick={handleAboutUs}>
@@ -188,7 +190,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 </a>
               </li>
               <li className="nav-item">
-                <a href="https://blog.rabaat.com/" target="blank" className="nav_links">
+                <a
+                  href="https://blog.rabaat.com/"
+                  target="blank"
+                  className="nav_links"
+                >
                   Blog
                 </a>
               </li>

@@ -4,8 +4,8 @@ import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
-import Rabaat_shop_img from '../../../public/assets/img/landing/rabaat_shops_icon.png';
-import Card_image from '../../../public/assets/img/landing/rabaat_card.png';
+import Rabaat_shop_img from "../../../public/assets/img/landing/rabaat_shops_icon.png";
+import Card_image from "../../../public/assets/img/landing/rabaat_card.png";
 import Rabbit from "../../../public/assets/img/landing/rabbit.webm";
 
 const Mainsecsearch = () => {
@@ -137,7 +137,11 @@ const Mainsecsearch = () => {
             </h3>
             <div className="search_bar">
               <div className="search_container">
-                <img src={Rabaat_shop_img} alt="Shop Icon" className="shop-icon" />
+                <img
+                  src={Rabaat_shop_img}
+                  alt="Shop Icon"
+                  className="shop-icon"
+                />
                 <input
                   type="text"
                   className="form-control"
@@ -169,7 +173,11 @@ const Mainsecsearch = () => {
             </div>
 
             {/* Button for Search with Bank Card */}
-            <div className="card_button" type="btn" onClick={handleSearchWithBankCard}>
+            <div
+              className="card_button"
+              type="btn"
+              onClick={handleSearchWithBankCard}
+            >
               <img src={Card_image} alt="" />
               Search by Bank Card
             </div>
