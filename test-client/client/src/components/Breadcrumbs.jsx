@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
-  fetchMerchantByMerchantId,
+  fetchMerchantByMerchantName,
   fetchBranchByBranchId,
 } from "../services/api";
 import Cookies from "js-cookie";
@@ -21,7 +21,7 @@ const Breadcrumbs = () => {
     const loadMerchantName = async () => {
       if (merchantId) {
         try {
-          const data = await fetchMerchantByMerchantId(merchantId);
+          const data = await fetchMerchantByMerchantName(merchantId);
           setMerchantName(data.name || "Merchant");
         } catch (error) {
           console.error("Error fetching merchant:", error);

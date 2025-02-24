@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom"; // To access merchantId and cityId from the URL
 import {
   fetchDiscountBanks,
-  fetchMerchantByMerchantId,
+  fetchMerchantByMerchantName,
   fetchMaximumDiscountAnyBank,
 } from "../services/api"; // Function to fetch banks offering discounts
 import BankWithMerchantBranch from "../components/bankswithmerchantbranch";
@@ -10,7 +10,6 @@ import { FaSearch } from "react-icons/fa"; // Import search icon
 import Breadcrumbs from "../components/Breadcrumbs";
 import BankIcon from "../../public/assets/img/landing/bank_icon.png";
 import DiscountIcon from "../../public/assets/img/landing/discount_icon.png";
-import MarchentIcon from "../../public/assets/img/landing/marchent_icon.png";
 
 const BranchToBankDetails = () => {
   const { cityName, merchantName, branchAddress } = useParams();
@@ -46,7 +45,7 @@ const BranchToBankDetails = () => {
       // Fetch merchant details
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantByMerchantId(merchant_Id);
+          const data = await fetchMerchantByMerchantName(merchant_Id);
           setMerchants(data);
         } catch (error) {
           console.error("Error fetching merchant:", error);
@@ -191,13 +190,11 @@ const BranchToBankDetails = () => {
               <div className="text-center mt-4">
                 <button
                   className="btn rabaat_login_btn"
-                  style={{ background: 'transparent', color: 'black' }}
+                  style={{ background: "transparent", color: "black" }}
                   onClick={loadMoreBanks}
                   disabled={isLoadMoreDisabled} // Disable if all banks are loaded
                 >
-                  <span>
-                    {loadingMore ? "Loading..." : "Load More"}
-                  </span>
+                  <span>{loadingMore ? "Loading..." : "Load More"}</span>
                 </button>
               </div>
             )}

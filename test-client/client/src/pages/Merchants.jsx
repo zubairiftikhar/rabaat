@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useMemo } from "react";
 import { useNavigate, useLocation, useParams } from "react-router-dom";
 import {
   fetchMerchantsByCity,
-  fetchCityById,
   fetchMaximumDiscountAnyBank,
 } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
@@ -16,8 +15,6 @@ import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
 const Merchants = () => {
   const { cityName } = useParams();
-  const [cityId, setCityId] = useState(null);
-  const [city, setCity] = useState("");
   const [merchants, setMerchants] = useState([]);
   const [discountedMerchants, setDiscountedMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -33,31 +30,11 @@ const Merchants = () => {
   }, []);
 
   useEffect(() => {
-    const queryParams = new URLSearchParams(location.search);
-    const cityIdFromQuery = queryParams.get("CityID");
-    setCityId(cityIdFromQuery);
-  }, [location]);
-
-  useEffect(() => {
-    if (cityId) {
-      const getCity = async () => {
-        try {
-          const city = await fetchCityById(cityId);
-          setCity(city);
-        } catch (error) {
-          console.error("Error fetching city:", error);
-        }
-      };
-      getCity();
-    }
-  }, [cityId]);
-
-  useEffect(() => {
-    if (cityId) {
+    if (cityName) {
       setLoading(true);
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantsByCity(cityId);
+          const data = await fetchMerchantsByCity(cityName);
           setMerchants(data.merchants);
 
           const uniqueCategories = [
@@ -68,8 +45,8 @@ const Merchants = () => {
           const merchantsWithDiscounts = await Promise.all(
             data.merchants.map(async (merchant) => {
               const discountData = await fetchMaximumDiscountAnyBank(
-                merchant.id,
-                cityId
+                merchant.name,
+                cityName
               );
               return {
                 ...merchant,
@@ -87,7 +64,7 @@ const Merchants = () => {
       };
       getMerchants();
     }
-  }, [cityId]);
+  }, [cityName]);
 
   const handleSliderScroll = (direction, category) => {
     const slider = sliderRefs.current[category];
@@ -141,10 +118,6 @@ const Merchants = () => {
   }, [discountedMerchants, categories, searchQuery, activeCategory]);
 
   const navigate = useNavigate();
-
-  const handleBankButtonclick = () => {
-    navigate(`/${cityName}/Banks?CityID=${cityId}`);
-  };
   return (
     <>
       <Mainsecsearch />
@@ -154,19 +127,27 @@ const Merchants = () => {
             <div className="switch-buttons">
               <button
                 type="button"
-                className={`switch-btn ${location.pathname.includes("Banks") ? "" : "active"}`}
-                onClick={() => navigate(`/${cityName}?CityID=${cityId}`)}
+                className={`switch-btn ${
+                  location.pathname.includes("Banks") ? "" : "active"
+                }`}
+                onClick={() => navigate(`/${cityName}`)}
               >
                 Merchants
               </button>
               <button
                 type="button"
-                className={`switch-btn ${location.pathname.includes("Banks") ? "active" : ""}`}
-                onClick={() => navigate(`/${cityName}/Banks?CityID=${cityId}`)}
+                className={`switch-btn ${
+                  location.pathname.includes("Banks") ? "active" : ""
+                }`}
+                onClick={() => navigate(`/${cityName}/Banks`)}
               >
                 Banks
               </button>
-              <div className={`switch-slider ${location.pathname.includes("Banks") ? "move-right" : ""}`}></div>
+              <div
+                className={`switch-slider ${
+                  location.pathname.includes("Banks") ? "move-right" : ""
+                }`}
+              ></div>
             </div>
           </div>
         </div>
@@ -204,8 +185,9 @@ const Merchants = () => {
                   ref={(el) => (sliderRefs.current["categories"] = el)}
                 >
                   <button
-                    className={`category-btn ${activeCategory === "All" ? "active" : ""
-                      }`}
+                    className={`category-btn ${
+                      activeCategory === "All" ? "active" : ""
+                    }`}
                     onClick={() => setActiveCategory("All")}
                   >
                     All
@@ -213,8 +195,9 @@ const Merchants = () => {
                   {categories.map((category) => (
                     <button
                       key={category}
-                      className={`category-btn ${activeCategory === category ? "active" : ""
-                        }`}
+                      className={`category-btn ${
+                        activeCategory === category ? "active" : ""
+                      }`}
                       onClick={() => setActiveCategory(category)}
                     >
                       {category}
@@ -281,7 +264,6 @@ const Merchants = () => {
                         >
                           <MerchantCard
                             cityName={cityName}
-                            cityId={cityId}
                             merchant={merchant}
                           />
                         </div>

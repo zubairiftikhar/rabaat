@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { fetchBranchesForMerchant } from "../services/api";
 import BranchCard from "../components/BranchCard";
 import {
-  fetchMerchantByMerchantId,
+  fetchMerchantByMerchantName,
   fetchBranchCount,
   fetchDiscountBanks,
   fetchMaximumDiscountAnyBank,
@@ -21,9 +21,6 @@ import { Helmet } from "react-helmet";
 
 const BranchDetails = () => {
   const { cityName, merchantName } = useParams();
-  const [cityId, setCityId] = useState(null);
-  const location = useLocation();
-  const [merchantId, setMerchantId] = useState(null);
   const [branches, setBranches] = useState([]);
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [banksMaxDiscount, setBanksMaxDiscount] = useState([]);
@@ -37,22 +34,16 @@ const BranchDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    if (location) {
-      const queryParams = new URLSearchParams(location.search);
-      const cityIdFromQuery = queryParams.get("CityID");
-      setCityId(cityIdFromQuery);
-      const merchantIdFromQuery = queryParams.get("MerchantID");
-      setMerchantId(merchantIdFromQuery);
-    }
-  }, [location]);
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   useEffect(() => {
-    if (merchantId && cityId) {
+    if (merchantName && cityName) {
       // Fetch merchant details
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantByMerchantId(merchantId);
+          const data = await fetchMerchantByMerchantName(merchantName);
           setMerchants(data);
         } catch (error) {
           console.error("Error fetching merchant:", error);
@@ -62,7 +53,7 @@ const BranchDetails = () => {
       // Fetch Banks
       const getchBanks = async () => {
         try {
-          const data = await fetchDiscountBanks(cityId, merchantId); // Fetch banks using cityId and merchantId
+          const data = await fetchDiscountBanks(cityName, merchantName); // Fetch banks using cityId and merchantId
           setBanksWithDiscounts(data);
         } catch (error) {
           console.error("Error fetching banks with discounts:", error);
@@ -72,7 +63,7 @@ const BranchDetails = () => {
       // Fetch branches
       const getBranches = async () => {
         try {
-          const data = await fetchBranchesForMerchant(merchantId, cityId);
+          const data = await fetchBranchesForMerchant(merchantName, cityName);
           setBranches(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -82,7 +73,7 @@ const BranchDetails = () => {
       // Fetch branches Count
       const getBranchesCount = async () => {
         try {
-          const data = await fetchBranchCount(merchantId, cityId);
+          const data = await fetchBranchCount(merchantName, cityName);
           setBranchesCount(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -90,7 +81,10 @@ const BranchDetails = () => {
       };
       const getBanksMaxDiscount = async () => {
         try {
-          const data = await fetchMaximumDiscountAnyBank(merchantId, cityId);
+          const data = await fetchMaximumDiscountAnyBank(
+            merchantName,
+            cityName
+          );
           setBanksMaxDiscount(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -102,7 +96,7 @@ const BranchDetails = () => {
       getMerchants();
       getchBanks();
     }
-  }, [merchantId, cityId]); // Removed bankId and max discount logic
+  }, [merchantName, cityName]); // Removed bankId and max discount logic
 
   const loadMoreBranches = () => {
     setLoadingMore(true);
@@ -206,8 +200,6 @@ const BranchDetails = () => {
                   cityName={cityName}
                   merchantName={merchantName}
                   bank={bank}
-                  cityId={cityId}
-                  merchant_Id={merchantId}
                 />
               </div>
             ))}
@@ -224,8 +216,6 @@ const BranchDetails = () => {
                   cityName={cityName}
                   merchantName={merchantName}
                   branch={branch}
-                  merchantId={merchantId} // Removed bankId from here
-                  cityId={cityId}
                 />
               </div>
             ))}
@@ -238,13 +228,11 @@ const BranchDetails = () => {
           <div className="text-center mt-4">
             <button
               className="btn rabaat_login_btn"
-              style={{ background: 'transparent', color: 'black' }}
+              style={{ background: "transparent", color: "black" }}
               onClick={loadMoreBranches}
               disabled={isLoadMoreDisabled} // Disable if all branches are loaded
             >
-              <span>
-                {loadingMore ? "Loading..." : "Load More"}
-              </span>
+              <span>{loadingMore ? "Loading..." : "Load More"}</span>
             </button>
           </div>
         )}

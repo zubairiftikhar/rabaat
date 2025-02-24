@@ -4,13 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./componentstyle.css";
 import { fetchMaximumDiscount } from "../services/api"; // Import the function
 
-const BankWithMerchant = ({
-  cityName,
-  merchantName,
-  bank,
-  cityId,
-  merchant_Id,
-}) => {
+const BankWithMerchant = ({ cityName, merchantName, bank }) => {
   const replaceSpacesWithUnderscore = (name) => {
     return name.replace(/\s+/g, "_");
   };
@@ -20,13 +14,13 @@ const BankWithMerchant = ({
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
-    if (merchant_Id && bank.bank_id && cityId) {
+    if (merchantName && bank.bank_name && cityName) {
       // Fetch maximum discount and card count for the merchant, bank, and city
       const getMaxDiscount = async () => {
         const data = await fetchMaximumDiscount(
-          merchant_Id,
-          bank.bank_id,
-          cityId
+          merchantName,
+          bank.bank_name,
+          cityName
         );
         if (data) {
           setMaxDiscount(data.max_discount); // Set the fetched max discount
@@ -35,7 +29,7 @@ const BankWithMerchant = ({
       };
       getMaxDiscount();
     }
-  }, [merchant_Id, bank.bank_id, cityId]);
+  }, [merchantName, bank.bank_name, cityName]);
 
   const handleBankClick = () => {
     navigate(

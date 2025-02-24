@@ -32,12 +32,12 @@ const App = () => {
     const cityId = Cookies.get("selectedCityId");
     const cityName = Cookies.get("selectedCityName");
 
-    if (cityId) {
+    if (cityName) {
       // If data exists, set state and redirect
       setSelectedCity({ id: cityId, name: cityName });
 
       if (location.pathname === "/") {
-        navigate(`/${cityName}?CityID=${cityId}`);
+        navigate(`/${cityName}`);
       }
     } else {
       // Show location modal for new users
@@ -62,7 +62,7 @@ const App = () => {
     Cookies.set("selectedCityName", city.name);
 
     setShowLocationModal(false);
-    navigate(`/${city.name}?CityID=${city.id}`);
+    navigate(`/${city.name}`);
   };
 
   return (
