@@ -124,14 +124,16 @@
   border-bottom: 1px solid #ffffff;
 }
 
-.top_mainsearchicon {
-  color: #ffffff;
-  font-size: 20px;
+.mainsearchicon {
+  position: relative;
+  left: 88%;
+  color: aliceblue;
 }
 
 .top_form-control {
   background: transparent;
-  border: 0;
+  border: 1px solid red;
+  border-radius: 30px;
 }
 
 .top_form-control:focus-visible {
@@ -148,7 +150,7 @@
 
 .top_form-control[type="text"] {
   font-size: 16px;
-  padding: 4px 8px;
+  padding: 6px 15px;
 }
 
 .navbar-nav li a,

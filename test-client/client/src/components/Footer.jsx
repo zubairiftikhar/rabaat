@@ -1,11 +1,23 @@
 // src/components/Footer.jsx
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import '../css/navbar.css'
 
 import BackgroundImage from '../../public/assets/img/landing/load_rabbit.gif';
 import Footer_logo from '../../public/assets/img/landing/rabaat_f_logo.png'
 import { FaEnvelope, FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
 const Footer = () => {
+  const navigate = useNavigate();
+  const handleAboutUs = () => {
+    navigate(`/AboutUs`);
+  };
+  const handleContact = () => {
+    navigate(`/Contact`);
+  };
+  const handleTermOfUse = () => {
+    navigate(`/TermOfUse`);
+  };
+
   return (
     <>
       {/*Start  Footer */}
@@ -24,10 +36,10 @@ const Footer = () => {
         
         <div className="footer-center">
           <ul className="footer-links"> 
-            <li><a href="">ABOUT US</a></li>
+            <li><a onClick={handleAboutUs}>ABOUT US</a></li>
             <li><a href="https://blog.rabaat.com/" target="blank">BLOGS</a></li>
-            <li><a href="">CONTACT US</a></li>
-            <li><a href="">TERMS OF USE</a></li>
+            <li><a onClick={handleContact} >CONTACT US</a></li>
+            <li><a  onClick={handleTermOfUse}>TERMS OF USE</a></li>
           </ul>
         </div>
 

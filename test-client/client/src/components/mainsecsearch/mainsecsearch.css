@@ -36,6 +36,7 @@
 }
 
 .search_bar {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -100,11 +101,11 @@
 .suggestion-item {
   padding: 10px;
   cursor: pointer;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #dddddd3d;
 }
 
 .suggestion-item:hover {
-  background: #f4f4f4;
+  background: #f4f4f400;
 }
 
 .btn-lg {
@@ -148,14 +149,15 @@
 /* Container for suggestions list */
 .suggestions-list {
   position: absolute;
-  background-color: white;
-  width: 100%;
+  background: rgb(167 48 48 / 35%);
+  backdrop-filter: blur(10px);
+  width: 50%;
   max-height: 200px;
   overflow-y: auto;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   top: 100%;
-  left: 0;
+  /* left: 0; */
   border-radius: 5px;
   margin-top: 5px;
 }
@@ -165,9 +167,9 @@
   padding: 10px;
   cursor: pointer;
   font-size: 14px;
-  color: black;
+  color: #dbdbdb;
   /* Default text color */
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0);
   /* Default background color */
   transition: background-color 0.2s ease, color 0.2s ease;
   /* Smooth transition for both background and text color */
@@ -175,7 +177,7 @@
 
 /* Reverse background and text color on hover */
 .suggestion-item:hover {
-  background-color: black;
+  background-color: #870000e3;
   /* Dark background on hover */
   color: white;
   /* White text on hover */

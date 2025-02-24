@@ -140,11 +140,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
-            <div className="search-bar ms-3" style={{ bottom: "15px" }}>
+            <div className="search-bar ms-3">
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
-                className="form-control"
+                className="top_form-control"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}

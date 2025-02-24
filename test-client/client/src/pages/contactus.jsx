@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./stylepages.css";
 import {
   FaEnvelope,
@@ -10,6 +10,9 @@ import {
 import { Helmet } from "react-helmet";
 
 const ContactUs = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   return (
     <>
       <Helmet>
