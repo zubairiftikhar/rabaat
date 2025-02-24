@@ -130,8 +130,8 @@ export const fetchDiscountDetail = async (discountId) => {
 };
 
 // Fetch Discounts for a Branch
-export const fetchDiscountsForBranch = async (branchId, merchantId, bankId, cityId) => {
-  const response = await api.get(`/branch-discounts/${merchantId}/${bankId}/${cityId}/${branchId}`);
+export const fetchDiscountsForBranch = async (branchId, merchantName, bankName, cityName) => {
+  const response = await api.get(`/branch-discounts/${merchantName}/${bankName}/${cityName}/${branchId}`);
   return response.data;
 };
 

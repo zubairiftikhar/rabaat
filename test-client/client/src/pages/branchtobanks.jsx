@@ -12,13 +12,9 @@ import BankIcon from "../../public/assets/img/landing/bank_icon.png";
 import DiscountIcon from "../../public/assets/img/landing/discount_icon.png";
 
 const BranchToBankDetails = () => {
-  const { cityName, merchantName, branchAddress } = useParams();
-  const [cityId, setCityId] = useState(null);
-  const location = useLocation();
+  const { cityName, merchantName, branchAddress, branchId } = useParams();
   const [banksMaxDiscount, setBanksMaxDiscount] = useState([]);
   const [merchant, setMerchants] = useState([]);
-  const [merchant_Id, setMerchantId] = useState(null);
-  const [branch_Id, setbranchId] = useState(null);
   const [banksWithDiscounts, setBanksWithDiscounts] = useState([]);
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [visibleBanks, setVisibleBanks] = useState(4); // State for visible banks
@@ -28,24 +24,18 @@ const BranchToBankDetails = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  useEffect(() => {
-    if (location) {
-      const queryParams = new URLSearchParams(location.search);
-      const cityIdFromQuery = queryParams.get("CityID");
-      setCityId(cityIdFromQuery);
-      const merchantIdFromQuery = queryParams.get("MerchantID");
-      setMerchantId(merchantIdFromQuery);
-      const branchIdFromQuery = queryParams.get("BranchID");
-      setbranchId(branchIdFromQuery);
-    }
-  }, [location]); // Get cityId and merchantId from the URL
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   useEffect(() => {
-    if (merchant_Id && cityId) {
+    if (merchantName && cityName) {
       // Fetch merchant details
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantByMerchantName(merchant_Id);
+          const data = await fetchMerchantByMerchantName(
+            replaceUnderscoreWithSpaces(merchantName)
+          );
           setMerchants(data);
         } catch (error) {
           console.error("Error fetching merchant:", error);
@@ -54,7 +44,10 @@ const BranchToBankDetails = () => {
 
       const getBanksMaxDiscount = async () => {
         try {
-          const data = await fetchMaximumDiscountAnyBank(merchant_Id, cityId);
+          const data = await fetchMaximumDiscountAnyBank(
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(cityName)
+          );
           setBanksMaxDiscount(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -63,13 +56,16 @@ const BranchToBankDetails = () => {
       getBanksMaxDiscount();
       getMerchants();
     }
-  }, [merchant_Id, cityId]);
+  }, [merchantName, cityName]);
 
   useEffect(() => {
-    if (cityId && merchant_Id) {
+    if (cityName && merchantName) {
       const fetchBanks = async () => {
         try {
-          const data = await fetchDiscountBanks(cityId, merchant_Id); // Fetch banks using cityId and merchantId
+          const data = await fetchDiscountBanks(
+            replaceUnderscoreWithSpaces(cityName),
+            replaceUnderscoreWithSpaces(merchantName)
+          ); // Fetch banks using cityId and merchantId
           setBanksWithDiscounts(data);
         } catch (error) {
           console.error("Error fetching banks with discounts:", error);
@@ -78,7 +74,7 @@ const BranchToBankDetails = () => {
 
       fetchBanks();
     }
-  }, [cityId, merchant_Id]);
+  }, [cityName, merchantName]);
 
   const loadMoreBanks = () => {
     setLoadingMore(true);
@@ -172,13 +168,11 @@ const BranchToBankDetails = () => {
                 {banksToShow.map((bank) => (
                   <div className="col-md-2" key={bank.bank_id}>
                     <BankWithMerchantBranch
-                      cityName={cityName}
-                      merchantName={merchantName}
-                      branchAddress={branchAddress}
+                      cityName={replaceUnderscoreWithSpaces(cityName)}
+                      merchantName={replaceUnderscoreWithSpaces(merchantName)}
+                      branchAddress={replaceUnderscoreWithSpaces(branchAddress)}
+                      branchId={branchId}
                       bank={bank}
-                      branch_Id={branch_Id}
-                      cityId={cityId}
-                      merchant_Id={merchant_Id}
                     />
                   </div>
                 ))}

@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { fetchDiscountsForBranch, fetchBankByBankId } from "../services/api";
+import { useParams } from "react-router-dom";
+import { fetchDiscountsForBranch, fetchBankByBankName } from "../services/api";
 import BranchDiscountCard from "../components/BranchDiscountCard";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css";
-import Bank from "../../public/assets/img/landing/hbl.png";
 
 const BranchDiscount = () => {
-  const location = useLocation();
-  const [queryParams, setQueryParams] = useState({});
+  const { cityName, bankName, merchantName, branchId, branchAddress } =
+    useParams();
   const [discounts, setDiscounts] = useState([]);
   const [branchInfo, setBranchInfo] = useState(null);
   const [bank, setBank] = useState(null);
@@ -18,23 +17,18 @@ const BranchDiscount = () => {
     window.scrollTo(0, 0);
   }, []);
 
-  // Parse query params on component mount or location change
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    setQueryParams({
-      cityId: params.get("CityID"),
-      merchantId: params.get("MerchantID"),
-      bankId: params.get("BankID"),
-      branchId: params.get("BranchID"),
-    });
-  }, [location]);
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   // Fetch bank details
   useEffect(() => {
-    if (queryParams.bankId) {
+    if (bankName) {
       const fetchBankDetails = async () => {
         try {
-          const data = await fetchBankByBankId(queryParams.bankId);
+          const data = await fetchBankByBankName(
+            replaceUnderscoreWithSpaces(bankName)
+          );
           setBank(data);
         } catch (error) {
           console.error("Error fetching bank details:", error);
@@ -42,36 +36,41 @@ const BranchDiscount = () => {
       };
       fetchBankDetails();
     }
-  }, [queryParams.bankId]);
+  }, [bankName]);
 
   // Fetch branch discounts
   useEffect(() => {
-    const { branchId, merchantId, bankId, cityId } = queryParams;
-
-    if (branchId && merchantId && bankId && cityId) {
+    if (branchId && merchantName && bankName && cityName) {
       const fetchData = async () => {
         try {
           const data = await fetchDiscountsForBranch(
             branchId,
-            merchantId,
-            bankId,
-            cityId
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(bankName),
+            replaceUnderscoreWithSpaces(cityName)
           );
+          console.log("City", replaceUnderscoreWithSpaces(cityName));
+          console.log("Bank", replaceUnderscoreWithSpaces(bankName));
+          console.log("Merchant", replaceUnderscoreWithSpaces(merchantName));
+          console.log("Fetched Discounts:", data); // Debugging Log
           if (data && data.length > 0) {
             setBranchInfo({
               branchName: data[0].branchname,
               branchAddress: data[0].branchaddress,
             });
             setDiscounts(data);
+          } else {
+            setDiscounts([]); // Set empty array if no data
           }
         } catch (err) {
           setError("Failed to load discounts.");
+          console.error("Fetch error:", err); // Debugging Log
         }
       };
 
       fetchData();
     }
-  }, [queryParams]);
+  }, [branchId, merchantName, bankName, cityName]);
 
   if (error) {
     return <div className="error-message">{error}</div>;
@@ -99,12 +98,13 @@ const BranchDiscount = () => {
       <div className="bank-page-container">
         <div className="bank-banner">
           <img
-            src={`../../../../public/assets/img/banks_banner/${bank?.image_path}`}
-            alt={bank?.name} className="banner-image"
+            src={`../../../../../public/assets/img/banks_banner/${bank?.image_path}`}
+            alt={bank?.name}
+            className="banner-image"
           />
           <div className="bank-info">
             <img
-              src={`../../../../public/assets/img/banks/${bank?.image_path}`}
+              src={`../../../../../public/assets/img/banks/${bank?.image_path}`}
               alt={bank?.name}
             />
             <h2 className="bank-name">{bank?.name}</h2>

@@ -650,47 +650,48 @@ app.get("/api/discounts/:discountId/details", (req, res) => {
 
 
 
+app.get("/api/branch-discounts/:merchantName/:bankName/:cityName/:branchId", (req, res) => {
+  const { merchantName, bankName, cityName, branchId } = req.params;
 
+  // Query to fetch discounts for a specific branch using names instead of IDs
+  const query = `
+    SELECT DISTINCT
+      bmd.DiscountAmount AS percentage,
+      bmd.DiscountType AS discount_title,
+      c.image_path AS cardimage,
+      c.CardName AS cardname,
+      bk.BankName AS bankname,
+      bk.image_path AS bankimage,
+      mb.BranchName AS branchname,
+      mb.Address AS branchaddress,
+      mb.image_path AS branchimage
+    FROM 
+      bankmerchantdiscount bmd
+    JOIN 
+      carddiscount cd ON bmd.DiscountID = cd.DiscountID
+    JOIN 
+      card c ON cd.CardID = c.CardID
+    JOIN 
+      bank bk ON bmd.BankID = bk.BankID
+    JOIN 
+      merchantbranch mb ON bmd.BranchID = mb.BranchID
+    JOIN 
+      merchant m ON mb.MerchantID = m.MerchantID
+    JOIN 
+      city ct ON mb.CityID = ct.CityID
+    WHERE 
+      mb.BranchID = ? 
+      AND m.MerchantName = ? 
+      AND bk.BankName = ? 
+      AND ct.CityName = ?;
+  `;
 
-
-app.get("/api/branch-discounts/:merchantId/:bankId/:cityId/:branchId", (req, res) => {
-  const { merchantId, bankId, cityId, branchId } = req.params;
-
-  // Query to fetch discounts for a specific branch
-  const query = `SELECT DISTINCT
-    bmd.DiscountAmount AS percentage,
-    bmd.DiscountType AS discount_title,
-    c.image_path AS cardimage,
-    c.CardName AS cardname,
-    bk.BankName AS bankname,
-    bk.image_path AS bankimage,
-    mb.BranchName AS branchname,
-    mb.Address AS branchaddress,
-    mb.image_path AS branchimage
-FROM 
-    bankmerchantdiscount bmd
-JOIN 
-    carddiscount cd ON bmd.DiscountID = cd.DiscountID
-JOIN 
-    card c ON cd.CardID = c.CardID
-JOIN 
-    bank bk ON bmd.BankID = bk.BankID
-JOIN 
-    merchantbranch mb ON bmd.BranchID = mb.BranchID
-JOIN 
-    merchantcitylink mcl ON mb.MerchantID = mcl.MerchantID AND mcl.CityID = mb.CityID
-WHERE 
-    bmd.MerchantID = ? 
-    AND bmd.BankID = ? 
-    AND mb.CityID = ? 
-    AND bmd.BranchID = ?;
-`;
-
-  db.query(query, [merchantId, bankId, cityId, branchId], (err, results) => {
+  db.query(query, [branchId, merchantName, bankName, cityName], (err, results) => {
     if (err) return res.status(500).json({ error: "Error fetching discounts from the database." });
     res.json(results);
   });
 });
+
 
 
 

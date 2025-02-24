@@ -9,25 +9,24 @@ const BankWithMerchantBranch = ({
   merchantName,
   branchAddress,
   bank,
-  branch_Id,
-  cityId,
-  merchant_Id,
+  branchId,
 }) => {
   const replaceSpacesWithUnderscore = (name) => {
     return name.replace(/\s+/g, "_");
   };
+
   const navigate = useNavigate(); // Initialize useNavigate
   const [maxDiscount, setMaxDiscount] = useState(null); // State to store the maximum discount
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
-    if (merchant_Id && bank.bank_id && cityId) {
+    if (merchantName && bank.bank_name && cityName) {
       // Fetch maximum discount and card count for the merchant, branch, city, and bank
       const getMaxDiscount = async () => {
         const data = await fetchMaximumDiscount(
-          merchant_Id,
-          bank.bank_id,
-          cityId
+          merchantName,
+          bank.bank_name,
+          cityName
         );
         if (data) {
           setMaxDiscount(data.max_discount); // Set the fetched max discount
@@ -36,19 +35,15 @@ const BankWithMerchantBranch = ({
       };
       getMaxDiscount();
     }
-  }, [merchant_Id, bank.bank_id, cityId]);
+  }, [merchantName, bank.bank_name, cityName]);
 
   const handleBankClick = () => {
     navigate(
       `/${cityName}/${replaceSpacesWithUnderscore(
-        merchantName
-      )}/Bank/${replaceSpacesWithUnderscore(
         bank.bank_name
       )}/${replaceSpacesWithUnderscore(
-        branchAddress
-      )}?MerchantID=${merchant_Id}&BranchID=${branch_Id}&BankID=${
-        bank.bank_id
-      }&CityID=${cityId}`
+        merchantName
+      )}/Branch/${branchId}/${replaceSpacesWithUnderscore(branchAddress)}`
     );
   };
 
@@ -59,7 +54,7 @@ const BankWithMerchantBranch = ({
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../../../public/assets/img/banks/${bank.bank_image}`}
+        src={`../../../../public/assets/img/banks/${bank.bank_image}`}
         className="card-img-top std-img"
         alt={bank.bank_name}
       />

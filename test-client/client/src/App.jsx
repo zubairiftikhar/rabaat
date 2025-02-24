@@ -15,7 +15,7 @@ import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/contactus";
-import TermOfUse from "./pages/termsofuse"
+import TermOfUse from "./pages/termsofuse";
 import Cookies from "js-cookie";
 import SearchByBank from "./pages/SearchByBank";
 import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
@@ -105,11 +105,11 @@ const App = () => {
           element={<MerchantDiscount />}
         />
         <Route
-          path="/:cityName/:merchantName/Bank/:bankName/:branchAddress"
+          path="/:cityName/:bankName/:merchantName/Branch/:branchId/:branchAddress"
           element={<BranchDiscount />}
         />
         <Route
-          path="/:cityName/:merchantName/Branch/:branchAddress"
+          path="/:cityName/:merchantName/Branch/:branchId/:branchAddress"
           element={<BranchToBankDetails />}
         />
       </Routes>
