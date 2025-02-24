@@ -150,7 +150,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {suggestions.length > 0 ? (
-                <div className="suggestions-list">
+                <div className="top_suggestions-list">
                   {suggestions.map((suggestion, index) => (
                     <div
                       key={index}
@@ -184,6 +184,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             id="navbarNav"
           >
             <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <Link className="nav_links" to="/">
+                  Home
+                </Link>
+              </li>
               <li className="nav-item">
                 <a className="nav_links" onClick={handleAboutUs}>
                   About us

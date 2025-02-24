@@ -89,14 +89,6 @@
   font-size: 20px;
 }
 
-.suggestions-list {
-  background: white;
-  width: 50%;
-  border-radius: 5px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  margin-top: 5px;
-  position: absolute;
-}
 
 .suggestion-item {
   padding: 10px;
@@ -132,6 +124,7 @@
   background-color: #ff0b0b;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
@@ -147,9 +140,51 @@
 }
 
 /* Container for suggestions list */
+.top_suggestions-list {
+  position: absolute;
+  background: rgb(108 25 25 / 62%);
+  backdrop-filter: blur(10px);
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  top: 100%;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 5px;
+}
+
+/* Custom scrollbar for WebKit (Chrome, Edge, Safari) */
+.top_suggestions-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.top_suggestions-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.top_suggestions-list::-webkit-scrollbar-thumb {
+  background: rgba(167, 48, 48, 0.7);
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.top_suggestions-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 48, 48, 1);
+}
+
+/* Scrollbar for Firefox */
+.top_suggestions-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(98 29 29 / 83%) rgba(255, 255, 255, 0.2);
+}
+
+
 .suggestions-list {
   position: absolute;
-  background: rgb(167 48 48 / 35%);
+  background: rgb(108 25 25 / 62%);
   backdrop-filter: blur(10px);
   width: 50%;
   max-height: 200px;
@@ -157,9 +192,35 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   top: 100%;
-  /* left: 0; */
   border-radius: 5px;
   margin-top: 5px;
+  padding: 5px;
+}
+
+/* Custom scrollbar for WebKit (Chrome, Edge, Safari) */
+.suggestions-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.suggestions-list::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb {
+  background: rgba(167, 48, 48, 0.7);
+  border-radius: 10px;
+  transition: background 0.3s ease-in-out;
+}
+
+.suggestions-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(167, 48, 48, 1);
+}
+
+/* Scrollbar for Firefox */
+.suggestions-list {
+  scrollbar-width: thin;
+  scrollbar-color: rgb(98 29 29 / 83%) rgba(255, 255, 255, 0.2);
 }
 
 /* Styling for each suggestion item */
