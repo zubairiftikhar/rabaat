@@ -112,8 +112,8 @@ export const fetchMerchantsByCityBankAndCard = async (CityName,bankName,cardName
 };
 
 // Fetch Discounts for a Merchant in a City and Bank
-export const fetchDiscountsForMerchant = async (merchantId, bankId, cityId) => {
-  const response = await api.get(`/discounts/${merchantId}/${bankId}/${cityId}`);
+export const fetchDiscountsForMerchant = async (merchantName, bankName, cityName) => {
+  const response = await api.get(`/discounts/${merchantName}/${bankName}/${cityName}`);
   return response.data;
 };
 

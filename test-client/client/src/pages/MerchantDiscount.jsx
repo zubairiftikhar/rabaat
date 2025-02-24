@@ -1,39 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
-import { fetchDiscountsForMerchant, fetchBankByBankId } from "../services/api";
+import {
+  fetchDiscountsForMerchant,
+  fetchBankByBankName,
+} from "../services/api";
 import DiscountCard from "../components/DiscountCard";
 import "./stylepages.css";
 
 const MerchantDiscount = () => {
-  const [cityId, setCityId] = useState(null);
-  const location = useLocation();
-  const [merchantId, setMerchantId] = useState(null);
-  const [bankId, setbankId] = useState(null);
+  const { cityName, merchantName, bankName } = useParams();
   const [discounts, setDiscounts] = useState([]);
   const [bank, setbank] = useState([]);
+
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (location) {
-      const queryParams = new URLSearchParams(location.search);
-      const cityIdFromQuery = queryParams.get("CityID");
-      setCityId(cityIdFromQuery);
-      const merchantIdFromQuery = queryParams.get("MerchantID");
-      setMerchantId(merchantIdFromQuery);
-      const bankIdFromQuery = queryParams.get("BankID");
-      setbankId(bankIdFromQuery);
-    }
-  }, [location]);
-
-  useEffect(() => {
-    if (bankId) {
+    if (bankName) {
       const fetchBankDetails = async () => {
         try {
-          const data = await fetchBankByBankId(bankId); // Fetch banks using cityId and merchantId
+          const data = await fetchBankByBankName(
+            replaceUnderscoreWithSpaces(bankName)
+          ); // Fetch banks using cityId and merchantId
           setbank(data);
         } catch (error) {
           console.error("Error fetching bank details:", error);
@@ -41,16 +35,16 @@ const MerchantDiscount = () => {
       };
       fetchBankDetails();
     }
-  }, [bankId]);
+  }, [bankName]);
 
   useEffect(() => {
-    if (merchantId && bankId && cityId) {
+    if (merchantName && bankName && cityName) {
       const getDiscounts = async () => {
         try {
           const data = await fetchDiscountsForMerchant(
-            merchantId,
-            bankId,
-            cityId
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(bankName),
+            replaceUnderscoreWithSpaces(cityName)
           );
 
           // Group discounts by discount amount and process card/branch details
@@ -101,7 +95,7 @@ const MerchantDiscount = () => {
 
       getDiscounts();
     }
-  }, [merchantId, bankId, cityId]);
+  }, [merchantName, bankName, cityName]);
 
   return (
     <>

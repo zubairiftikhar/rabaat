@@ -390,8 +390,8 @@ app.get("/api/branch-count/:merchantName/:cityName", (req, res) => {
 
 
 // Fetch Discounts for a Merchant in a City and Bank with Branch and Card Details
-app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
-  const { merchantId, bankId, cityId } = req.params;
+app.get("/api/discounts/:merchantName/:bankName/:cityName", (req, res) => {
+  const { merchantName, bankName, cityName } = req.params;
 
   const query = `
     SELECT 
@@ -413,12 +413,14 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
     LEFT JOIN card c ON cd.CardID = c.CardID
     LEFT JOIN bank b ON d.BankID = b.BankID
     LEFT JOIN merchantbranch mb ON d.BranchID = mb.BranchID
-    LEFT JOIN citybanklink cb ON b.BankID = cb.BankID AND cb.CityID = ?
-    WHERE mb.MerchantID = ? AND d.BankID = ? AND mb.CityID = ?
+    LEFT JOIN citybanklink cb ON b.BankID = cb.BankID
+    LEFT JOIN merchant m ON mb.MerchantID = m.MerchantID
+    LEFT JOIN city ct ON mb.CityID = ct.CityID
+    WHERE m.MerchantName = ? AND b.BankName = ? AND ct.CityName = ?
     GROUP BY d.DiscountID
   `;
 
-  db.query(query, [cityId, merchantId, bankId, cityId], (err, results) => {
+  db.query(query, [merchantName, bankName, cityName], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: "Error fetching discounts from the database." });
@@ -450,6 +452,7 @@ app.get("/api/discounts/:merchantId/:bankId/:cityId", (req, res) => {
     res.json(formattedResults);
   });
 });
+
 
 
 
