@@ -153,7 +153,7 @@ const Mainsecsearch = () => {
                   <BiSearch className="search-icon" />
                 </div>
               </div>
-              {loading && <div className="loader">Loading...</div>}
+              
               {suggestions.length > 0 && (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (

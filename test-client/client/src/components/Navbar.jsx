@@ -140,17 +140,17 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
-            <div className="search-bar ms-3" style={{ bottom: "15px" }}>
+            <div className="search-bar ms-3">
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
-                className="form-control"
+                className="top_form-control"
                 placeholder="Search..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               {suggestions.length > 0 ? (
-                <div className="suggestions-list">
+                <div className="top_suggestions-list">
                   {suggestions.map((suggestion, index) => (
                     <div
                       key={index}
@@ -184,6 +184,11 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             id="navbarNav"
           >
             <ul className="navbar-nav ms-auto">
+              <li className="nav-item">
+                <Link className="nav_links" to="/">
+                  Home
+                </Link>
+              </li>
               <li className="nav-item">
                 <a className="nav_links" onClick={handleAboutUs}>
                   About us

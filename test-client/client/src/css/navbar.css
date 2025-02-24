@@ -124,31 +124,34 @@
   border-bottom: 1px solid #ffffff;
 }
 
-.top_mainsearchicon {
-  color: #ffffff;
-  font-size: 20px;
+.mainsearchicon {
+  position: relative;
+  left: 88%;
+  color: aliceblue;
 }
 
 .top_form-control {
   background: transparent;
-  border: 0;
+  border: 1px solid red;
+  border-radius: 30px;
+  width: 300px;
 }
 
 .top_form-control:focus-visible {
-  border: none;
+  border: 1px solid red;
   outline: none;
   color: aliceblue;
 }
 
 .top_form-control:focus {
-  border: none;
+  border: 1px solid red;
   color: aliceblue;
   outline: none;
 }
 
 .top_form-control[type="text"] {
   font-size: 16px;
-  padding: 4px 8px;
+  padding: 6px 15px;
 }
 
 .navbar-nav li a,
@@ -211,7 +214,7 @@ nav.fill ul li a {
   flex: 1;
   display: flex;
   align-items: center;
-  min-width: 300px;
+  min-width: 700px;
   gap: 15px;
 }
 
@@ -287,6 +290,7 @@ nav.fill ul li a {
   .footer-left {
     flex-direction: column;
     align-items: center;
+    min-width: 300px;
     text-align: center;
   }
 
@@ -335,6 +339,9 @@ nav.fill ul li a {
   .footer-icons {
     gap: 10px;
     font-size: 18px;
+  }
+  .top_form-control {
+    width: 200px;
   }
 }
 

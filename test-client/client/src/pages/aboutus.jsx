@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Rabbit_about from "../../public/assets/img/landing/about_rabbit.webm";
 import About_bg from "../../public/assets/img/landing/about_bg.png";
 
 const AboutUs = () => {
+    useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
   return <>
     <img className="about_bg"
       src={About_bg} />

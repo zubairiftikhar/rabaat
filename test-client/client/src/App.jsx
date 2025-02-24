@@ -15,6 +15,7 @@ import BranchToBankDetails from "./pages/branchtobanks";
 import LocationModal from "./components/LocationModal";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/contactus";
+import TermOfUse from "./pages/termsofuse"
 import Cookies from "js-cookie";
 import SearchByBank from "./pages/SearchByBank";
 import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
@@ -84,6 +85,7 @@ const App = () => {
         />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
+        <Route path="/TermOfUse" element={<TermOfUse />} />
         <Route path="/:cityName/banks" element={<Banks />} />
         <Route path="/:cityName" element={<Merchants />} />
         <Route
