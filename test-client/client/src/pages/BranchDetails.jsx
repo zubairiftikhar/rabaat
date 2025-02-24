@@ -43,7 +43,9 @@ const BranchDetails = () => {
       // Fetch merchant details
       const getMerchants = async () => {
         try {
-          const data = await fetchMerchantByMerchantName(merchantName);
+          const data = await fetchMerchantByMerchantName(
+            replaceUnderscoreWithSpaces(merchantName)
+          );
           setMerchants(data);
         } catch (error) {
           console.error("Error fetching merchant:", error);
@@ -53,7 +55,10 @@ const BranchDetails = () => {
       // Fetch Banks
       const getchBanks = async () => {
         try {
-          const data = await fetchDiscountBanks(cityName, merchantName); // Fetch banks using cityId and merchantId
+          const data = await fetchDiscountBanks(
+            replaceUnderscoreWithSpaces(cityName),
+            replaceUnderscoreWithSpaces(merchantName)
+          ); // Fetch banks using cityId and merchantId
           setBanksWithDiscounts(data);
         } catch (error) {
           console.error("Error fetching banks with discounts:", error);
@@ -63,7 +68,10 @@ const BranchDetails = () => {
       // Fetch branches
       const getBranches = async () => {
         try {
-          const data = await fetchBranchesForMerchant(merchantName, cityName);
+          const data = await fetchBranchesForMerchant(
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(cityName)
+          );
           setBranches(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -73,7 +81,10 @@ const BranchDetails = () => {
       // Fetch branches Count
       const getBranchesCount = async () => {
         try {
-          const data = await fetchBranchCount(merchantName, cityName);
+          const data = await fetchBranchCount(
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(cityName)
+          );
           setBranchesCount(data);
         } catch (error) {
           console.error("Error fetching branches:", error);
@@ -82,8 +93,8 @@ const BranchDetails = () => {
       const getBanksMaxDiscount = async () => {
         try {
           const data = await fetchMaximumDiscountAnyBank(
-            merchantName,
-            cityName
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(cityName)
           );
           setBanksMaxDiscount(data);
         } catch (error) {
@@ -197,8 +208,8 @@ const BranchDetails = () => {
             {banksWithDiscounts.map((bank) => (
               <div className="col-md-2 col-sm-12" key={bank.bank_id}>
                 <BankWithMerchant
-                  cityName={cityName}
-                  merchantName={merchantName}
+                  cityName={replaceUnderscoreWithSpaces(cityName)}
+                  merchantName={replaceUnderscoreWithSpaces(merchantName)}
                   bank={bank}
                 />
               </div>
