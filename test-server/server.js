@@ -48,6 +48,17 @@ app.get("/api/cities/:cityId", (req, res) => {
   });
 });
 
+// 2. Fetch city by ID
+app.get("/api/cityByName/:cityName", (req, res) => {
+  const { cityName } = req.params;
+  const query = "SELECT CityID AS id, CityName AS name, image_path AS image FROM city WHERE CityName = ?";
+  db.query(query, [cityName], (err, result) => {
+    if (err) return res.status(500).json(err);
+    if (result.length === 0) return res.status(404).json({ message: "City not found" });
+    res.json(result[0]); // Return single city object
+  });
+});
+
 
 // 1. Fetch all Banks
 app.get("/api/allbanks", (req, res) => {
@@ -457,8 +468,8 @@ app.get("/api/discounts/:merchantName/:bankName/:cityName", (req, res) => {
 
 
 // Fetch Discounts for a Merchant in a City and Bank with Branch and Card Details
-app.get("/api/cardDiscounts/:merchantId/:bankName/:cityId/:cardName", (req, res) => {
-  const { merchantId, bankName, cityId, cardName } = req.params;
+app.get("/api/cardDiscounts/:merchantName/:bankName/:cityName/:cardName", (req, res) => {
+  const { merchantName, bankName, cityName, cardName } = req.params;
 
   const query = `
     SELECT 
@@ -479,14 +490,16 @@ app.get("/api/cardDiscounts/:merchantId/:bankName/:cityId/:cardName", (req, res)
     LEFT JOIN card c ON cd.CardID = c.CardID
     LEFT JOIN bank b ON d.BankID = b.BankID
     LEFT JOIN merchantbranch mb ON d.BranchID = mb.BranchID
-    WHERE mb.MerchantID = ? 
+    LEFT JOIN merchant m ON mb.MerchantID = m.MerchantID
+    LEFT JOIN city ct ON mb.CityID = ct.CityID
+    WHERE m.MerchantName = ? 
       AND b.BankName = ? 
-      AND mb.CityID = ? 
+      AND ct.CityName = ? 
       AND c.CardName = ?
     GROUP BY d.DiscountID
   `;
 
-  db.query(query, [merchantId, bankName, cityId, cardName], (err, results) => {
+  db.query(query, [merchantName, bankName, cityName, cardName], (err, results) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ error: "Error fetching discounts from the database." });
@@ -518,6 +531,7 @@ app.get("/api/cardDiscounts/:merchantId/:bankName/:cityId/:cardName", (req, res)
     res.json(formattedResults);
   });
 });
+
 
 
 
@@ -572,8 +586,8 @@ app.get("/api/maximum-discount-any-bank/:merchantName/:cityName", (req, res) => 
   });
 });
 
-app.get("/api/maximum-discount-specific-bank-card/:merchantId/:cityId/:bankName/:cardName", (req, res) => {
-  const { merchantId, cityId, bankName, cardName } = req.params;
+app.get("/api/maximum-discount-specific-bank-card/:merchantName/:cityName/:bankName/:cardName", (req, res) => {
+  const { merchantName, cityName, bankName, cardName } = req.params;
 
   const query = `
     SELECT 
@@ -581,14 +595,13 @@ app.get("/api/maximum-discount-specific-bank-card/:merchantId/:cityId/:bankName/
     FROM bankmerchantdiscount bmd
     INNER JOIN merchantbranch mb ON bmd.BranchID = mb.BranchID
     LEFT JOIN carddiscount cd ON bmd.DiscountID = cd.DiscountID
-    WHERE mb.MerchantID = ? 
-      AND mb.CityID = ?
+    WHERE mb.BranchName = ? 
+      AND mb.CityName = ?
       AND bmd.BankName = ?
       AND bmd.CardName = ?
-
   `;
 
-  db.query(query, [merchantId, cityId, bankName, cardName], (err, results) => {
+  db.query(query, [merchantName, cityName, bankName, cardName], (err, results) => {
     if (err) return res.status(500).json({ error: err.message });
     res.json({
       max_discount: results[0]?.max_discount || 0,

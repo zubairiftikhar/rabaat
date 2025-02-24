@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, useMemo } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   fetchMerchantsByCityBankAndCard,
   fetchMaximumDiscountAnyBank,
@@ -13,21 +13,19 @@ import { Helmet } from "react-helmet";
 import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
 const MerchantsByBankAndCard = () => {
-  const { cityName, bankName, cardName, cityID } = useParams();
-  const cityId = cityID;
+  const { cityName, bankName, cardName } = useParams();
   const [merchants, setMerchants] = useState([]);
   const [discountedMerchants, setDiscountedMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [categories, setCategories] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
-  const location = useLocation();
   const sliderRefs = useRef({});
   const autoScrollInterval = useRef(null);
   const [loading, setLoading] = useState(true);
 
   const formatDbName = (urlName) => {
     return urlName
-      .split("-") // Split by hyphen
+      .split("_") // Split by hyphen
       .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
       .join(" "); // Join words back with spaces
   };
@@ -40,7 +38,7 @@ const MerchantsByBankAndCard = () => {
   }, []);
 
   useEffect(() => {
-    if (cityId) {
+    if (cityName) {
       setLoading(true);
       const getMerchants = async () => {
         try {
@@ -59,8 +57,8 @@ const MerchantsByBankAndCard = () => {
           const merchantsWithDiscounts = await Promise.all(
             data.merchants.map(async (merchant) => {
               const discountData = await fetchMaximumDiscountAnyBank(
-                merchant.id,
-                cityId
+                merchant.name,
+                cityName
               );
               return {
                 ...merchant,
@@ -78,7 +76,7 @@ const MerchantsByBankAndCard = () => {
       };
       getMerchants();
     }
-  }, [cityId]);
+  }, [cityName]);
 
   const handleSliderScroll = (direction, category) => {
     const slider = sliderRefs.current[category];
@@ -245,7 +243,6 @@ const MerchantsByBankAndCard = () => {
                         >
                           <MerchantBankCard
                             cityName={cityName}
-                            cityId={cityId}
                             merchant={merchant}
                             bankName={BankName}
                             cardName={CardName}

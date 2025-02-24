@@ -7,8 +7,18 @@ import "../css/card.css";
 const BankCardCard = ({ card, cityID, cityName, bankName }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
+  const replaceSpacesWithUnderscore = (name) => {
+    return name.replace(/\s+/g, "_");
+  };
+
   const handleBankClick = () => {
-    navigate(`/${cityName}/${bankName}/${card.CardName}/${cityID}`); // Navigate to Merchants page with bankId and cityId
+    navigate(
+      `/${replaceSpacesWithUnderscore(
+        cityName
+      )}/Bank/${replaceSpacesWithUnderscore(
+        bankName
+      )}/${replaceSpacesWithUnderscore(card.CardName)}`
+    ); // Navigate to Merchants page with bankId and cityId
   };
 
   return (

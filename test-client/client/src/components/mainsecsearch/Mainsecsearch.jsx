@@ -118,7 +118,7 @@ const Mainsecsearch = () => {
 
   // Navigate to Search-By-Bank page
   const handleSearchWithBankCard = () => {
-    navigate(`/${cityName}/${cityID}/Search-By-Bank`);
+    navigate(`/${cityName}/Search-By-Bank`);
   };
 
   return (
@@ -153,7 +153,7 @@ const Mainsecsearch = () => {
                   <BiSearch className="search-icon" />
                 </div>
               </div>
-              
+
               {suggestions.length > 0 && (
                 <div className="suggestions-list">
                   {suggestions.map((suggestion, index) => (

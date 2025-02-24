@@ -77,7 +77,7 @@ const Banks = () => {
                 className={`switch-btn ${
                   location.pathname.includes("Banks") ? "active" : ""
                 }`}
-                onClick={() => navigate(`/${cityName}/Banks`)}
+                onClick={() => navigate(`/${cityName}/Bank`)}
               >
                 Banks
               </button>

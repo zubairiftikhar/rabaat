@@ -5,7 +5,7 @@ import { fetchallBanks, getCardsByBank } from "../services/api";
 import "../css/SearchByBank.css";
 
 const SearchByBank = () => {
-  const { cityName, cityID } = useParams();
+  const { cityName } = useParams();
 
   const [banks, setBanks] = useState([]);
   const [selectedBank, setSelectedBank] = useState(null);
@@ -81,13 +81,13 @@ const SearchByBank = () => {
     if (selectedBank && selectedCard) {
       const bankName = selectedBank.label.props.children[0].props.children
         .toLowerCase()
-        .replace(/\s+/g, "-"); // Convert bank name to URL-friendly format
+        .replace(/\s+/g, "_"); // Convert bank name to URL-friendly format
       const cardName = selectedCard.label.props.children[0].props.children
         .toLowerCase()
-        .replace(/\s+/g, "-"); // Convert card name to URL-friendly format
+        .replace(/\s+/g, "_"); // Convert card name to URL-friendly format
 
       // Include cityID as a query parameter
-      navigate(`/${cityName}/${bankName}/${cardName}/${cityID}`); // Navigate to the new URL
+      navigate(`/${cityName}/Bank/${bankName}/${cardName}`); // Navigate to the new URL
     }
   };
 

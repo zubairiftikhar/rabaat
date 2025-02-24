@@ -13,10 +13,16 @@ const Cards = () => {
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
 
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
+
   useEffect(() => {
     const getCards = async () => {
       try {
-        const data = await getCardsByBank(bankName);
+        const data = await getCardsByBank(
+          replaceUnderscoreWithSpaces(bankName)
+        );
         setCards(data);
       } catch (error) {
         console.error("Error fetching banks:", error);

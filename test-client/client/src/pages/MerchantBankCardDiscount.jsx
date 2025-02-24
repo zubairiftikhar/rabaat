@@ -9,32 +9,25 @@ import DiscountCard from "../components/DiscountCard";
 import "./stylepages.css";
 
 const MerchantBankCardDiscount = () => {
-  const { bankName, cardName, merchantName } = useParams();
-  const [cityId, setCityId] = useState(null);
-  const location = useLocation();
-  const [merchantId, setMerchantId] = useState(null);
+  const { cityName, bankName, cardName, merchantName } = useParams();
   const [discounts, setDiscounts] = useState([]);
   const [bank, setbank] = useState([]);
+
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   useEffect(() => {
-    if (location) {
-      const queryParams = new URLSearchParams(location.search);
-      const cityIdFromQuery = queryParams.get("CityID");
-      setCityId(cityIdFromQuery);
-      const merchantIdFromQuery = queryParams.get("MerchantID");
-      setMerchantId(merchantIdFromQuery);
-    }
-  }, [location]);
-
-  useEffect(() => {
     if (bankName) {
       const fetchBankDetails = async () => {
         try {
-          const data = await fetchBankByBankName(bankName); // Fetch banks using cityId and merchantId
+          const data = await fetchBankByBankName(
+            replaceUnderscoreWithSpaces(bankName)
+          ); // Fetch banks using cityId and merchantId
           setbank(data);
         } catch (error) {
           console.error("Error fetching bank details:", error);
@@ -45,17 +38,24 @@ const MerchantBankCardDiscount = () => {
   }, [bankName]);
 
   useEffect(() => {
-    if (merchantId && bankName && cityId) {
+    if (merchantName && bankName && cityName && cardName) {
       const getDiscounts = async () => {
         try {
           const data = await fetchDiscountsForMerchantForCard(
-            merchantId,
-            bankName,
-            cityId,
-            cardName
+            replaceUnderscoreWithSpaces(merchantName),
+            replaceUnderscoreWithSpaces(bankName),
+            replaceUnderscoreWithSpaces(cityName),
+            replaceUnderscoreWithSpaces(cardName)
           );
 
-          // Group discounts by discount amount and process card/branch details
+          console.log("Fetched Discounts Data:", data); // Debugging Log
+
+          if (!Array.isArray(data)) {
+            console.error("Unexpected data format:", data);
+            setDiscounts([]); // Ensure empty array if data is invalid
+            return;
+          }
+
           const groupedDiscounts = data.reduce((acc, discount) => {
             const key = discount.discount_amount;
             if (!acc[key]) {
@@ -63,15 +63,15 @@ const MerchantBankCardDiscount = () => {
                 discount_amount: discount.discount_amount,
                 discount_type: discount.discount_type,
                 cards: new Map(
-                  discount.cards.map(({ cardName, cardImage }) => [
+                  discount.cards?.map(({ cardName, cardImage }) => [
                     cardName,
                     cardImage,
-                  ])
+                  ]) || []
                 ),
-                branches: discount.branches,
+                branches: discount.branches || [],
               };
             } else {
-              discount.cards.forEach(({ cardName, cardImage }) =>
+              discount.cards?.forEach(({ cardName, cardImage }) =>
                 acc[key].cards.set(cardName, cardImage)
               );
             }
@@ -90,11 +90,12 @@ const MerchantBankCardDiscount = () => {
             })
           );
 
-          // Sort discounts in descending order by discount amount
+          // Sort discounts in descending order
           formattedDiscounts = formattedDiscounts.sort(
             (a, b) => b.discount_amount - a.discount_amount
           );
 
+          console.log("Formatted Discounts:", formattedDiscounts); // Debugging Log
           setDiscounts(formattedDiscounts);
         } catch (error) {
           console.error("Error fetching discounts:", error);
@@ -103,20 +104,20 @@ const MerchantBankCardDiscount = () => {
 
       getDiscounts();
     }
-  }, [merchantId, bankName, cityId]);
+  }, [merchantName, bankName, cityName, cardName]);
 
   return (
     <>
       <div className="bank-page-container">
         <div className="bank-banner">
           <img
-            src={`../../../public/assets/img/banks_banner/${bank.image_path}`}
+            src={`../../../../public/assets/img/banks_banner/${bank.image_path}`}
             alt={bank.name}
             className="banner-image"
           />
           <div className="bank-info">
             <img
-              src={`../../../public/assets/img/banks/${bank.image_path}`}
+              src={`../../../../public/assets/img/banks/${bank.image_path}`}
               alt={bank.name}
             />
             <h2 className="bank-name">{bank.name}</h2>

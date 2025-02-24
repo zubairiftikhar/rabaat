@@ -79,22 +79,19 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route
-          path="/:cityName/:cityID/Search-By-Bank"
-          element={<SearchByBank />}
-        />
+        <Route path="/:cityName/Search-By-Bank" element={<SearchByBank />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/TermOfUse" element={<TermOfUse />} />
-        <Route path="/:cityName/banks" element={<Banks />} />
+        <Route path="/:cityName/Bank" element={<Banks />} />
         <Route path="/:cityName" element={<Merchants />} />
         <Route
-          path="/:cityName/:bankName/:cardName/:cityID"
+          path="/:cityName/Bank/:bankName/:cardName/"
           element={<MerchantsByBankAndCard />}
         />
-        <Route path="/:cityName/:bankName/Cards/:cityID" element={<Cards />} />
+        <Route path="/:cityName/Bank/:bankName" element={<Cards />} />
         <Route
-          path="/BankDiscount/:bankName/:cardName/:merchantName"
+          path="/:cityName/Bank/:bankName/:cardName/:merchantName"
           element={<MerchantBankCardDiscount />}
         />
         <Route path="/deals" element={<Deals />} />
