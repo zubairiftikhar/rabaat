@@ -5,6 +5,7 @@ import BankCardCard from "../components/BankCardCard";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 import "../components/mainsecsearch/mainsecsearch.css";
 import "../css/cityload.css";
+import SkeletonBankCard from "../components/SkeletonBankCard";
 
 const Cards = () => {
   const { cityName, bankName, cityID } = useParams();
@@ -12,47 +13,52 @@ const Cards = () => {
   const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [loading, setLoading] = useState(true);
 
   const replaceUnderscoreWithSpaces = (name) => {
     return name.replace(/_/g, " ");
   };
 
   useEffect(() => {
+    setLoading(true);
     const getCards = async () => {
       try {
         const data = await getCardsByBank(
           replaceUnderscoreWithSpaces(bankName)
         );
-        setCards(data);
+        setCards(data || []);
       } catch (error) {
         console.error("Error fetching banks:", error);
+      } finally {
+        setLoading(false);
       }
     };
     getCards();
   }, [bankName]);
 
   const loadMore = () => {
-    setLoadingMore(true); // Start the animation
+    setLoadingMore(true);
     setTimeout(() => {
-      setVisibleCards((prevCards) => prevCards + 8); // Show 8 more cards after delay
-      setLoadingMore(false); // End the animation
-    }, 1000); // Delay in milliseconds
+      setVisibleCards((prevCards) => prevCards + 8);
+      setLoadingMore(false);
+    }, 1000);
   };
 
   const filteredCards = cards.filter(
-    (card) => card.CardName.toLowerCase().includes(searchQuery.toLowerCase()) // Filter banks by name
+    (card) => card.CardName?.toLowerCase().includes(searchQuery.toLowerCase()) // Ensure `CardName` exists
   );
 
-  const cardsToShow = filteredCards.slice(0, visibleCards); // Show banks up to visibleCards count
-
-  const isLoadMoreDisabled = cardsToShow.length >= filteredCards.length; // Disable if all banks are loaded
+  const cardsToShow = filteredCards.slice(0, visibleCards);
+  const isLoadMoreDisabled = cardsToShow.length >= filteredCards.length;
 
   return (
     <>
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Cards of {bankName}</h1>
+            <h1 className="main_heading">
+              Cards of {replaceUnderscoreWithSpaces(bankName)}
+            </h1>
             <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY CARDS</span>
@@ -62,46 +68,56 @@ const Cards = () => {
             <div className="d-flex pt-3 pb-4 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
                 <span className="input-group-text">
-                  <FaSearch /> {/* React Icon Search Icon */}
+                  <FaSearch />
                 </span>
                 <input
                   type="text"
                   className="form-control"
-                  placeholder="Search Bank Here..."
+                  placeholder="Search Card Here..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+                  onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
             </div>
           </div>
         </div>
       </div>
+      {/* Card Listing */}
       <div className="container">
         <div className="row">
-          {cardsToShow.map((card, index) => (
-            <div
-              className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
-              key={card.CardName}
-              style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
-            >
-              <BankCardCard
-                card={card}
-                cityName={cityName}
-                x
-                cityID={cityID}
-                bankName={bankName}
-              />
+          {loading ? (
+            <div className="row">
+              {[...Array(12)].map((_, index) => (
+                <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
+                  <SkeletonBankCard />
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            cardsToShow.map((card, index) => (
+              <div
+                className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`}
+                key={card.id || index} // Ensure a unique key
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <BankCardCard
+                  card={card}
+                  cityName={cityName}
+                  cityID={cityID}
+                  bankName={bankName}
+                />
+              </div>
+            ))
+          )}
         </div>
-        {/* Only show "Load More" button if there are more banks to load */}
+        {/* Load More Button */}
         {filteredCards.length > cardsToShow.length && (
           <div className="text-center mt-4">
             <button
               className="btn rabaat_login_btn"
               style={{ background: "transparent", color: "black" }}
               onClick={loadMore}
-              disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
+              disabled={isLoadMoreDisabled}
             >
               {loadingMore ? "Loading..." : "Load More"}
             </button>

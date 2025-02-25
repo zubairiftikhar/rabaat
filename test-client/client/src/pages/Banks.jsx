@@ -6,6 +6,7 @@ import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 import "../components/mainsecsearch/mainsecsearch.css";
 import "../css/cityload.css";
+import SkeletonBankCard from "../components/SkeletonBankCard";
 
 const Banks = () => {
   const { cityName } = useParams();
@@ -15,6 +16,7 @@ const Banks = () => {
   const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -23,12 +25,15 @@ const Banks = () => {
   }, [location]);
 
   useEffect(() => {
+    setLoading(true);
     const getBanks = async () => {
       try {
         const data = await fetchBanksByCityName(cityName);
         setBanks(data);
       } catch (error) {
         console.error("Error fetching banks:", error);
+      } finally {
+        setLoading(false);
       }
     };
     getBanks();
@@ -66,7 +71,7 @@ const Banks = () => {
               <button
                 type="button"
                 className={`switch-btn ${
-                  location.pathname.includes("Banks") ? "" : "active"
+                  location.pathname.includes("Bank") ? "" : "active"
                 }`}
                 onClick={() => navigate(`/${cityName}`)}
               >
@@ -75,7 +80,7 @@ const Banks = () => {
               <button
                 type="button"
                 className={`switch-btn ${
-                  location.pathname.includes("Banks") ? "active" : ""
+                  location.pathname.includes("Bank") ? "active" : ""
                 }`}
                 onClick={() => navigate(`/${cityName}/Bank`)}
               >
@@ -83,7 +88,7 @@ const Banks = () => {
               </button>
               <div
                 className={`switch-slider ${
-                  location.pathname.includes("Banks") ? "move-right" : ""
+                  location.pathname.includes("Bank") ? "move-right" : ""
                 }`}
               ></div>
             </div>
@@ -119,29 +124,26 @@ const Banks = () => {
       </div>
       <div className="container">
         <div className="row">
-          {banksToShow.map((bank, index) => (
-            <div
-              className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
-              key={bank.id}
-              style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
-            >
-              <BankCard bank={bank} cityId={cityId} cityName={cityName} />
+          {loading ? (
+            <div className="row">
+              {[...Array(6)].map((_, index) => (
+                <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
+                  <SkeletonBankCard />
+                </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            banksToShow.map((bank, index) => (
+              <div
+                className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
+                key={bank.id}
+                style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
+              >
+                <BankCard bank={bank} cityId={cityId} cityName={cityName} />
+              </div>
+            ))
+          )}
         </div>
-        {/* Only show "Load More" button if there are more banks to load */}
-        {filteredBanks.length > banksToShow.length && (
-          <div className="text-center mt-4">
-            <button
-              className="btn rabaat_login_btn"
-              style={{ background: "transparent", color: "black" }}
-              onClick={loadMore}
-              disabled={isLoadMoreDisabled} // Disable button if all banks are loaded
-            >
-              {loadingMore ? "Loading..." : "Load More"}
-            </button>
-          </div>
-        )}
       </div>
     </>
   );

@@ -128,7 +128,7 @@ const Merchants = () => {
               <button
                 type="button"
                 className={`switch-btn ${
-                  location.pathname.includes("Banks") ? "" : "active"
+                  location.pathname.includes("Bank") ? "" : "active"
                 }`}
                 onClick={() => navigate(`/${cityName}`)}
               >
@@ -137,7 +137,7 @@ const Merchants = () => {
               <button
                 type="button"
                 className={`switch-btn ${
-                  location.pathname.includes("Banks") ? "active" : ""
+                  location.pathname.includes("Bank") ? "active" : ""
                 }`}
                 onClick={() => navigate(`/${cityName}/Bank`)}
               >
@@ -145,7 +145,7 @@ const Merchants = () => {
               </button>
               <div
                 className={`switch-slider ${
-                  location.pathname.includes("Banks") ? "move-right" : ""
+                  location.pathname.includes("Bank") ? "move-right" : ""
                 }`}
               ></div>
             </div>
@@ -234,8 +234,8 @@ const Merchants = () => {
       <div className="container">
         {loading ? (
           <div className="row">
-            {[...Array(6)].map((_, index) => (
-              <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+            {[...Array(18)].map((_, index) => (
+              <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
                 <SkeletonMerchantCard />
               </div>
             ))}
