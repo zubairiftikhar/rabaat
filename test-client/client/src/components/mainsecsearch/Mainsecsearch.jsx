@@ -95,9 +95,7 @@ const Mainsecsearch = () => {
     navigate(
       `/${city.name}/${replaceSpacesWithUnderscore(
         merchant_name
-      )}/Branch/${replaceSpacesWithUnderscore(
-        branch_address
-      )}?BranchID=${branch_id}&MerchantID=${merchant_id}&CityID=${city.id}`
+      )}/Branch/${branch_id}/${replaceSpacesWithUnderscore(branch_address)}`
     );
   };
 

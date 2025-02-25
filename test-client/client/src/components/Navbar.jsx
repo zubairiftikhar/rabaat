@@ -100,10 +100,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
       `/${currentCity}/${merchant_name.replace(
         /\s+/g,
         "_"
-      )}/Branch/${branch_address.replace(
-        /\s+/g,
-        "_"
-      )}?BranchID=${branch_id}&MerchantID=${merchant_id}&CityID=${cityID}`
+      )}/Branch/${branch_id}/${branch_address.replace(/\s+/g, "_")}`
     );
   };
 
