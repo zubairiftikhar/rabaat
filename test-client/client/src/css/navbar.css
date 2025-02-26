@@ -149,6 +149,10 @@
   outline: none;
 }
 
+.top_form-control:focus-visible {
+  color: aliceblue;
+}
+
 .top_form-control[type="text"] {
   font-size: 16px;
   padding: 6px 15px;
