@@ -25,6 +25,73 @@ const Merchants = () => {
   const autoScrollInterval = useRef(null);
   const [loading, setLoading] = useState(true);
 
+  // Handle Touch Control Start
+  const handlePointerDown = (event, category) => {
+    if (!sliderRefs.current[category]) return;
+
+    let slider = sliderRefs.current[category];
+
+    slider.isDragging = true;
+    slider.startX = event.pageX;
+    slider.scrollLeftStart = slider.scrollLeft;
+    slider.velocity = 0;
+    slider.lastMoveTime = Date.now();
+
+    // Stop any existing momentum scroll
+    cancelAnimationFrame(slider.momentumFrame);
+  };
+
+  const handlePointerMove = (event, category) => {
+    let slider = sliderRefs.current[category];
+    if (!slider || !slider.isDragging) return;
+
+    let deltaX = event.pageX - slider.startX;
+    slider.scrollLeft = slider.scrollLeftStart - deltaX;
+
+    // Calculate velocity for smooth deceleration
+    let now = Date.now();
+    let timeDiff = now - slider.lastMoveTime;
+    slider.velocity = deltaX / (timeDiff || 1);
+
+    // Update for next frame
+    slider.lastMoveTime = now;
+  };
+
+  const handlePointerUp = (category) => {
+    let slider = sliderRefs.current[category];
+    if (!slider) return;
+
+    slider.isDragging = false;
+
+    let velocity = slider.velocity * 50; // Adjust for smooth inertia
+    let maxScrollLeft = slider.scrollWidth - slider.clientWidth;
+
+    const applyMomentum = () => {
+      if (!slider) return;
+
+      slider.scrollLeft -= velocity;
+      velocity *= 0.95; // Deceleration
+
+      // Prevent overshooting
+      if (slider.scrollLeft <= 0) {
+        slider.scrollLeft = 0;
+        return;
+      }
+      if (slider.scrollLeft >= maxScrollLeft) {
+        slider.scrollLeft = maxScrollLeft;
+        return;
+      }
+
+      if (Math.abs(velocity) > 1) {
+        slider.momentumFrame = requestAnimationFrame(applyMomentum);
+      }
+    };
+
+    requestAnimationFrame(applyMomentum);
+  };
+
+  // Handle Touch Control Ends
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -67,7 +134,7 @@ const Merchants = () => {
   }, [cityName]);
 
   const handleSliderScroll = (direction, category) => {
-    const slider = sliderRefs.current[category];
+    const slider = sliderRefs.current[category]; // Fix reference
     if (!slider) return;
 
     const scrollAmount = slider.offsetWidth / 2;
@@ -254,8 +321,17 @@ const Merchants = () => {
                       <FaChevronLeft />
                     </button>
                     <div
-                      className="merchant-slider d-flex overflow-hidden px-3"
-                      ref={(el) => (sliderRefs.current[category] = el)}
+                      className="category-slider"
+                      ref={(el) => (sliderRefs.current["categories"] = el)}
+                      onPointerDown={(e) => handlePointerDown(e, "categories")}
+                      onPointerMove={(e) => handlePointerMove(e, "categories")}
+                      onPointerUp={() => handlePointerUp("categories")}
+                      onPointerLeave={() => handlePointerUp("categories")} // Stop drag when pointer leaves
+                      style={{
+                        cursor: "grab",
+                        overflowX: "auto",
+                        scrollBehavior: "smooth",
+                      }}
                     >
                       {merchants.map((merchant) => (
                         <div

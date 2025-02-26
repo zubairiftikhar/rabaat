@@ -270,3 +270,12 @@
 }
 
 /* END CSS FOR BG IMAGE & SERCH */
+
+.category-slider {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
