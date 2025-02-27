@@ -154,7 +154,7 @@ const Merchants = () => {
     const startAutoScroll = () => {
       if (categoryScrollerRef.current) {
         scrollIntervalRef.current = setInterval(() => {
-          categoryScrollerRef.current.scrollLeft += 3; // Adjust speed here
+          categoryScrollerRef.current.scrollLeft += 2; // Adjust speed here
         }, 60);
       }
     };
@@ -241,7 +241,7 @@ const Merchants = () => {
                   onMouseLeave={() => {
                     stopAutoScroll();
                     scrollIntervalRef.current = setInterval(() => {
-                      categoryScrollerRef.current.scrollLeft += 1;
+                      categoryScrollerRef.current.scrollLeft += 2;
                     }, 50);
                   }}
                 >
