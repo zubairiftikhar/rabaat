@@ -5,7 +5,7 @@ import AuthModal from "./AuthModal";
 import LocationModal from "./LocationModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
-import rabaat_logo from "../../public/assets/img/landing/Rabaat.png";
+import rabaat_logo from "../../public/assets/img/landing/Rabaat (2).png";
 import Cookies from "js-cookie";
 import City from "../../public/assets/img/landing/city.png";
 import { IoMdArrowDropdown } from "react-icons/io";
@@ -134,7 +134,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
       <div className="container-fluid rabaat_nav_bg">
         <nav className="navbar navbar-expand-lg">
           <Link className="navbar-brand" to="/">
-            <img src={rabaat_logo} alt="Rabaat" style={{ width: "80px" }} />
+            <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
             <div className="search-bar ms-3">

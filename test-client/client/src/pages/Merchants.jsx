@@ -133,44 +133,6 @@ const Merchants = () => {
     }
   }, [cityName]);
 
-  const handleSliderScroll = (direction, category) => {
-    const slider = sliderRefs.current[category]; // Fix reference
-    if (!slider) return;
-
-    const scrollAmount = slider.offsetWidth / 2;
-    slider.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-    stopAutoScroll();
-  };
-
-  const startAutoScroll = (category) => {
-    if (autoScrollInterval.current) return;
-
-    autoScrollInterval.current = setInterval(() => {
-      const slider = sliderRefs.current[category];
-      if (!slider) return;
-
-      const maxScrollLeft = slider.scrollWidth - slider.offsetWidth;
-      if (slider.scrollLeft >= maxScrollLeft) {
-        slider.scrollLeft = 0;
-      } else {
-        slider.scrollLeft += 1;
-      }
-    }, 20);
-  };
-
-  const stopAutoScroll = () => {
-    clearInterval(autoScrollInterval.current);
-    autoScrollInterval.current = null;
-  };
-
-  useEffect(() => {
-    startAutoScroll("categories");
-    return () => stopAutoScroll();
-  }, [categories]);
-
   const categorizedMerchants = useMemo(() => {
     return categories
       .map((category) => ({
@@ -183,6 +145,28 @@ const Merchants = () => {
       }))
       .filter(({ merchants }) => merchants.length > 0);
   }, [discountedMerchants, categories, searchQuery, activeCategory]);
+
+  const categoryScrollerRef = useRef(null);
+  const scrollIntervalRef = useRef(null);
+
+  // Auto-scroll categories
+  useEffect(() => {
+    const startAutoScroll = () => {
+      if (categoryScrollerRef.current) {
+        scrollIntervalRef.current = setInterval(() => {
+          categoryScrollerRef.current.scrollLeft += 3; // Adjust speed here
+        }, 60);
+      }
+    };
+
+    startAutoScroll();
+
+    return () => clearInterval(scrollIntervalRef.current);
+  }, []);
+
+  const stopAutoScroll = () => {
+    clearInterval(scrollIntervalRef.current);
+  };
 
   const navigate = useNavigate();
   return (
@@ -239,33 +223,50 @@ const Merchants = () => {
               <span className="line"></span>
             </div>
             <div className="container">
-              <div className="d-flex align-items-center">
+              <div className="category-scroller-container">
                 <button
-                  className="arrow-btn"
-                  onClick={() => handleSliderScroll("left", "categories")}
+                  className="scroller-arrow left"
+                  onClick={() => {
+                    categoryScrollerRef.current.scrollLeft -= 100;
+                    stopAutoScroll();
+                  }}
                 >
                   <FaChevronLeft />
                 </button>
 
                 <div
-                  className="category-slider d-flex overflow-hidden px-3"
-                  ref={(el) => (sliderRefs.current["categories"] = el)}
+                  className="category-scroller"
+                  ref={categoryScrollerRef}
+                  onMouseEnter={stopAutoScroll}
+                  onMouseLeave={() => {
+                    stopAutoScroll();
+                    scrollIntervalRef.current = setInterval(() => {
+                      categoryScrollerRef.current.scrollLeft += 1;
+                    }, 50);
+                  }}
                 >
                   <button
                     className={`category-btn ${
                       activeCategory === "All" ? "active" : ""
                     }`}
-                    onClick={() => setActiveCategory("All")}
+                    onClick={() => {
+                      setActiveCategory("All");
+                      stopAutoScroll();
+                    }}
                   >
                     All
                   </button>
+
                   {categories.map((category) => (
                     <button
                       key={category}
                       className={`category-btn ${
                         activeCategory === category ? "active" : ""
                       }`}
-                      onClick={() => setActiveCategory(category)}
+                      onClick={() => {
+                        setActiveCategory(category);
+                        stopAutoScroll();
+                      }}
                     >
                       {category}
                     </button>
@@ -273,13 +274,17 @@ const Merchants = () => {
                 </div>
 
                 <button
-                  className="arrow-btn"
-                  onClick={() => handleSliderScroll("right", "categories")}
+                  className="scroller-arrow right"
+                  onClick={() => {
+                    categoryScrollerRef.current.scrollLeft += 100;
+                    stopAutoScroll();
+                  }}
                 >
                   <FaChevronRight />
                 </button>
               </div>
             </div>
+
             <div className="d-flex pt-5 pb-5 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
                 <span className="input-group-text">

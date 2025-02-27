@@ -279,3 +279,98 @@
 .category-slider::-webkit-scrollbar {
   display: none;
 }
+
+.category-slider {
+  display: flex;
+  gap: 10px;
+  cursor: grab;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+}
+
+.category-slider::-webkit-scrollbar {
+  display: none;
+}
+
+.category-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}
+
+.category-btn {
+  padding: 10px 15px;
+  border: none;
+  background-color: #f0f0f0;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background 0.3s ease;
+}
+
+.category-btn.active {
+  background-color: #007bff;
+  color: white;
+}
+
+.category-scroller-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+
+.category-scroller {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scroll-behavior: smooth;
+  padding: 10px 0;
+}
+
+.category-scroller::-webkit-scrollbar {
+  display: none; /* Hide scrollbar */
+}
+
+.category-btn {
+  flex: 0 0 auto;
+  padding: 8px 15px;
+  border-radius: 10px;
+  border: none;
+  background: white;
+  color: red;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.category-btn.active {
+  background: red;
+  color: white;
+}
+
+.category-btn:hover {
+  background: red;
+  color: white;
+}
+
+.scroller-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 18px;
+  z-index: 10;
+}
+
+.scroller-arrow.left {
+  left: 0;
+}
+
+.scroller-arrow.right {
+  right: 0;
+}
