@@ -27,7 +27,7 @@
 
 .page_search span {
   border: none;
-  border-bottom: 1px solid black;
+  /* border-bottom: 1px solid black; */
   border-radius: 0;
   background: transparent;
 }
@@ -330,7 +330,8 @@
 }
 
 .category-scroller::-webkit-scrollbar {
-  display: none; /* Hide scrollbar */
+  display: none;
+  /* Hide scrollbar */
 }
 
 .category-btn {
@@ -374,3 +375,23 @@
 .scroller-arrow.right {
   right: 0;
 }
+
+/* .scroller-arrow.left {
+  left: 0px;
+  border-radius: 50%;
+  background: #a50101;
+}
+
+.scroller-arrow.left:hover {
+  background: #640000;
+}
+
+.scroller-arrow.right {
+  right: 0;
+  border-radius: 50%;
+  background: #a50101;
+}
+
+.scroller-arrow.right:hover {
+  background: #640000;
+} */

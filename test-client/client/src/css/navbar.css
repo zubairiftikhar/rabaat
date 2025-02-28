@@ -320,6 +320,9 @@ nav.fill ul li a {
 }
 
 @media (max-width: 600px) {
+  .rabaat_nav_bg{
+    padding: 0 10px;
+  }
   .footer {
     padding: 15px;
   }
@@ -344,10 +347,18 @@ nav.fill ul li a {
     gap: 10px;
     font-size: 18px;
   }
+
   .top_form-control {
     width: 200px;
   }
 }
+
+@media (min-width:200px) and (max-width:360px) {
+  .top_form-control {
+    width: 180px;
+  }
+}
+
 
 
 

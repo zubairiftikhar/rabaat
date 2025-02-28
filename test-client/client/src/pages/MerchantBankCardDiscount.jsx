@@ -134,11 +134,11 @@ const MerchantBankCardDiscount = () => {
       </div>
       <div className="container">
         <Breadcrumbs />
-        <div className="side_border_dots pt-3 pb-5">
+        {/* <div className="side_border_dots pt-3 pb-5">
           <span className="line"></span>
           <span className="text">Discounts for Merchant</span>
           <span className="line"></span>
-        </div>
+        </div> */}
         {/* <h3 className="text-end">Bank: {bank.name}</h3> */}
         {discounts.length === 0 && (
           <div className="alert alert-warning text-center">

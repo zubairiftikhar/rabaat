@@ -6,7 +6,7 @@ const DiscountCard = ({ discount }) => {
   return (
     <div className="discount-card-container shadow-sm rounded-4 mb-3">
       <div className="discount-card-header text-white">
-        <h5 className="card-title mb-0">
+        <h5 className="card-title mb-0 text-center">
           {discount_amount}% {discount_type}
         </h5>
       </div>

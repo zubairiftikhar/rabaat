@@ -59,11 +59,11 @@ const Cards = () => {
             <h1 className="main_heading">
               Cards of {replaceUnderscoreWithSpaces(bankName)}
             </h1>
-            <div className="side_border_dots pt-3 pb-5">
+            {/* <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
               <span className="text">LET'S DISCOVER BY CARDS</span>
               <span className="line"></span>
-            </div>
+            </div> */}
             {/* Search Input with Icon */}
             <div className="d-flex pt-3 pb-4 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
@@ -119,7 +119,7 @@ const Cards = () => {
               onClick={loadMore}
               disabled={isLoadMoreDisabled}
             >
-              {loadingMore ? "Loading..." : "Load More"}
+            <span>{loadingMore ? "Loading..." : "Load More"}</span>
             </button>
           </div>
         )}

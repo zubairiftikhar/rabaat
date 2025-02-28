@@ -35,6 +35,18 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
     setLoggedInUser(userName);
     Cookies.set("loggedInUser", userName, { expires: 7 });
   };
+  
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (isToggled && !event.target.closest(".navbar")) {
+        setIsToggled(false);
+      }
+    };
+  
+    document.addEventListener("click", handleOutsideClick);
+    return () => document.removeEventListener("click", handleOutsideClick);
+  }, [isToggled]);
+  
 
   useEffect(() => {
     const user = Cookies.get("loggedInUser");
@@ -126,7 +138,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
 
   // Toggle button handler
   const handleToggle = () => {
-    setIsToggled(!isToggled);
+    setIsToggled((prev) => !prev);
   };
 
   return (
@@ -137,7 +149,7 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
             <img src={rabaat_logo} alt="Rabaat" style={{ width: "62px" }} />
           </Link>
           {!isCityPage && (
-            <div className="search-bar ms-3">
+            <div className="search-bar">
               <BiSearch className="mainsearchicon" />
               <input
                 type="text"
@@ -182,26 +194,22 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
           >
             <ul className="navbar-nav ms-auto">
               <li className="nav-item">
-                <Link className="nav_links" to="/">
+                <Link className="nav_links" to="/" onClick={() => setIsToggled(false)}>
                   Home
                 </Link>
               </li>
               <li className="nav-item">
-                <a className="nav_links" onClick={handleAboutUs}>
+                <a className="nav_links" onClick={() => { handleAboutUs(); setIsToggled(false); }}>
                   About us
                 </a>
               </li>
               <li className="nav-item">
-                <a
-                  href="https://blog.rabaat.com/"
-                  target="blank"
-                  className="nav_links"
-                >
+                <a href="https://blog.rabaat.com/" target="blank" className="nav_links" onClick={() => setIsToggled(false)}>
                   Blog
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav_links" onClick={handleContact}>
+                <a className="nav_links" onClick={() => { handleContact(); setIsToggled(false); }}>
                   Contact
                 </a>
               </li>
