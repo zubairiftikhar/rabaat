@@ -319,12 +319,6 @@ const Merchants = () => {
                 <div key={category} className="category-section">
                   <h2 className="category-heading">{category}</h2>
                   <div className="d-flex align-items-center">
-                    <button
-                      className="arrow-btn"
-                      onClick={() => handleSliderScroll("left", category)}
-                    >
-                      <FaChevronLeft />
-                    </button>
                     <div
                       className="category-slider"
                       ref={(el) => (sliderRefs.current["categories"] = el)}
@@ -350,12 +344,6 @@ const Merchants = () => {
                         </div>
                       ))}
                     </div>
-                    <button
-                      className="arrow-btn"
-                      onClick={() => handleSliderScroll("right", category)}
-                    >
-                      <FaChevronRight />
-                    </button>
                   </div>
                 </div>
               )
