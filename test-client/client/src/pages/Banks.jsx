@@ -13,8 +13,6 @@ const Banks = () => {
   const [banks, setBanks] = useState([]);
   const [cityId, setCityId] = useState(null);
   const location = useLocation();
-  const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
-  const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [loading, setLoading] = useState(true);
 
@@ -39,27 +37,11 @@ const Banks = () => {
     getBanks();
   }, [cityName]);
 
-  const loadMore = () => {
-    setLoadingMore(true); // Start the animation
-    setTimeout(() => {
-      setVisibleCards((prevCards) => prevCards + 8); // Show 8 more cards after delay
-      setLoadingMore(false); // End the animation
-    }, 1000); // Delay in milliseconds
-  };
-
-  const filteredBanks = banks.filter(
-    (bank) => bank.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter banks by name
+  const filteredBanks = banks.filter((bank) =>
+    bank.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter banks by name
   );
 
-  const banksToShow = filteredBanks.slice(0, visibleCards); // Show banks up to visibleCards count
-
-  const isLoadMoreDisabled = banksToShow.length >= filteredBanks.length; // Disable if all banks are loaded
-
   const navigate = useNavigate();
-
-  const handleMerchantButtonclick = () => {
-    navigate(`/${cityName}?CityID=${cityId}`);
-  };
 
   return (
     <>
@@ -99,11 +81,6 @@ const Banks = () => {
         <div className="row">
           <div className="col-lg-12 col-sm">
             <h1 className="main_heading">Banks in {cityName}</h1>
-            {/* <div className="side_border_dots pt-3 pb-5">
-              <span className="line"></span>
-              <span className="text">LET'S DISCOVER BY BANKS</span>
-              <span className="line"></span>
-            </div> */}
             {/* Search Input with Icon */}
             <div className="d-flex pt-3 pb-4 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
@@ -133,12 +110,8 @@ const Banks = () => {
               ))}
             </div>
           ) : (
-            banksToShow.map((bank, index) => (
-              <div
-                className={`col-md-2 fade-in ${loadingMore ? "loading" : ""}`} // Apply animation class conditionally
-                key={bank.id}
-                style={{ animationDelay: `${index * 0.1}s` }} // Stagger animation
-              >
+            filteredBanks.map((bank) => (
+              <div className="col-md-2 fade-in" key={bank.id}>
                 <BankCard bank={bank} cityId={cityId} cityName={cityName} />
               </div>
             ))
