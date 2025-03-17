@@ -78,13 +78,13 @@ const App = () => {
         onCityChange={handleCitySelection}
       />
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/:cityName" element={<Home />} />
         <Route path="/:cityName/Search-By-Bank" element={<SearchByBank />} />
         <Route path="/AboutUs" element={<AboutUs />} />
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/TermOfUse" element={<TermOfUse />} />
         <Route path="/:cityName/Bank" element={<Banks />} />
-        <Route path="/:cityName" element={<Merchants />} />
+        <Route path="/:cityName/Catagory/:catagoryName" element={<Merchants />} />
         <Route
           path="/:cityName/Bank/:bankName/:cardName/"
           element={<MerchantsByBankAndCard />}

@@ -59,6 +59,16 @@ app.get("/api/cityByName/:cityName", (req, res) => {
   });
 });
 
+app.get("/api/categories", (req, res) => {
+  const query = "SELECT DISTINCT Category AS CategoryName FROM merchant";
+  db.query(query, (err, results) => {
+    if (err) return res.status(500).json(err);
+    res.json(results);
+  });
+});
+
+
+
 
 // 1. Fetch all Banks
 app.get("/api/allbanks", (req, res) => {
