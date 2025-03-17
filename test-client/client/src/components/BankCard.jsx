@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/card.css";
 
-const BankCard = ({ catagories, cityName }) => {
+const BankCard = ({ bank, cityName }) => {
   const navigate = useNavigate(); // Initialize useNavigate
 
   const replaceSpacesWithUnderscore = (name) => {
