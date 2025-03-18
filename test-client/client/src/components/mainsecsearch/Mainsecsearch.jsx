@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
 import Rabaat_shop_img from "../../../public/assets/img/landing/rabaat_shops_icon.png";
@@ -122,17 +123,16 @@ const Mainsecsearch = () => {
   return (
     <div
       className="hero-section text-white d-flex align-items-center"
-      style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+      // style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
-        {/* <video autoPlay loop muted className="rabbit rabbit1">
-          <source src={Rabbit} type="video/mp4"></source>
-        </video> */}
         <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12 text-center">
-            <h3 style={{ textShadow: "2px 2px 4px #000000b8" }}>
-              Your One-Stop Destination for Discounts & Lifestyle Hacks
-            </h3>
+          <div className="col-lg-12 col-md-12 col-sm-12 py-5">
+            <h1 className="first_main_heading pt-5">
+            HAR OFFER KA PTA, HAMEN PATA HA!
+            </h1>
+            <h5>Save Big with Rabaat – Exclusive Bank Discounts & Deals in Pakistan!</h5>
+            <h5>Unlock the Best Offers on Dining, Shopping, Travel & More!</h5>
             <div className="search_bar">
               <div className="search_container">
                 <img
@@ -164,7 +164,7 @@ const Mainsecsearch = () => {
                         `${suggestion.merchant_name} - ${suggestion.branch_address}`,
                         keyword
                       )}
-                    </div>
+                    </div>  
                   ))}
                 </div>
               )}
@@ -177,7 +177,7 @@ const Mainsecsearch = () => {
               onClick={handleSearchWithBankCard}
             >
               <img src={Card_image} alt="" />
-              Search by Bank Card
+              Search by Bank Card <IoIosArrowDroprightCircle />
             </div>
           </div>
         </div>
