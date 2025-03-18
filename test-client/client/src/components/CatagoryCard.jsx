@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/card.css";
 
-const CatagoryCard = ({ catagory }) => {
+const CatagoryCard = ({ catagory, cityName }) => {
   const navigate = useNavigate();
   const replaceSpacesWithUnderscore = (name) => name.replace(/\s+/g, "_");
 
@@ -12,7 +12,7 @@ const CatagoryCard = ({ catagory }) => {
   };
 
   const handleCategoryClick = () => {
-    navigate(`/category/${replaceSpacesWithUnderscore(catagory.CategoryName)}`);
+    navigate(`/${cityName}/category/${replaceSpacesWithUnderscore(catagory.CategoryName)}`);
   };
 
   return (
