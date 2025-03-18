@@ -3,6 +3,7 @@ import React from "react";
 import LocationModal from "../components/LocationModal";
 import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch";
 import Catagory from "../components/Catagory";
+import Banks from "./Banks";
 
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
       <LocationModal />
       <Mainsecsearch />
       <Catagory />
+      <Banks />
     </>
   );
 };

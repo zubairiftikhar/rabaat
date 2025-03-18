@@ -15,6 +15,7 @@ import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
 const Merchants = () => {
   const { cityName } = useParams();
+  const { catagoryName } = useParams();
   const [merchants, setMerchants] = useState([]);
   const [discountedMerchants, setDiscountedMerchants] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
@@ -24,6 +25,15 @@ const Merchants = () => {
   const sliderRefs = useRef({});
   const autoScrollInterval = useRef(null);
   const [loading, setLoading] = useState(true);
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
+
+  useEffect(() => {
+    if (catagoryName) {
+      setActiveCategory(replaceUnderscoreWithSpaces(catagoryName));
+    }
+  }, [catagoryName]);
 
   // Handle Touch Control Start
   const handlePointerDown = (event, category) => {
@@ -171,38 +181,6 @@ const Merchants = () => {
   const navigate = useNavigate();
   return (
     <>
-      <Mainsecsearch />
-      <div className="container">
-        <div className="row justify-content-center">
-          <div className="col-12 pt-5">
-            <div className="switch-buttons">
-              <button
-                type="button"
-                className={`switch-btn ${
-                  location.pathname.includes("Bank") ? "" : "active"
-                }`}
-                onClick={() => navigate(`/${cityName}`)}
-              >
-                Merchants
-              </button>
-              <button
-                type="button"
-                className={`switch-btn ${
-                  location.pathname.includes("Bank") ? "active" : ""
-                }`}
-                onClick={() => navigate(`/${cityName}/Bank`)}
-              >
-                Banks
-              </button>
-              <div
-                className={`switch-slider ${
-                  location.pathname.includes("Bank") ? "move-right" : ""
-                }`}
-              ></div>
-            </div>
-          </div>
-        </div>
-      </div>
       <Breadcrumbs />
       <Helmet>
         <title>{`Ramadan 2025 Deals & Discounts in ${cityName} Save More with Rabaat`}</title>

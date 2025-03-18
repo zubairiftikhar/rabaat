@@ -84,7 +84,7 @@ const App = () => {
         <Route path="/Contact" element={<ContactUs />} />
         <Route path="/TermOfUse" element={<TermOfUse />} />
         <Route path="/:cityName/Bank" element={<Banks />} />
-        <Route path="/:cityName/Catagory/:catagoryName" element={<Merchants />} />
+        <Route path="/:cityName/Category/:catagoryName" element={<Merchants />} />
         <Route
           path="/:cityName/Bank/:bankName/:cardName/"
           element={<MerchantsByBankAndCard />}
