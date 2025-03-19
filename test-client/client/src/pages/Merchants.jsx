@@ -10,21 +10,24 @@ import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
-import SkeletonMerchantCard from "../components/SkeletonMerchantCard"; // Skeleton Loader
+import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
-const ROW_SIZE = 6; // 6 merchants per row
+const ROW_SIZE = 6;
 
 const Merchants = () => {
-  const { cityName } = useParams();
+  const { cityName, categoryName } = useParams();
   const [merchants, setMerchants] = useState([]);
   const [filteredMerchants, setFilteredMerchants] = useState([]);
   const [categories, setCategories] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
-  const [loadingMore, setLoadingMore] = useState(false); // Loading state for See More
-  const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3); // Initially show 3 rows
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3);
   const scrollRef = useRef(null);
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -34,10 +37,8 @@ const Merchants = () => {
     if (cityName) {
       const getMerchants = async () => {
         setLoading(true);
-
         try {
           const data = await fetchMerchantsByCity(cityName);
-
           if (!data || !data.merchants) {
             setLoading(false);
             return;
@@ -63,6 +64,13 @@ const Merchants = () => {
             ...new Set(merchantsWithDiscounts.map((m) => m.category)),
           ];
           setCategories(uniqueCategories);
+
+          // Automatically activate the category from the URL
+          if (categoryName && uniqueCategories.includes(categoryName)) {
+            setSelectedCategory(replaceUnderscoreWithSpaces(categoryName));
+          } else {
+            setSelectedCategory("All");
+          }
         } catch (error) {
           console.error("Error fetching merchants:", error);
         }
@@ -71,7 +79,7 @@ const Merchants = () => {
       };
       getMerchants();
     }
-  }, [cityName]);
+  }, [cityName, categoryName]);
 
   useEffect(() => {
     let filtered = merchants;
@@ -93,11 +101,11 @@ const Merchants = () => {
   }, [selectedCategory, searchQuery, merchants]);
 
   const handleSeeMore = () => {
-    setLoadingMore(true); // Show skeleton loader
+    setLoadingMore(true);
     setTimeout(() => {
       setVisibleMerchants((prev) => prev + ROW_SIZE * 2);
-      setLoadingMore(false); // Hide skeleton loader
-    }, 1000); // Simulated loading delay
+      setLoadingMore(false);
+    }, 1000);
   };
 
   return (
