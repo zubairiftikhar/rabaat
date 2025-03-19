@@ -28,7 +28,7 @@ const Catagory = () => {
       <div className="category-container">
         <div className="category-scroll">
           {categories.map((category, index) => (
-            <CatagoryCard key={index} catagory={category} />
+            <CatagoryCard key={index} catagory={category} cityName={cityName  }/>
           ))}
         </div>
       </div>
