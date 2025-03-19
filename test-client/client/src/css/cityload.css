@@ -271,127 +271,110 @@
 
 /* END CSS FOR BG IMAGE & SERCH */
 
-.category-slider {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.category-slider::-webkit-scrollbar {
-  display: none;
-}
-
-.category-slider {
+.category-scroller-wrapper {
   display: flex;
-  gap: 10px;
-  cursor: grab;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scrollbar-width: none;
-}
-
-.category-slider::-webkit-scrollbar {
-  display: none;
-}
-
-.category-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.category-btn {
-  padding: 10px 15px;
-  border: none;
-  background-color: #f0f0f0;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-}
-
-.category-btn.active {
-  background-color: #007bff;
-  color: white;
-}
-
-.category-scroller-container {
+  align-items: center;
   overflow: hidden;
   width: 100%;
+  margin: 20px 0;
   position: relative;
+}
+
+.static-all-button {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  background-color: red;
+  border-radius: 10px;
+}
+
+.static-all-button .category-btn {
+  padding: 8px 16px;
+  border: none;
+  background-color: red;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
 }
 
 .category-scroller {
   display: flex;
   gap: 10px;
-  overflow-x: auto;
   white-space: nowrap;
-  scroll-behavior: smooth;
-  padding: 10px 0;
+  width: max-content;
+  animation: scrollLeft 35s linear infinite;
+  padding-left: 60px;
 }
 
-.category-scroller::-webkit-scrollbar {
-  display: none;
-  /* Hide scrollbar */
+@keyframes scrollLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
 
 .category-btn {
-  flex: 0 0 auto;
-  padding: 8px 15px;
-  border-radius: 10px;
+  padding: 8px 16px;
   border: none;
-  background: white;
+  background-color: white;
   color: red;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background 0.3s;
   cursor: pointer;
-  transition: 0.3s;
+  white-space: nowrap;
 }
 
+.category-btn:hover,
 .category-btn.active {
-  background: red;
+  background-color: red;
   color: white;
 }
 
-.category-btn:hover {
-  background: red;
-  color: white;
+/* Pause animation on hover */
+.category-scroller:hover {
+  animation-play-state: paused;
 }
 
-.scroller-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.2);
+
+/* Smooth fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeInEffect 0.5s ease-in-out forwards;
+}
+
+@keyframes fadeInEffect {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* See More button styling */
+.see-more-btn {
+  background-color: red;
+  color: white;
   border: none;
-  color: white;
-  padding: 5px 10px;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
   cursor: pointer;
-  font-size: 18px;
-  z-index: 10;
+  transition: background 0.3s ease;
 }
 
-.scroller-arrow.left {
-  left: 0;
+.see-more-btn:hover {
+  background-color: darkred;
 }
 
-.scroller-arrow.right {
-  right: 0;
-}
-
-/* .scroller-arrow.left {
-  left: 0px;
-  border-radius: 50%;
-  background: #a50101;
-}
-
-.scroller-arrow.left:hover {
-  background: #640000;
-}
-
-.scroller-arrow.right {
-  right: 0;
-  border-radius: 50%;
-  background: #a50101;
-}
-
-.scroller-arrow.right:hover {
-  background: #640000;
-} */

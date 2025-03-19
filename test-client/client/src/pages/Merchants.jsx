@@ -1,106 +1,30 @@
-import React, { useEffect, useState, useRef, useMemo } from "react";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import React, { useEffect, useState, useRef } from "react";
+import { useParams } from "react-router-dom";
 import {
   fetchMerchantsByCity,
   fetchMaximumDiscountAnyBank,
 } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
-import { FaSearch, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { FaSearch } from "react-icons/fa";
 import "../css/cityload.css";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
-import Mainsecsearch from "../components/mainsecsearch/Mainsecsearch.jsx";
-import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
+import SkeletonMerchantCard from "../components/SkeletonMerchantCard"; // Skeleton Loader
+
+const ROW_SIZE = 6; // 6 merchants per row
 
 const Merchants = () => {
   const { cityName } = useParams();
-  const { catagoryName } = useParams();
   const [merchants, setMerchants] = useState([]);
-  const [discountedMerchants, setDiscountedMerchants] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMerchants, setFilteredMerchants] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const location = useLocation();
-  const sliderRefs = useRef({});
-  const autoScrollInterval = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
-  const replaceUnderscoreWithSpaces = (name) => {
-    return name.replace(/_/g, " ");
-  };
-
-  useEffect(() => {
-    if (catagoryName) {
-      setActiveCategory(replaceUnderscoreWithSpaces(catagoryName));
-    }
-  }, [catagoryName]);
-
-  // Handle Touch Control Start
-  const handlePointerDown = (event, category) => {
-    if (!sliderRefs.current[category]) return;
-
-    let slider = sliderRefs.current[category];
-
-    slider.isDragging = true;
-    slider.startX = event.pageX;
-    slider.scrollLeftStart = slider.scrollLeft;
-    slider.velocity = 0;
-    slider.lastMoveTime = Date.now();
-
-    // Stop any existing momentum scroll
-    cancelAnimationFrame(slider.momentumFrame);
-  };
-
-  const handlePointerMove = (event, category) => {
-    let slider = sliderRefs.current[category];
-    if (!slider || !slider.isDragging) return;
-
-    let deltaX = event.pageX - slider.startX;
-    slider.scrollLeft = slider.scrollLeftStart - deltaX;
-
-    // Calculate velocity for smooth deceleration
-    let now = Date.now();
-    let timeDiff = now - slider.lastMoveTime;
-    slider.velocity = deltaX / (timeDiff || 1);
-
-    // Update for next frame
-    slider.lastMoveTime = now;
-  };
-
-  const handlePointerUp = (category) => {
-    let slider = sliderRefs.current[category];
-    if (!slider) return;
-
-    slider.isDragging = false;
-
-    let velocity = slider.velocity * 50; // Adjust for smooth inertia
-    let maxScrollLeft = slider.scrollWidth - slider.clientWidth;
-
-    const applyMomentum = () => {
-      if (!slider) return;
-
-      slider.scrollLeft -= velocity;
-      velocity *= 0.95; // Deceleration
-
-      // Prevent overshooting
-      if (slider.scrollLeft <= 0) {
-        slider.scrollLeft = 0;
-        return;
-      }
-      if (slider.scrollLeft >= maxScrollLeft) {
-        slider.scrollLeft = maxScrollLeft;
-        return;
-      }
-
-      if (Math.abs(velocity) > 1) {
-        slider.momentumFrame = requestAnimationFrame(applyMomentum);
-      }
-    };
-
-    requestAnimationFrame(applyMomentum);
-  };
-
-  // Handle Touch Control Ends
+  const [loadingMore, setLoadingMore] = useState(false); // Loading state for See More
+  const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3); // Initially show 3 rows
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -108,16 +32,16 @@ const Merchants = () => {
 
   useEffect(() => {
     if (cityName) {
-      setLoading(true);
       const getMerchants = async () => {
+        setLoading(true);
+
         try {
           const data = await fetchMerchantsByCity(cityName);
-          setMerchants(data.merchants);
 
-          const uniqueCategories = [
-            ...new Set(data.merchants.map((merchant) => merchant.category)),
-          ];
-          setCategories(uniqueCategories);
+          if (!data || !data.merchants) {
+            setLoading(false);
+            return;
+          }
 
           const merchantsWithDiscounts = await Promise.all(
             data.merchants.map(async (merchant) => {
@@ -132,53 +56,50 @@ const Merchants = () => {
             })
           );
 
-          setDiscountedMerchants(merchantsWithDiscounts);
+          setMerchants(merchantsWithDiscounts);
+          setFilteredMerchants(merchantsWithDiscounts);
+
+          const uniqueCategories = [
+            ...new Set(merchantsWithDiscounts.map((m) => m.category)),
+          ];
+          setCategories(uniqueCategories);
         } catch (error) {
           console.error("Error fetching merchants:", error);
-        } finally {
-          setLoading(false);
         }
+
+        setLoading(false);
       };
       getMerchants();
     }
   }, [cityName]);
 
-  const categorizedMerchants = useMemo(() => {
-    return categories
-      .map((category) => ({
-        category,
-        merchants: discountedMerchants.filter(
-          (merchant) =>
-            (category === "All" || merchant.category === category) &&
-            merchant.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by search query
-        ),
-      }))
-      .filter(({ merchants }) => merchants.length > 0);
-  }, [discountedMerchants, categories, searchQuery, activeCategory]);
-
-  const categoryScrollerRef = useRef(null);
-  const scrollIntervalRef = useRef(null);
-
-  // Auto-scroll categories
   useEffect(() => {
-    const startAutoScroll = () => {
-      if (categoryScrollerRef.current) {
-        scrollIntervalRef.current = setInterval(() => {
-          categoryScrollerRef.current.scrollLeft += 2; // Adjust speed here
-        }, 60);
-      }
-    };
+    let filtered = merchants;
 
-    startAutoScroll();
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (merchant) => merchant.category === selectedCategory
+      );
+    }
 
-    return () => clearInterval(scrollIntervalRef.current);
-  }, []);
+    if (searchQuery) {
+      filtered = filtered.filter((merchant) =>
+        merchant.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
 
-  const stopAutoScroll = () => {
-    clearInterval(scrollIntervalRef.current);
+    setFilteredMerchants(filtered);
+    setVisibleMerchants(ROW_SIZE * 3);
+  }, [selectedCategory, searchQuery, merchants]);
+
+  const handleSeeMore = () => {
+    setLoadingMore(true); // Show skeleton loader
+    setTimeout(() => {
+      setVisibleMerchants((prev) => prev + ROW_SIZE * 2);
+      setLoadingMore(false); // Hide skeleton loader
+    }, 1000); // Simulated loading delay
   };
 
-  const navigate = useNavigate();
   return (
     <>
       <Breadcrumbs />
@@ -192,91 +113,48 @@ const Merchants = () => {
       </Helmet>
 
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Shops in {cityName}</h1>
-            {/* <div className="side_border_dots pt-3 pb-5">
-              <span className="line"></span>
-              <span className="text">LET'S DISCOVER BY MERCHANTS</span>
-              <span className="line"></span>
-            </div> */}
-            <div className="container">
-              <div className="category-scroller-container">
-                <button
-                  className="scroller-arrow left"
-                  onClick={() => {
-                    categoryScrollerRef.current.scrollLeft -= 100;
-                    stopAutoScroll();
-                  }}
-                >
-                  <FaChevronLeft />
-                </button>
+        <h1 className="main_heading">Shops in {cityName}</h1>
 
-                <div
-                  className="category-scroller"
-                  ref={categoryScrollerRef}
-                  onMouseEnter={stopAutoScroll}
-                  onMouseLeave={() => {
-                    stopAutoScroll();
-                    scrollIntervalRef.current = setInterval(() => {
-                      categoryScrollerRef.current.scrollLeft += 2;
-                    }, 50);
-                  }}
-                >
-                  <button
-                    className={`category-btn ${
-                      activeCategory === "All" ? "active" : ""
-                    }`}
-                    onClick={() => {
-                      setActiveCategory("All");
-                      stopAutoScroll();
-                    }}
-                  >
-                    All
-                  </button>
+        {/* Category Scroller */}
+        <div className="category-scroller-wrapper">
+          <div className="static-all-button">
+            <button
+              className={`category-btn ${
+                selectedCategory === "All" ? "active" : ""
+              }`}
+              onClick={() => setSelectedCategory("All")}
+            >
+              All
+            </button>
+          </div>
+          <div className="category-scroller" ref={scrollRef}>
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                className={`category-btn ${
+                  selectedCategory === category ? "active" : ""
+                }`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      className={`category-btn ${
-                        activeCategory === category ? "active" : ""
-                      }`}
-                      onClick={() => {
-                        setActiveCategory(category);
-                        stopAutoScroll();
-                      }}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  className="scroller-arrow right"
-                  onClick={() => {
-                    categoryScrollerRef.current.scrollLeft += 100;
-                    stopAutoScroll();
-                  }}
-                >
-                  <FaChevronRight />
-                </button>
-              </div>
-            </div>
-
-            <div className="d-flex pt-5 pb-5 page_search">
-              <div className="input-group" style={{ maxWidth: "300px" }}>
-                <span className="input-group-text">
-                  <FaSearch />
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search Merchant Here..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+        {/* Search Bar */}
+        <div className="d-flex pt-4 pb-4 page_search">
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <span className="input-group-text">
+              <FaSearch />
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Merchant Here..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
       </div>
@@ -284,55 +162,52 @@ const Merchants = () => {
       <div className="container">
         {loading ? (
           <div className="row">
-            {[...Array(18)].map((_, index) => (
-              <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
+            {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
+              <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
                 <SkeletonMerchantCard />
               </div>
             ))}
           </div>
-        ) : categorizedMerchants.length > 0 ? (
-          categorizedMerchants.map(
-            ({ category, merchants }) =>
-              (activeCategory === "All" || activeCategory === category) && (
-                <div key={category} className="category-section">
-                  <h2 className="category-heading">{category}</h2>
-                  <div className="d-flex align-items-center">
-                    <div
-                      className="category-slider"
-                      ref={(el) => (sliderRefs.current["categories"] = el)}
-                      onPointerDown={(e) => handlePointerDown(e, "categories")}
-                      onPointerMove={(e) => handlePointerMove(e, "categories")}
-                      onPointerUp={() => handlePointerUp("categories")}
-                      onPointerLeave={() => handlePointerUp("categories")} // Stop drag when pointer leaves
-                      style={{
-                        cursor: "grab",
-                        overflowX: "auto",
-                        scrollBehavior: "smooth",
-                      }}
-                    >
-                      {merchants.map((merchant) => (
-                        <div
-                          className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
-                          key={merchant.id}
-                        >
-                          <MerchantCard
-                            cityName={cityName}
-                            merchant={merchant}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+        ) : filteredMerchants.length > 0 ? (
+          <>
+            <div className="row">
+              {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
+                <div
+                  key={merchant.id}
+                  className="col-lg-2 col-md-6 col-sm-12 merchant-card-spacing"
+                >
+                  <MerchantCard
+                    cityName={cityName}
+                    merchant={merchant}
+                    maxDiscount={merchant.maxDiscount}
+                    cardCount={merchant.cardCount}
+                  />
                 </div>
-              )
-          )
+              ))}
+            </div>
+
+            {loadingMore && (
+              <div className="row">
+                {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
+                  <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                    <SkeletonMerchantCard />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {visibleMerchants < filteredMerchants.length && !loadingMore && (
+              <div className="text-center mt-4">
+                <button className="see-more-btn" onClick={handleSeeMore}>
+                  See More
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center mt-5 no-merchants-message">
-            <h3 className="no-merchants-title">No Merchants Found</h3>
-            <p className="no-merchants-description">
-              Try selecting a different category or adjusting your search
-              criteria.
-            </p>
+            <h3>No Merchants Found</h3>
+            <p>Try adjusting your search criteria.</p>
           </div>
         )}
       </div>
