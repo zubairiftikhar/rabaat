@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import Rabbit_about from "../../public/assets/img/landing/about_rabbit.webm";
+// import Rabbit_about from "../../public/assets/img/landing/about_rabbit.webm";
 import About_bg from "../../public/assets/img/landing/about_bg.png";
 
 const AboutUs = () => {
@@ -9,9 +9,9 @@ const AboutUs = () => {
   return <>
     <img className="about_bg"
       src={About_bg} />
-    <video autoPlay loop muted className="rabbit_about">
+    {/* <video autoPlay loop muted className="rabbit_about">
       <source src={Rabbit_about} type="video/mp4"></source>
-    </video>
+    </video> */}
     <h1 className="main_heading py-4">About Rabaat</h1>
     <div className="container-fluid cont_about">
       <div className="row">
