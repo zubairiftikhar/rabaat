@@ -49,15 +49,13 @@ const Banks = () => {
 
   return (
     <>
-      <div className="container">
+      {/* <div className="container">
         <div className="row">
-          <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Banks in {cityName}</h1>
-            {/* Search Input with Icon */}
+          <div className="col-lg-12 col-sm text-center">
             <div className="d-flex pt-3 pb-4 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
                 <span className="input-group-text">
-                  <FaSearch /> {/* React Icon Search Icon */}
+                  <FaSearch /> 
                 </span>
                 <input
                   type="text"
@@ -70,11 +68,13 @@ const Banks = () => {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
 
       {/* Bank Cards */}
       <div className="container">
-        <div className="row">
+        <div className="row text-center">
+        <h1>Banks in {cityName}</h1>
+        <p>Discover a variety of banking categories offering great savings and benefits!</p>
           {loading ? (
             <div className="row">
               {[...Array(6)].map((_, index) => (

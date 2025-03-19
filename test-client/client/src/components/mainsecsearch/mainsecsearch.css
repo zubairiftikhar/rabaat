@@ -1,33 +1,23 @@
 .hero-section {
-  background-size: cover;
-  background-position: center;
-  height: 67vh;
-  padding: 20px;
+  background: rgb(231 56 40 / 58%);
 }
 
-.rabbit {
-  /* width: 500px; */
-  height: 30%;
-  position: absolute;
-  top: 43%;
+.first_main_heading {
+  font-size: 46px;
+  background: -webkit-linear-gradient(left, #000000, #ff0000, #ff0000);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 2px 2px 4px rgb(0 0 0 / 13%);
+  font-weight: 800;
 }
 
-.rabbit1 {
-  bottom: 0%;
-  z-index: 1;
-  animation: drift 17s linear infinite;
+.hero_col {
+  display: flex;
+  justify-content: space-between;
 }
 
-
-
-@keyframes drift {
-  from {
-    transform: translateX(-310px);
-  }
-
-  to {
-    transform: translateX(1150px);
-  }
+.hero_animation {
+  width: 280px;
 }
 
 .highlight {
@@ -36,10 +26,6 @@
 }
 
 .search_bar {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 30px 0;
 }
 
@@ -117,14 +103,13 @@
 
 .card_button {
   width: 230px;
-  border-radius: 20px;
+  border-radius: 6px;
   padding: 10px 11px;
-  margin-left: auto;
-  margin-right: auto;
   background-color: #ff0b0b;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   font-weight: 600;
   cursor: pointer;
+  margin-bottom: 1.5rem;
 }
 
 @media (max-width: 768px) {
@@ -274,6 +259,10 @@
   .search_container {
     width: 90%;
     padding: 0px 10px;
+  }
+
+  .hero_col {
+    display: block;
   }
 
   .form-control {

@@ -22,14 +22,16 @@ const Catagory = () => {
   }, []);
 
   return (
-    <div className="container">
-    <div className="category-container">
-      <div className="category-scroll">
-        {categories.map((category, index) => (
-          <CatagoryCard key={index} catagory={category} cityName={cityName} />
-        ))}
+    <div className="container category_outer_conainer text-center">
+        <h1>Categories</h1>
+        <p>Find everything you need across a variety of exciting categories!</p>
+      <div className="category-container">
+        <div className="category-scroll">
+          {categories.map((category, index) => (
+            <CatagoryCard key={index} catagory={category} cityName={cityName  }/>
+          ))}
+        </div>
       </div>
-    </div>
     </div>
   );
 };

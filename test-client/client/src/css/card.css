@@ -1,37 +1,15 @@
 .std-img {
-  width: 100%;
-  border: 3px solid red;
-  border-radius: 10px;
+  border: 2px solid var(--primary-color);
+  border-radius: 50%;
 }
 
 .card_s {
-  position: relative;
-  /* To position the label relative to the card */
-  display: inline-block;
-  /* Align cards inline */
-  border-radius: 10px;
-  /* Optional: smooth corners */
   overflow: hidden;
-  /* Ensures label stays inside the card */
-  margin: 10px 0px;
-  /* Adds spacing between cards */
+  border: none;
 }
 
 .card_city_name {
-  position: absolute;
-  bottom: 4px;
-  right: 10px;
-  padding: 5px;
-  background-color: red;
-  font-size: 12px;
-  color: white;
-  font-weight: 500;
-  border-radius: 5px;
-  /* Optional: smooth edges */
-  white-space: nowrap;
-  /* Prevents text wrapping */
-  text-align: center;
-  /* Centers text */
+
 }
 
 .card_category {

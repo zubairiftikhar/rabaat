@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./mainsecsearch.css";
 import { BiSearch } from "react-icons/bi";
+import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
 import Cookies from "js-cookie";
 import Rabaat_shop_img from "../../../public/assets/img/landing/rabaat_shops_icon.png";
 import Card_image from "../../../public/assets/img/landing/rabaat_card.png";
-import Rabbit from "../../../public/assets/img/landing/rabbit.webm";
+import Rabbit from "../../../public/assets/img/landing/hero_animation.webm";
 
 const Mainsecsearch = () => {
   const replaceSpacesWithUnderscore = (name) => {
@@ -122,63 +123,69 @@ const Mainsecsearch = () => {
   return (
     <div
       className="hero-section text-white d-flex align-items-center"
-      style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+    // style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
-        {/* <video autoPlay loop muted className="rabbit rabbit1">
-          <source src={Rabbit} type="video/mp4"></source>
-        </video> */}
         <div className="row">
-          <div className="col-lg-12 col-md-12 col-sm-12 text-center">
-            <h3 style={{ textShadow: "2px 2px 4px #000000b8" }}>
-              Your One-Stop Destination for Discounts & Lifestyle Hacks
-            </h3>
-            <div className="search_bar">
-              <div className="search_container">
-                <img
-                  src={Rabaat_shop_img}
-                  alt="Shop Icon"
-                  className="shop-icon"
-                />
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search by Shop / Branch"
-                  value={keyword}
-                  onChange={(e) => setKeyword(e.target.value)}
-                />
-                <div className="search-button">
-                  <BiSearch className="search-icon" />
+          <div className="col-lg-12 col-md-12 col-sm-12 py-5 hero_col">
+            <div>
+              <h1 className="first_main_heading pt-5">
+                HAR OFFER KA PTA, HAMEN PATA HA!
+              </h1>
+              <h5>Save Big with Rabaat – Exclusive Bank Discounts & Deals in Pakistan!</h5>
+              <h5>Unlock the Best Offers on Dining, Shopping, Travel & More!</h5>
+              <div className="search_bar">
+                <div className="search_container">
+                  <img
+                    src={Rabaat_shop_img}
+                    alt="Shop Icon"
+                    className="shop-icon"
+                  />
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="Search by Shop / Branch"
+                    value={keyword}
+                    onChange={(e) => setKeyword(e.target.value)}
+                  />
+                  <div className="search-button">
+                    <BiSearch className="search-icon" />
+                  </div>
                 </div>
+
+                {suggestions.length > 0 && (
+                  <div className="suggestions-list">
+                    {suggestions.map((suggestion, index) => (
+                      <div
+                        key={index}
+                        className="suggestion-item"
+                        onClick={() => handleMerchantClick(suggestion)}
+                      >
+                        {highlightMatch(
+                          `${suggestion.merchant_name} - ${suggestion.branch_address}`,
+                          keyword
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
               </div>
 
-              {suggestions.length > 0 && (
-                <div className="suggestions-list">
-                  {suggestions.map((suggestion, index) => (
-                    <div
-                      key={index}
-                      className="suggestion-item"
-                      onClick={() => handleMerchantClick(suggestion)}
-                    >
-                      {highlightMatch(
-                        `${suggestion.merchant_name} - ${suggestion.branch_address}`,
-                        keyword
-                      )}
-                    </div>
-                  ))}
-                </div>
-              )}
+              {/* Button for Search with Bank Card */}
+              <div
+                className="card_button"
+                type="btn"
+                onClick={handleSearchWithBankCard}
+              >
+                <img src={Card_image} alt="" />
+                Search by Bank Card <IoIosArrowDroprightCircle />
+              </div>
             </div>
-
-            {/* Button for Search with Bank Card */}
-            <div
-              className="card_button"
-              type="btn"
-              onClick={handleSearchWithBankCard}
-            >
-              <img src={Card_image} alt="" />
-              Search by Bank Card
-            </div>
+            <video className="hero_animation" autoPlay loop muted playsInline>
+              <source src={Rabbit} type="video/webm" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </div>
