@@ -65,13 +65,13 @@ const MerchantCard = ({ cityName, merchant, bankName, cardName }) => {
       />
       <p className="card-text marchant_card_p">{merchant.category}</p>
       <div className="offer-container">
-        <div className="offer-details">
-          <p className="offer-title">{merchant.name}</p>
-        </div>
         <div className="offer-discount">
           <span className="discount-percent">
             {maxDiscount !== null ? `${maxDiscount}%` : "Loading..."}
           </span>
+        </div>
+        <div className="offer-details">
+          <p className="offer-title">{merchant.name}</p>
         </div>
       </div>
     </div>

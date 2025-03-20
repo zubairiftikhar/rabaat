@@ -56,7 +56,7 @@ const Cards = () => {
       <div className="container">
         <div className="row">
           <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">
+            <h1>
               Cards of {replaceUnderscoreWithSpaces(bankName)}
             </h1>
             {/* <div className="side_border_dots pt-3 pb-5">

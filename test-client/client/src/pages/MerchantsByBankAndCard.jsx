@@ -12,26 +12,23 @@ import "../css/merchanterrormsg.css";
 import { Helmet } from "react-helmet";
 import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
+const ROW_SIZE = 6;
+
 const MerchantsByBankAndCard = () => {
+
   const { cityName, bankName, cardName } = useParams();
   const [merchants, setMerchants] = useState([]);
-  const [discountedMerchants, setDiscountedMerchants] = useState([]);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredMerchants, setFilteredMerchants] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [activeCategory, setActiveCategory] = useState("All");
-  const sliderRefs = useRef({});
-  const autoScrollInterval = useRef(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
-
-  const formatDbName = (urlName) => {
-    return urlName
-      .split("_") // Split by hyphen
-      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize each word
-      .join(" "); // Join words back with spaces
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3);
+  const scrollRef = useRef(null);
+  const replaceUnderscoreWithSpaces = (name) => {
+    return name.replace(/_/g, " ");
   };
-
-  const BankName = formatDbName(bankName);
-  const CardName = formatDbName(cardName);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -39,20 +36,14 @@ const MerchantsByBankAndCard = () => {
 
   useEffect(() => {
     if (cityName) {
-      setLoading(true);
       const getMerchants = async () => {
+        setLoading(true);
         try {
-          const data = await fetchMerchantsByCityBankAndCard(
-            cityName,
-            BankName,
-            CardName
-          );
-          setMerchants(data.merchants);
-
-          const uniqueCategories = [
-            ...new Set(data.merchants.map((merchant) => merchant.category)),
-          ];
-          setCategories(uniqueCategories);
+          const data = await fetchMerchantsByCityBankAndCard(cityName, replaceUnderscoreWithSpaces(bankName), replaceUnderscoreWithSpaces(cardName));
+          if (!data || !data.merchants) {
+            setLoading(false);
+            return;
+          }
 
           const merchantsWithDiscounts = await Promise.all(
             data.merchants.map(async (merchant) => {
@@ -67,145 +58,103 @@ const MerchantsByBankAndCard = () => {
             })
           );
 
-          setDiscountedMerchants(merchantsWithDiscounts);
+          setMerchants(merchantsWithDiscounts);
+          setFilteredMerchants(merchantsWithDiscounts);
+
+          const uniqueCategories = [
+            ...new Set(merchantsWithDiscounts.map((m) => m.category)),
+          ];
+          setCategories(uniqueCategories);
         } catch (error) {
           console.error("Error fetching merchants:", error);
-        } finally {
-          setLoading(false);
         }
+
+        setLoading(false);
       };
       getMerchants();
     }
   }, [cityName]);
 
-  const handleSliderScroll = (direction, category) => {
-    const slider = sliderRefs.current[category];
-    if (!slider) return;
-
-    const scrollAmount = slider.offsetWidth / 2;
-    slider.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-    stopAutoScroll();
-  };
-
-  const startAutoScroll = (category) => {
-    if (autoScrollInterval.current) return;
-
-    autoScrollInterval.current = setInterval(() => {
-      const slider = sliderRefs.current[category];
-      if (!slider) return;
-
-      const maxScrollLeft = slider.scrollWidth - slider.offsetWidth;
-      if (slider.scrollLeft >= maxScrollLeft) {
-        slider.scrollLeft = 0;
-      } else {
-        slider.scrollLeft += 1;
-      }
-    }, 20);
-  };
-
-  const stopAutoScroll = () => {
-    clearInterval(autoScrollInterval.current);
-    autoScrollInterval.current = null;
-  };
-
   useEffect(() => {
-    startAutoScroll("categories");
-    return () => stopAutoScroll();
-  }, [categories]);
+    let filtered = merchants;
 
-  const categorizedMerchants = useMemo(() => {
-    return categories
-      .map((category) => ({
-        category,
-        merchants: discountedMerchants.filter(
-          (merchant) =>
-            (category === "All" || merchant.category === category) &&
-            merchant.name.toLowerCase().includes(searchQuery.toLowerCase()) // Filter by search query
-        ),
-      }))
-      .filter(({ merchants }) => merchants.length > 0);
-  }, [discountedMerchants, categories, searchQuery, activeCategory]);
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (merchant) => merchant.category === selectedCategory
+      );
+    }
+
+    if (searchQuery) {
+      filtered = filtered.filter((merchant) =>
+        merchant.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredMerchants(filtered);
+    setVisibleMerchants(ROW_SIZE * 3);
+  }, [selectedCategory, searchQuery, merchants]);
+
+  const handleSeeMore = () => {
+    setLoadingMore(true);
+    setTimeout(() => {
+      setVisibleMerchants((prev) => prev + ROW_SIZE * 2);
+      setLoadingMore(false);
+    }, 1000);
+  };
 
   return (
     <>
       <Breadcrumbs />
       <Helmet>
-        <title>{`Rabaat | Discover Top Deals & Discounts In ${cityName}`}</title>
+        <title>{`Ramadan 2025 Deals & Discounts in ${cityName} Save More with Rabaat`}</title>
         <meta
           name="description"
-          content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${cityName}!`}
+          content={`Uncover the best Ramadan 2025 deals and discounts in ${cityName}! Shop, dine, and enjoy exclusive offers. Get special discounts with your bank card only on Rabaat!`}
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
 
       <div className="container">
-        <div className="row">
-          <div className="col-lg-12 col-sm">
-            <h1 className="main_heading">Shops in {cityName}</h1>
-            {/* <div className="side_border_dots pt-3 pb-5">
-              <span className="line"></span>
-              <span className="text">LET'S DISCOVER BY MERCHANTS</span>
-              <span className="line"></span>
-            </div> */}
-            <div className="container">
-              <div className="d-flex align-items-center">
-                <button
-                  className="arrow-btn"
-                  onClick={() => handleSliderScroll("left", "categories")}
-                >
-                  <FaChevronLeft />
-                </button>
+        <h1 className="main_heading">Shops in {cityName}</h1>
 
-                <div
-                  className="category-slider d-flex overflow-hidden px-3"
-                  ref={(el) => (sliderRefs.current["categories"] = el)}
-                >
-                  <button
-                    className={`category-btn ${
-                      activeCategory === "All" ? "active" : ""
-                    }`}
-                    onClick={() => setActiveCategory("All")}
-                  >
-                    All
-                  </button>
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      className={`category-btn ${
-                        activeCategory === category ? "active" : ""
-                      }`}
-                      onClick={() => setActiveCategory(category)}
-                    >
-                      {category}
-                    </button>
-                  ))}
-                </div>
+        {/* Category Scroller */}
+        <div className="category-scroller-wrapper">
+          <div className="static-all-button">
+            <button
+              className={`category-btn ${selectedCategory === "All" ? "active" : ""
+                }`}
+              onClick={() => setSelectedCategory("All")}
+            >
+              All
+            </button>
+          </div>
+          <div className="category-scroller" ref={scrollRef}>
+            {categories.map((category, index) => (
+              <button
+                key={index}
+                className={`category-btn ${selectedCategory === category ? "active" : ""
+                  }`}
+                onClick={() => setSelectedCategory(category)}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
 
-                <button
-                  className="arrow-btn"
-                  onClick={() => handleSliderScroll("right", "categories")}
-                >
-                  <FaChevronRight />
-                </button>
-              </div>
-            </div>
-            <div className="d-flex pt-5 pb-5 page_search">
-              <div className="input-group" style={{ maxWidth: "300px" }}>
-                <span className="input-group-text">
-                  <FaSearch />
-                </span>
-                <input
-                  type="text"
-                  className="form-control"
-                  placeholder="Search Merchant Here..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-            </div>
+        {/* Search Bar */}
+        <div className="d-flex pt-4 pb-4 page_search">
+          <div className="input-group" style={{ maxWidth: "300px" }}>
+            <span className="input-group-text">
+              <FaSearch />
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search Merchant Here..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
         </div>
       </div>
@@ -213,60 +162,54 @@ const MerchantsByBankAndCard = () => {
       <div className="container">
         {loading ? (
           <div className="row">
-            {[...Array(6)].map((_, index) => (
-              <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+            {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
+              <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
                 <SkeletonMerchantCard />
               </div>
             ))}
           </div>
-        ) : categorizedMerchants.length > 0 ? (
-          categorizedMerchants.map(
-            ({ category, merchants }) =>
-              (activeCategory === "All" || activeCategory === category) && (
-                <div key={category} className="category-section">
-                  <h2 className="category-heading">{category}</h2>
-                  <div className="d-flex align-items-center">
-                    <button
-                      className="arrow-btn"
-                      onClick={() => handleSliderScroll("left", category)}
-                    >
-                      <FaChevronLeft />
-                    </button>
-                    <div
-                      className="merchant-slider d-flex overflow-hidden px-3"
-                      ref={(el) => (sliderRefs.current[category] = el)}
-                    >
-                      {merchants.map((merchant) => (
-                        <div
-                          className="col-lg-2 col-md-6 col-sm-12 fade-in merchant-card-spacing"
-                          key={merchant.id}
-                        >
-                          <MerchantBankCard
-                            cityName={cityName}
-                            merchant={merchant}
-                            bankName={BankName}
-                            cardName={CardName}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                    <button
-                      className="arrow-btn"
-                      onClick={() => handleSliderScroll("right", category)}
-                    >
-                      <FaChevronRight />
-                    </button>
-                  </div>
+        ) : filteredMerchants.length > 0 ? (
+          <>
+            <div className="row">
+              {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
+                <div
+                  key={merchant.id}
+                  className="col-lg-2 col-md-6 col-sm-12 merchant-card-spacing"
+                >
+                  <MerchantBankCard
+                    cityName={cityName}
+                    bankName={replaceUnderscoreWithSpaces(bankName)}
+                    cardName={replaceUnderscoreWithSpaces(cardName)}
+                    merchant={merchant}
+                    maxDiscount={merchant.maxDiscount}
+                    cardCount={merchant.cardCount}
+                  />
                 </div>
-              )
-          )
+              ))}
+            </div>
+
+            {loadingMore && (
+              <div className="row">
+                {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
+                  <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                    <SkeletonMerchantCard />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {visibleMerchants < filteredMerchants.length && !loadingMore && (
+              <div className="text-center mt-4">
+                <button className="see-more-btn" onClick={handleSeeMore}>
+                  See More
+                </button>
+              </div>
+            )}
+          </>
         ) : (
           <div className="text-center mt-5 no-merchants-message">
-            <h3 className="no-merchants-title">No Merchants Found</h3>
-            <p className="no-merchants-description">
-              Try selecting a different category or adjusting your search
-              criteria.
-            </p>
+            <h3>No Merchants Found</h3>
+            <p>Try adjusting your search criteria.</p>
           </div>
         )}
       </div>
