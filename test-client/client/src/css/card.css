@@ -1,22 +1,28 @@
+.card_outer_conainer{
+  background-color: #f9f6ff;
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
 .std-img {
   border-radius: 50%;
   margin-bottom: 20px;
-  width: 70%;
+  width: 50%;
   text-align: center;
   margin-right: auto;
   margin-left: auto;
   border: 7px solid #e9e9e9;
-  box-shadow: rgb(255 0 0 / 47%) 0px 5px 7px -2px
+  box-shadow: rgb(255 0 0 / 47%) 0px 5px 7px -2px;
 }
 
 .card_s {
   overflow: hidden;
   border: none;
+  background: transparent;
 }
 
-.card_city_name {
+/* .card_city_name {
 
-}
+} */
 
 .card_category {
   position: absolute;
@@ -32,23 +38,27 @@
   text-align: center;
 }
 
+
 /* START CSS FOR MARCHANT CARDS */
 .marchant_card {
-  padding: 8px;
-  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  /* padding: 8px; */
   border-radius: 12px;
+  box-shadow: rgb(255 0 0 / 47%) 0px 5px 7px -2px;
+  border: none;
 }
 
 .marchant_card:hover {
   border: none;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(255, 0, 0, 0.527) 0px 5px 7px -2px;
   transition: 0.5s;
 }
 
 .marchant_card_img {
   width: 100%;
-  border: 2px solid red;
-  border-radius: 10px;
+  /* border: 2px solid red; */
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom: 1px solid #c5c5c573;
 }
 
 .marchant_card_div {
@@ -87,7 +97,7 @@
   /* Ensures excess text is clipped */
   text-overflow: ellipsis;
   /* Adds the ellipsis (...) */
-  max-width: 84px;
+  max-width: 150px;
   /* Adjust to your container's width */
   position: relative;
   /* Ensures block-level rendering for proper width calculation */
@@ -124,29 +134,35 @@
 .offer-subtext {
   font-size: 12px;
   margin: 0;
-  color: #2a2a2a;
+  color: var(--primary-color);
 }
 
 .offer-discount {
-  background-color: red;
+  width: 55px;
+  position: absolute;
+  right: -16px;
+    top: -16px;
+  background-color: var(--primary-color);
   color: #fff;
-  font-size: 12px;
+  font-size: 14px;
   font-weight: bold;
-  border-radius: 20%;
+  border-radius: 50%;
   padding: 2px;
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-width: 50px;
-  min-height: 50px;
+  min-width: 55px;
+  min-height: 55px;
+  text-shadow: 1px 1px 2px #000000a6;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
 .offer-container {
-  padding-top: 8px;
-  display: flex;
-  justify-content: space-between;
+  padding: 5px 10px;
+  /* display: flex;
+  justify-content: space-between; */
   align-items: center;
   width: 100%;
 }

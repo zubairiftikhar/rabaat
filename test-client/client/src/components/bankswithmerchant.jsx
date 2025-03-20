@@ -51,17 +51,17 @@ const BankWithMerchant = ({ cityName, merchantName, bank }) => {
         alt={bank.bank_name}
       />
       <div className="offer-container">
-        <div className="offer-details">
-          <p className="offer-title">{bank.bank_name}</p>
-          <p className="offer-subtext">
-            Cards <span>{cardCount !== null ? cardCount : "Loading..."}</span>
-          </p>
-        </div>
-        <div className="offer-discount">
+      <div className="offer-discount">
           <span className="discount-up">Up to</span>
           <span className="discount-percent">
             {maxDiscount !== null ? `${maxDiscount}%` : "Loading..."}
           </span>
+        </div>
+        <div className="offer-details">
+          <p className="offer-title">{bank.bank_name}</p>
+          <p className="offer-subtext">
+             <span>{cardCount !== null ? cardCount : "Loading..."} </span>Cards
+          </p>
         </div>
       </div>
     </div>

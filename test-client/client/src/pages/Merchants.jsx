@@ -119,17 +119,16 @@ const Merchants = () => {
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
-
-      <div className="container">
-        <h1 className="main_heading">Shops in {cityName}</h1>
+      <div className="card_outer_conainer">
+      <div className="container text-center">
+        <h1>Shops in {cityName}</h1>
 
         {/* Category Scroller */}
         <div className="category-scroller-wrapper">
           <div className="static-all-button">
             <button
-              className={`category-btn ${
-                selectedCategory === "All" ? "active" : ""
-              }`}
+              className={`category-btn ${selectedCategory === "All" ? "active" : ""
+                }`}
               onClick={() => setSelectedCategory("All")}
             >
               All
@@ -139,9 +138,8 @@ const Merchants = () => {
             {categories.map((category, index) => (
               <button
                 key={index}
-                className={`category-btn ${
-                  selectedCategory === category ? "active" : ""
-                }`}
+                className={`category-btn ${selectedCategory === category ? "active" : ""
+                  }`}
                 onClick={() => setSelectedCategory(category)}
               >
                 {category}
@@ -151,7 +149,7 @@ const Merchants = () => {
         </div>
 
         {/* Search Bar */}
-        <div className="d-flex pt-4 pb-4 page_search">
+        {/* <div className="d-flex pt-4 pb-4 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <span className="input-group-text">
               <FaSearch />
@@ -164,60 +162,61 @@ const Merchants = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-        </div>
+        </div> */}
       </div>
-
-      <div className="container">
-        {loading ? (
-          <div className="row">
-            {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
-              <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
-                <SkeletonMerchantCard />
-              </div>
-            ))}
-          </div>
-        ) : filteredMerchants.length > 0 ? (
-          <>
+      
+        <div className="container">
+          {loading ? (
             <div className="row">
-              {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
-                <div
-                  key={merchant.id}
-                  className="col-lg-2 col-md-6 col-sm-12 merchant-card-spacing"
-                >
-                  <MerchantCard
-                    cityName={cityName}
-                    merchant={merchant}
-                    maxDiscount={merchant.maxDiscount}
-                    cardCount={merchant.cardCount}
-                  />
+              {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
+                <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
+                  <SkeletonMerchantCard />
                 </div>
               ))}
             </div>
-
-            {loadingMore && (
+          ) : filteredMerchants.length > 0 ? (
+            <>
               <div className="row">
-                {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
-                  <div key={index} className="col-lg-2 col-md-6 col-sm-12">
-                    <SkeletonMerchantCard />
+                {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
+                  <div
+                    key={merchant.id}
+                    className="col-lg-2 col-md-6 col-sm-12 merchant-card-spacing"
+                  >
+                    <MerchantCard
+                      cityName={cityName}
+                      merchant={merchant}
+                      maxDiscount={merchant.maxDiscount}
+                      cardCount={merchant.cardCount}
+                    />
                   </div>
                 ))}
               </div>
-            )}
 
-            {visibleMerchants < filteredMerchants.length && !loadingMore && (
-              <div className="text-center mt-4">
-                <button className="see-more-btn" onClick={handleSeeMore}>
-                  See More
-                </button>
-              </div>
-            )}
-          </>
-        ) : (
-          <div className="text-center mt-5 no-merchants-message">
-            <h3>No Merchants Found</h3>
-            <p>Try adjusting your search criteria.</p>
-          </div>
-        )}
+              {loadingMore && (
+                <div className="row">
+                  {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
+                    <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                      <SkeletonMerchantCard />
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {visibleMerchants < filteredMerchants.length && !loadingMore && (
+                <div className="text-center mt-4">
+                  <button className="rabaat_login_btn" onClick={handleSeeMore}>
+                    <span>See More</span>
+                  </button>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="text-center mt-5 no-merchants-message">
+              <h3>No Merchants Found</h3>
+              <p>Try adjusting your search criteria.</p>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

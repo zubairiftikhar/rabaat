@@ -71,6 +71,7 @@ const Banks = () => {
       </div> */}
 
       {/* Bank Cards */}
+      <div className="card_outer_conainer">
       <div className="container">
         <div className="row text-center">
         <h1>Banks in {cityName}</h1>
@@ -85,7 +86,7 @@ const Banks = () => {
             </div>
           ) : (
             filteredBanks.slice(0, visibleBanks).map((bank) => (
-              <div className="col-md-2 fade-in mb-4" key={bank.id}>
+              <div className="col-md-2 fade-in my-4" key={bank.id}>
                 <BankCard bank={bank} cityId={cityId} cityName={cityName} />
               </div>
             ))
@@ -100,6 +101,7 @@ const Banks = () => {
             </button>
           </div>
         )}
+      </div>
       </div>
     </>
   );
