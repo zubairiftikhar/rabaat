@@ -46,12 +46,12 @@ const BankWithMerchant = ({ cityName, merchantName, bank }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../../../public/assets/img/banks/${bank.bank_image}`}
-        className="card-img-top std-img"
+        src={`../../../public/assets/img/banksq/${bank.bank_image}`}
+        className="card-img-top marchant_card_img"
         alt={bank.bank_name}
       />
       <div className="offer-container">
-      <div className="offer-discount">
+        <div className="offer-discount">
           <span className="discount-up">Up to</span>
           <span className="discount-percent">
             {maxDiscount !== null ? `${maxDiscount}%` : "Loading..."}
@@ -60,7 +60,7 @@ const BankWithMerchant = ({ cityName, merchantName, bank }) => {
         <div className="offer-details">
           <p className="offer-title">{bank.bank_name}</p>
           <p className="offer-subtext">
-             <span>{cardCount !== null ? cardCount : "Loading..."} </span>Cards
+            <span>{cardCount !== null ? cardCount : "Loading..."} </span>Cards
           </p>
         </div>
       </div>

@@ -1,65 +1,70 @@
-// src/components/Footer.jsx
 import React from "react";
+import "../css/navbar.css"; // Import CSS for styling
 import { useNavigate } from "react-router-dom";
-import '../css/navbar.css'
+import Footercard from '../../public/assets/img/landing/footercard.png'
+import Footerlogo from '../../public/assets/img/landing/rabaat_f_logo.png'
+import { FaTiktok , FaFacebookF, FaInstagram, FaYoutube } from "react-icons/fa";
 
-import BackgroundImage from '../../public/assets/img/landing/load_rabbit.gif';
-import Footer_logo from '../../public/assets/img/landing/rabaat_f_logo.png'
-import { FaEnvelope, FaInstagram, FaFacebook, FaTiktok, FaYoutube } from "react-icons/fa";
 const Footer = () => {
   const navigate = useNavigate();
-  const handleAboutUs = () => {
-    navigate(`/AboutUs`);
-  };
-  const handleContact = () => {
-    navigate(`/Contact`);
-  };
-  const handleTermOfUse = () => {
-    navigate(`/TermOfUse`);
-  };
-
+const handleAboutUs = () => {
+  navigate(`/AboutUs`);
+};
+const handleContact = () => {
+  navigate(`/Contact`);
+};
+const handleTermOfUse = () => {
+  navigate(`/TermOfUse`);
+};
   return (
-    <>
-      {/*Start  Footer */}
-      <footer className="footer">
-      <div className="footer-container">
-        {/* Left Section */}
-        <div className="footer-left d-flex">
-          <img src={Footer_logo} alt="Rabaat Logo" className="footer-logo" />
-          <p className="footer-text">
-            Where Quality Meets Affordable Prices Every Day. Effortlessly Discover
-            Discounts, Match Your Cards, and Maximize Your Savings Today.
-          </p>
+    <footer className="footer">
+      <div className="footer-content">
+        <h1>About Rabaat</h1>
+        <p style={{ color: "#fff", padding: "20px 0" }}>
+          Where Quality Meets Affordable Prices Every Day. Effortlessly Discover Discounts,
+          Match Your Cards, and Maximize Your Savings Today.
+        </p>
+      </div>
+      <div className="footer_bottom">
+        <div className="footer-logo">
+          <img src={Footerlogo} alt="Logo" />
+        </div>
+        <div className="footer-links">
+          <a href="#">Blog</a>
+          <a onClick={handleAboutUs}>About Us</a>
+          <a onClick={handleContact}>Contact Us</a>
+          <a onClick={handleTermOfUse}>Terms of Use</a>
         </div>
 
-        {/* Center Section */}
-        
-        <div className="footer-center">
-          <ul className="footer-links"> 
-            <li><a onClick={handleAboutUs}>ABOUT US</a></li>
-            <li><a href="https://blog.rabaat.com/" target="blank">BLOGS</a></li>
-            <li><a onClick={handleContact} >CONTACT US</a></li>
-            <li><a  onClick={handleTermOfUse}>TERMS OF USE</a></li>
-          </ul>
+        <div className="footer-social">
+        <a href="https://www.tiktok.com/@rabaat_?lang=en" target="blank"><FaTiktok /></a>
+          <a href="https://www.facebook.com/profile.php?id=61568516926240&mibextid=ZbWKwL" target="blank"><FaFacebookF /></a>
+          <a href="https://www.instagram.com/rabaat.official/" target="blank"><FaInstagram /></a>
+          <a href="https://www.youtube.com/channel/UCRUtT9LOT1XbPafRYx714pg" target="blank"><FaYoutube /></a>
         </div>
 
-        {/* Right Section */}
-        <div className="footer-right">
-          <img src={BackgroundImage} alt="Rabbit" className="footer-rabbit" />
-          <div className="footer-icons">
-            <a href="mailto:contact@rabaat.com" target="blank"><FaEnvelope /></a>
-            <a href="https://www.instagram.com/rabaat.official/" target="blank"><FaInstagram /></a>
-            <a href="https://www.facebook.com/profile.php?id=61568516926240&mibextid=ZbWKwL" target="blank"><FaFacebook /></a>
-            <a href="https://www.tiktok.com/@rabaat_?lang=en" target="blank"><FaTiktok /></a>
-            <a href="https://www.youtube.com/channel/UCRUtT9LOT1XbPafRYx714pg" target="blank"><FaYoutube /></a>
-          </div>
-        </div>
+      </div>
+
+      <div className="credit-card">
+        <img src={Footercard} alt="Credit Cards" />
       </div>
     </footer>
-
-      {/* Footer */}
-    </>
   );
 };
 
 export default Footer;
+
+
+
+// const navigate = useNavigate();
+// const handleAboutUs = () => {
+//   navigate(`/AboutUs`);
+// };
+// const handleContact = () => {
+//   navigate(`/Contact`);
+// };
+// const handleTermOfUse = () => {
+//   navigate(`/TermOfUse`);
+// };
+
+// import { useNavigate } from "react-router-dom";

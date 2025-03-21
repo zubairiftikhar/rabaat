@@ -176,7 +176,7 @@ const Merchants = () => {
             </div>
           ) : filteredMerchants.length > 0 ? (
             <>
-              <div className="row">
+              <div className="row shopcontainerw85">
                 {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
                   <div
                     key={merchant.id}
