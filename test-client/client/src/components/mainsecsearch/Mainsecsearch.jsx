@@ -36,7 +36,7 @@ const Mainsecsearch = () => {
     }
   }, [cityID]);
 
-  const backgroundImageUrl = `../public/assets/img/cities/rabaat_city_bg.jpg`;
+  const backgroundImageUrl = `../public/assets/img/cities/rabaat_bg.png`;
 
   useEffect(() => {
     if (clicked) {
@@ -123,7 +123,7 @@ const Mainsecsearch = () => {
   return (
     <div
       className="hero-section text-white d-flex align-items-center"
-    // style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+    style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
         <div className="row">

@@ -95,9 +95,9 @@ const Banks = () => {
 
         {/* Load More Button (Visible if more banks are available) */}
         {visibleBanks < filteredBanks.length && (
-          <div className="text-center my-4">
-            <button className="btn btn-primary" onClick={loadMore}>
-              Load More
+          <div className="text-center">
+            <button className="rabaat_login_btn" onClick={loadMore}>
+              <span>Load More</span>
             </button>
           </div>
         )}

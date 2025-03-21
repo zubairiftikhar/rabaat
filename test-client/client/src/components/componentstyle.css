@@ -184,6 +184,46 @@
 
 /* END ALLBANKS CSS */
 
+
+
+
+/* start og mobile_app css */
+.ffaba1 {
+  background-color: #ffaba1;
+  height: 65vh;
+  margin-bottom: 100px;
+
+}
+
+.mobile_col7 {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+.mobile_app_img img {
+  width: 100%;
+  position: relative;
+  top: -75px
+}
+
+.mobile_app_btn {
+  background-color: red;
+  color: #fff;
+  border: none;
+  font-size: 22px;
+  font-weight: 500;
+  padding: 4px 35px;
+  border-radius: 10px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  margin-bottom: 38px;
+}
+
+/* end og mobile_app css */
+
+
+
+
 /* START CSS FOR BREADCRUMBS */
 /* Custom Breadcrumb Styling */
 .breadcrumb {
@@ -318,6 +358,7 @@
   .rabbit {
     display: none;
   }
+
   .breadcrumb {
     padding: 0px;
   }
