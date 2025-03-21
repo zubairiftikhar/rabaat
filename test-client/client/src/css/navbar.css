@@ -195,167 +195,100 @@ nav.fill ul li a {
 
 
 /* START FOOTER  CSS */
-/* START FOOTER  CSS */
+
+/* Footer Styles */
 .footer {
-  background-color: black;
+  background-color: #000000;
   color: white;
-  padding: 20px 50px;
-  display: flex;
-  justify-content: center;
-}
-
-.footer-container {
-  display: flex;
-  width: 100%;
-  max-width: 1200px;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Left Section */
-.footer-left {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  min-width: 700px;
-  gap: 15px;
-}
-
-.footer-logo {
-  width: 120px;
-}
-
-.footer-text {
-  color: #fff;
-  max-width: 400px;
-  font-size: 14px;
-}
-
-/* Center Section */
-.footer-center {
-  flex: 1;
   text-align: center;
-  min-width: 200px;
+  padding: 40px 20px 1px 20px;
+  position: relative;
 }
 
-.footer-links {
-  list-style: none;
-  padding: 0;
-}
-
-.footer-links li {
-  margin: 10px 0;
-}
-
-.footer-links li a {
-  color: #f0f0f0;
-  font-weight: 100;
-  text-decoration: none;
-  cursor: pointer;
-  font-size: 14px;
-}
-
-/* Right Section */
-.footer-right {
-  flex: 1;
-  text-align: right;
-  min-width: 250px;
-}
-
-.footer-rabbit {
-  width: 200px;
+/* About Section */
+.footer-content h2 {
+  font-size: 22px;
   margin-bottom: 10px;
 }
 
-.footer-icons {
+.footer-content p {
+  font-size: 14px;
+  max-width: 500px;
+  margin: auto;
+}
+
+/* Links Section */
+.footer-links {
   display: flex;
-  justify-content: right;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 15px;
-  font-size: 20px;
+  margin: 20px 0;
 }
 
-.footer-icons a {
-  color: #FFFFFF;
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 14px;
 }
 
-.footer-icons a:hover {
-  color: #ff0000;
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+/* Social Icons */
+.footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.footer-social a {
+  color: white;
+  font-size: 18px;
   transition: 0.3s;
 }
 
-/* 🌍 RESPONSIVE DESIGN */
-@media (max-width: 1024px) {
-  .footer-container {
-    flex-direction: column;
-    text-align: center;
-  }
+.footer-social a:hover {
+  color: #b93f3f;
+}
 
-  .footer-left {
-    flex-direction: column;
-    align-items: center;
-    min-width: 300px;
-    text-align: center;
-  }
+/* Logo */
+.footer-logo img {
+  width: 50px;
+}
 
-  .footer-text {
-    max-width: 90%;
-  }
+/* Credit Card Floating Image */
+.credit-card img {
+  position: absolute;
+  top: -60px;
+  right: 50px;
+  width: 215px;
+}
+.footer_bottom{
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  margin: 1rem 0;
+  border-top: 1px solid #ebebeb17;
+}
 
-  .footer-center {
-    margin: 20px 0;
-  }
-
-  .footer-right {
-    text-align: center;
-  }
-
-  .footer-icons {
-    justify-content: center;
-  }
-
-  .footer-rabbit {
-    width: 180px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .credit-card img {
+      width: 100px;
+      right: 20px;
   }
 }
 
-@media (max-width: 600px) {
-  .rabaat_nav_bg{
-    padding: 0 10px;
-  }
-  .footer {
-    padding: 15px;
+@media (max-width: 480px) {
+  .footer-links {
+      flex-direction: column;
+      align-items: center;
   }
 
-  .footer-logo {
-    width: 100px;
-  }
-
-  .footer-text {
-    font-size: 12px;
-  }
-
-  .footer-links li {
-    margin: 8px 0;
-  }
-
-  .footer-rabbit {
-    width: 150px;
-  }
-
-  .footer-icons {
-    gap: 10px;
-    font-size: 18px;
-  }
-
-  .top_form-control {
-    width: 200px;
-  }
-}
-
-@media (min-width:200px) and (max-width:360px) {
-  .top_form-control {
-    width: 180px;
+  .credit-card img {
+      display: none; /* Hide credit card image on mobile */
   }
 }
 

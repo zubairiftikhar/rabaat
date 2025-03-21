@@ -1,0 +1,119 @@
+
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 350px;
+}
+
+.slider_event {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 70%;
+    height: 250px;
+    perspective: 1000px;
+}
+
+.car-item {
+    position: absolute;
+    transition: transform 0.5s, z-index 0.5s;
+    opacity: 0.7;
+    background-color: #ffdede;
+    padding: 20px;
+    width: 300px;
+    border-radius: 8px;
+    box-shadow: rgb(255 45 45 / 35%) 0px 0px 4px 0px, rgb(255 60 60 / 58%) 0px 4px 3px 0px;
+}
+
+.car {
+    width: 345px;
+    height: auto;
+    background-color: white;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+.review-img {
+    width: 50px;
+}
+.car img {
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.prev_event,
+.next_event {
+    background-color: #ed000000;
+    border-color: #ed000000;
+    border-radius: 10%;
+    color: #ff0000;
+    font-size: 34px;
+    cursor: pointer;
+    padding: 10px;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.prev_event:hover,
+.next_event:hover {
+    background-color: #ed000000;
+    border-color: #ed000000;
+    border-radius: 10%;
+    color: #ff0000;
+    font-size: 40px;
+    transition: .2s;
+    transform: translateY(-52%);
+}
+
+.prev_event {
+    left: 10px;
+}
+
+.next_event {
+    right: 10px;
+}
+
+.active {
+    opacity: 1;
+}
+
+.center-card {
+    transform: translateX(0) scale(1.2) translateZ(50px);
+    z-index: 3;
+}
+
+.left-card {
+    transform: translateX(-350px) scale(1) translateZ(-80px);
+    z-index: 2;
+}
+
+.right-card {
+    transform: translateX(340px) scale(1) translateZ(-30px);
+    z-index: 2;
+}
+
+.behind-left-card {
+    transform: translateX(-580px) scale(0.8) translateZ(-50px);
+    z-index: 1;
+}
+
+.behind-right-card {
+    transform: translateX(580px) scale(0.8) translateZ(-50px);
+    z-index: 1;
+}
+
+@media only screen and (max-width: 600px) {
+    .left-card {
+        transform: translateX(0px) scale(1) translateZ(-80px);
+        z-index: 2;
+    }
+    
+    .right-card {
+        transform: translateX(0px) scale(1) translateZ(-30px);
+        z-index: 2;
+    }
+}
