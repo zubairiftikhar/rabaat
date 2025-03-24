@@ -421,6 +421,7 @@ app.get("/api/discounts/:merchantName/:bankName/:cityName", (req, res) => {
         d.DiscountType AS discount_type,
         d.StartDate AS start_date,
         d.EndDate AS end_date,
+        d.DayName AS day_name,
         GROUP_CONCAT(DISTINCT CONCAT(c.CardName, ':', c.image_path) SEPARATOR '|') AS cards,
         b.BankName AS bank_name,
         b.image_path AS bank_image,
@@ -454,6 +455,7 @@ app.get("/api/discounts/:merchantName/:bankName/:cityName", (req, res) => {
       discount_type: row.discount_type,
       start_date: row.start_date,
       end_date: row.end_date,
+      day_name: row.day_name,
       cards: row.cards
         ? row.cards.split('|').map(card => {
             const [cardName, cardImage] = card.split(':');
@@ -680,7 +682,8 @@ app.get("/api/branch-discounts/:merchantName/:bankName/:cityName/:branchId", (re
   const query = `
     SELECT DISTINCT
       bmd.DiscountAmount AS percentage,
-      bmd.DiscountType AS discount_title,
+      bmd.DiscountType AS discount_type,
+      bmd.DayName As day_name,
       c.image_path AS cardimage,
       c.CardName AS cardname,
       bk.BankName AS bankname,

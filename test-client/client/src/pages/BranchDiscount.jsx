@@ -6,7 +6,7 @@ import Breadcrumbs from "../components/Breadcrumbs";
 import "../css/branchdiscount.css";
 
 const BranchDiscount = () => {
-  const { cityName, bankName, merchantName, branchId, branchAddress } =
+  const { cityName, bankName, merchantName, branchId } =
     useParams();
   const [discounts, setDiscounts] = useState([]);
   const [branchInfo, setBranchInfo] = useState(null);
@@ -78,20 +78,24 @@ const BranchDiscount = () => {
 
   // Group and sort discounts by percentage
   const groupedDiscounts = discounts.reduce((acc, discount) => {
-    const percentage = discount.percentage;
-    if (!acc[percentage]) {
-      acc[percentage] = { percentage, cards: [] };
+    const key = `${discount.percentage}-${discount.day_name}`; // Include day_name in the key
+    if (!acc[key]) {
+      acc[key] = {
+        percentage: discount.percentage,
+        discount_type: discount.discount_type,
+        day_name: discount.day_name, // Store day_name
+        cards: [],
+      };
     }
-    acc[percentage].cards.push({
+    acc[key].cards.push({
       cardName: discount.cardname,
       cardImage: discount.cardimage,
     });
     return acc;
   }, {});
-
-  const sortedDiscounts = Object.keys(groupedDiscounts)
-    .sort((a, b) => b - a)
-    .map((percentage) => groupedDiscounts[percentage]);
+  
+  const sortedDiscounts = Object.values(groupedDiscounts).sort((a, b) => b.percentage - a.percentage);
+  
 
   return (
     <>

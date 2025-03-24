@@ -1,9 +1,11 @@
 import React from "react";
 
 const DiscountCard = ({ discount }) => {
-  const { discount_amount, discount_type, cards, branches } = discount;
+  const { discount_amount, discount_type, cards, day_name } = discount;
 
   return (
+    <>
+    <div className="container">Day = {day_name}</div>
     <div className="discount-card-container shadow-sm rounded-4 mb-3">
       <div className="discount-card-header text-white">
         <h5 className="card-title mb-0 text-center">
@@ -31,6 +33,7 @@ const DiscountCard = ({ discount }) => {
         </div>
       </div>
     </div>
+    </>
     // <div className="card shadow-sm rounded-4 mb-3">
     //   <div
     //     className="card-header text-white"

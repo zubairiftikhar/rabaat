@@ -54,6 +54,7 @@ const MerchantDiscount = () => {
               acc[key] = {
                 discount_amount: discount.discount_amount,
                 discount_type: discount.discount_type,
+                day_name: discount.day_name,
                 cards: new Map(
                   discount.cards.map(({ cardName, cardImage }) => [
                     cardName,
@@ -74,6 +75,7 @@ const MerchantDiscount = () => {
             (group) => ({
               discount_amount: group.discount_amount,
               discount_type: group.discount_type,
+              day_name: group.day_name,
               cards: Array.from(group.cards, ([cardName, cardImage]) => ({
                 cardName,
                 cardImage,
