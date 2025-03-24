@@ -1,9 +1,9 @@
-import React, { useEffect }  from "react";
+import React, { useEffect } from "react";
 
 const terms = () => {
   useEffect(() => {
-      window.scrollTo(0, 0);
-    }, []);
+    window.scrollTo(0, 0);
+  }, []);
   return <>
     <div className="container">
       <div className="row">
@@ -13,63 +13,59 @@ const terms = () => {
           </h1>
           <p>
             1. Acceptance of Terms
-            By accessing or using the services provided by Rabaat (“we,” “us,” or “our”), you agree to abide by these Terms of Use. Rabaat offers information on financial products, discount programs, university and insurance cards, and exclusive deals in Pakistan. Our services can be accessed through:
+            Welcome to Rabaat, By accessing or using our services, you agree to abide by these Terms of Use.
 
-            Our official website at https://rabaat.com/ and any affiliated sites that link to these terms (“Website”).
+            Rabaat provides information on brand discount programs, bank card offers, and exclusive deals in Pakistan. Our platform connects users with merchants offering special discounts on various products and services.
+            By using our platform, you acknowledge that you have read, understood, and agreed to comply with these terms.
 
-            Rabaat connects users with financial service providers and merchants offering discounts. By using our platform, you acknowledge that you have read, understood, and agreed to comply with these terms.
+            🔹 Policy Updates: We may modify these terms at any time. Continued use after changes constitutes acceptance of the updated terms.
+            🔹 Legal Compliance: If any modifications are deemed unenforceable by a court, they will apply moving forward only.
 
-            We reserve the right to modify or update these terms at any time. Continued use of our services after changes are made constitutes acceptance of the updated terms. If any modifications are deemed unenforceable by a court, they will apply moving forward only. Unauthorized reproduction, distribution, or commercial use of any part of Rabaat’s platform is strictly prohibited.
+            2. User Responsibilities and Limitations
+            Rabaat strives to make sure to provide accurate and up-to-date information but does not guarantee the accuracy of all listed discounts, offers, or deals.
 
-            4. User Responsibilities & Limitations
-            Rabaat does not guarantee the accuracy of any discounts, offers, or promotions listed on its platform. We are not responsible for the acceptance or rejection of any coupons, deals, or promotional offers by third-party merchants.
+            ⚠ Important Notices for Users:
+            ✔ Bank Card Discounts: We connect users with merchants offering exclusive discounts for bank card holders. However, we do not control the acceptance or rejection of these discounts by third-party merchants.
+            ✔ Third-Party Offers: Rabaat is not responsible for the acceptance or rejection of deals, or discount offers by third-party merchants.
+            ✔ Accuracy & Errors: While we aim to provide correct details on pricing, discounts, and offers, occasional errors may occur.
+            ✔ No Direct Affiliation: Rabaat is not directly affiliated with external websites linked on our platform and does not endorse or control their content or policies.
+            ✔ Independent Research: Users should review third-party terms separately before engaging with external websites.
 
-            We make every effort to provide accurate information regarding pricing and discounts, but errors may occur. Rabaat is not liable for misrepresentations or changes in offers made by third parties.
+            3. Intellectual Property and Usage Rights
+            All logos, trademarks, brand names, designs, and content displayed on Rabaat belong to Rabaat or its legal licensors. Unauthorized use is strictly prohibited.
 
-            By using our services, you acknowledge that Rabaat is not directly affiliated with any external websites linked through our platform. We do not endorse, control, or take responsibility for content, policies, or services provided by third-party sites. If you choose to engage with third-party websites, you should review their terms separately.
+            🔹 Third-Party Trademarks: Any third-party logos or trademarks visible on our platform belong to their respective owners.
+            🔹 Content Protection: Unauthorized duplication, modification, or distribution of text, images, software, or design elements is a violation of our proprietary rights.
+            🔹 Legal Action: Rabaat reserves the right to pursue legal action, including injunctive relief, against individuals or entities misusing our intellectual property.
 
-            The content available on Rabaat is current as of its publication date and may become outdated due to market changes. We do not offer financial, legal, or investment advice, and no part of our services should be interpreted as an endorsement, sale, or solicitation of financial products.
+            4. Disclaimers and Limitations of Liability
+            Rabaat provides its services “as is” and “as available” without guarantees of uninterrupted access or technical accuracy.
 
-            5. Intellectual Property & Usage Rights
-            All logos, trademarks, brand names, designs, and content displayed on Rabaat belong to Rabaat or its legal licensors. Any unauthorized use, duplication, modification, or distribution of our intellectual property is prohibited.
+            ⚠ Limitations of Liability:
+            ❌ We do not warrant that:
+            ✔ Our services will function without errors or disruptions.
+            ✔ Third-party offers and deals, including bank card discounts, will always be honored.
+            ✔ All pricing, discount, or promotional information will be up-to-date.
 
-            Third-party trademarks visible on our platform are the property of their respective owners. Any unauthorized reproduction of content from Rabaat, whether text, images, software, or design elements, is a violation of our proprietary rights.
+            ❌ We are not responsible for losses, or inconveniences due to:
+            ✔ Errors in discounts or content.
+            ✔ Service interruptions, cyberattacks, or technical failures.
+            ✔ User interactions with third-party merchants.
+            🔹 Service Termination: We reserve the right to suspend or terminate access without prior notice.
 
-            If an individual or entity causes harm to Rabaat through unauthorized use of our intellectual property, we reserve the right to pursue legal action, including injunctive relief.
+            5. Legal Disputes & Governing Law
+            Rabaat’s Terms of Use are governed by the laws of Pakistan.
 
-            6. Disclaimers & Limitations of Liability
-            Rabaat provides services "as is" and "as available," without any guarantees regarding uninterrupted access or technical accuracy. By using our platform, you agree to do so at your own risk.
+            ✔ Dispute Resolution: Any disputes related to our services will be resolved through confidential arbitration in Pakistan.
+            ✔ Intellectual Property Violations: If a user violates our intellectual property rights, we may seek legal action in a court of law.
 
-            We do not warrant that:
+            6. Stay Updated
+            We encourage users to regularly review these terms to stay informed about any changes.
 
-            Our services will always function without errors or disruptions.
-            Third-party offers and deals will always be honored.
-            Information on pricing, discounts, or promotions will be up-to-date.
-            Rabaat is not liable for any damages, losses, or inconveniences resulting from:
+            ✅ Visit us at: https://blog.rabaat.com/ for the latest updates.
+            ✅ Need assistance? Contact our support team for help 📩 contact@rabaat.com 📍 [Lahore, Pakistan]
 
-            Errors in content or pricing information.
-            Service interruptions, cyberattacks, or technical failures.
-            Interactions between users and third-party merchants.
-            We may suspend or terminate access to our services at any time, without prior notice or liability. Users are solely responsible for their transactions and agreements with financial service providers and merchants.
-
-            By using Rabaat, you agree to release our company, employees, and partners from any claims or disputes arising from your use of our platform. We will not be responsible for indirect, incidental, or consequential damages under any circumstances.
-
-            If any section of these terms is found to be legally invalid, the remaining sections will continue to be enforceable.
-
-            6. Legal Disputes & Governing Law
-            These terms are governed by the laws of Pakistan. Any disputes related to your use of Rabaat’s services will be subject to confidential arbitration in Pakistan.
-
-            Exceptions apply if a user has violated our intellectual property rights, in which case we may seek legal action in a relevant court of law. The arbitration process will be conducted in English, and the decision made by the arbitrator will be legally binding.
-
-            By agreeing to these terms, you waive any right to join arbitration proceedings with other users. If arbitration is legally restricted in your region, disputes will be handled by the Pakistani courts.
-
-            7. Contact Information
-            For any questions or concerns regarding these terms, you can reach out to us at:
-
-            📩 contact@rabaat.com
-            📍 [Lahore,  Pakistan]
-
-            By using Rabaat, you acknowledge that you have read and understood these Terms of Use and agree to comply with them.
+            📢 Rabaat: Your Trusted Source for the Latest Bank Card Discounts and Exclusive Brand Deal Offers in Pakistan!
           </p>
         </div>
       </div>

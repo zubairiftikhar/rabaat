@@ -21,8 +21,7 @@ const handleTermOfUse = () => {
       <div className="footer-content">
         <h1>About Rabaat</h1>
         <p style={{ color: "#fff", padding: "20px 0" }}>
-          Where Quality Meets Affordable Prices Every Day. Effortlessly Discover Discounts,
-          Match Your Cards, and Maximize Your Savings Today.
+        Tired of overpaying? Effortlessly unlock unbeatable deals, top discounts, and big offers, match your cards with the best deals, and maximize your savings daily!
         </p>
       </div>
       <div className="footer_bottom">
