@@ -22,18 +22,32 @@ const BankCardCard = ({ card, cityID, cityName, bankName }) => {
   };
 
   return (
-    <div
-      className="card card_s"
-      onClick={handleBankClick}
-      style={{ cursor: "pointer" }}
-    >
-      <img
-        src={`/public/assets/img/cards/${card.image_path}`}
-        className="card-img-top std-img"
-        alt={card.CardName}
-      />
-      <h5 className="card-title card_city_name">{card.CardName}</h5>
-    </div>
+    <>
+
+      {/* <div
+        className="card card_s"
+        onClick={handleBankClick}
+        style={{ cursor: "pointer" }}
+      >
+        <img
+          src={`/public/assets/img/cards/${card.image_path}`}
+          className="card-img-top std-img"
+          alt={card.CardName}
+        />
+        <h5 className="card-title card_city_name">{card.CardName}</h5>
+      </div> */}
+      <div class="Atm_card" style={{ cursor: "pointer" }} onClick={handleBankClick}>
+        <img
+          src={`/public/assets/img/cards/${card.image_path}`}
+          className="img"
+          alt={card.CardName}
+        />
+        <div class="textBox">
+          <h5 className="card-title card_city_name">{card.CardName}</h5>
+        </div>
+      </div>
+
+    </>
   );
 };
 
