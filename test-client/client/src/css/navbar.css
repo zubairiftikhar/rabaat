@@ -265,7 +265,8 @@ nav.fill ul li a {
   right: 50px;
   width: 215px;
 }
-.footer_bottom{
+
+.footer_bottom {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -276,19 +277,23 @@ nav.fill ul li a {
 /* Responsive Design */
 @media (max-width: 768px) {
   .credit-card img {
-      width: 100px;
-      right: 20px;
+    width: 100px;
+    right: 20px;
   }
 }
 
 @media (max-width: 480px) {
   .footer-links {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .credit-card img {
-      display: none; /* Hide credit card image on mobile */
+    display: none;
+    /* Hide credit card image on mobile */
+  }
+  .footer_bottom {
+    flex-direction: column;
   }
 }
 

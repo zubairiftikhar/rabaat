@@ -250,24 +250,6 @@
 
 /* END SWITCHES BUTTON CSS */
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .search-input {
-    font-size: 14px;
-    padding: 8px 12px;
-  }
-}
-
-@media (max-width: 480px) {
-  .search-wrapper {
-    width: 80%;
-  }
-
-  .search-input {
-    font-size: 12px;
-    padding: 6px 10px;
-  }
-}
 
 /* END CSS FOR BG IMAGE & SERCH */
 
@@ -384,3 +366,70 @@
     margin-right: auto;
 }
 
+/* START BANK CARD SLIDER CSS */
+/* Mobile slider container */
+.mobile-slider {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;  /* Enable horizontal scrolling */
+  scroll-snap-type: x mandatory;  /* Snap effect when scrolling */
+  padding: 10px;
+  scrollbar-color: #ffa9a9 #ffa50000;
+  scrollbar-width: thin; /* Firefox scrollbar */
+}
+
+/* Hide scrollbar for Webkit browsers (Chrome, Safari) */
+.mobile-slider::-webkit-scrollbar {
+  display: none;
+}
+
+/* Ensure smooth snapping */
+.sli_der-item {
+  flex: 0 0 auto;
+  width: 20%;  /* Show 3 cards at a time */
+  scroll-snap-align: center;
+}
+
+/* Make sure images/cards fit well */
+.sli_der-item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Desktop layout (keeps row-based structure) */
+.desktop-view {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* END BANK CARD SLIDER CSS */
+
+
+
+
+
+
+
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .search-input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .search-wrapper {
+    width: 80%;
+  }
+
+  .search-input {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+  .shopcontainerw85{
+    width: 100%;
+  }
+}

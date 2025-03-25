@@ -62,7 +62,7 @@ const Reviews = () => {
     <div className="container mt-5">
         <h1 className="text-center">Latest reviews</h1>
       <div className="slider-container position-relative d-flex justify-content-center align-items-center">
-        <button className="btn btn-dark prev_event" onClick={prevSlide}>&#10094;</button>
+        <button className="prev_event" onClick={prevSlide}>&#10094;</button>
         <div className="slider_event d-flex justify-content-center align-items-center">
           {reviews.map((review, index) => (
             <div key={review.id} className={`car-item ${getClassName(index)}`}>
@@ -77,7 +77,7 @@ const Reviews = () => {
             </div>
           ))}
         </div>
-        <button className="btn btn-dark next_event" onClick={nextSlide}>&#10095;</button>
+        <button className="next_event" onClick={nextSlide}>&#10095;</button>
       </div>
     </div>
   );

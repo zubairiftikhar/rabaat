@@ -200,7 +200,9 @@
   align-items: center;
   height: 100%;
 }
-
+.mobile_app7{
+  padding-left: 3rem;
+}
 .mobile_app_img img {
   width: 100%;
   position: relative;
@@ -361,6 +363,16 @@
 
   .breadcrumb {
     padding: 0px;
+  }
+  .mobile_app7{
+    padding-left: 0rem;
+    padding-top: 3rem;
+  }
+  .ffaba1 {
+    height: auto;
+  }
+  .mobile_app_img img {
+    top: 0px;
   }
 }
 

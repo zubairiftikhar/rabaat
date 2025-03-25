@@ -52,3 +52,16 @@
   /* margin: 0; */
   font-weight: bold;
 }
+
+@media only screen and (max-width: 600px) {
+  .category-container {
+    width: 100%;
+  }
+  .category-card {
+    min-width: 90px;
+    max-width: 90px;
+  }
+  .category-image {
+    height: 90px;
+  }
+}

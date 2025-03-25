@@ -1,5 +1,3 @@
-
-
 .slider-container {
     display: flex;
     justify-content: center;
@@ -37,9 +35,11 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
 }
+
 .review-img {
     width: 50px;
 }
+
 .car img {
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
@@ -57,9 +57,33 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 1;
 }
+
 .prev_event:hover,
 .next_event:hover {
+    background-color: #ed000000;
+    border-color: #ed000000;
+    border-radius: 10%;
+    color: #ff0000;
+    font-size: 40px;
+    transition: .2s;
+    transform: translateY(-52%);
+}
+
+.prev_event:active,
+.next_event:active {
+    background-color: #ed000000;
+    border-color: #ed000000;
+    border-radius: 10%;
+    color: #ff0000;
+    font-size: 40px;
+    transition: .2s;
+    transform: translateY(-52%);
+}
+
+.prev_event:focus-visible,
+.next_event:focus-visible {
     background-color: #ed000000;
     border-color: #ed000000;
     border-radius: 10%;
@@ -111,9 +135,22 @@
         transform: translateX(0px) scale(1) translateZ(-80px);
         z-index: 2;
     }
-    
+
     .right-card {
         transform: translateX(0px) scale(1) translateZ(-30px);
         z-index: 2;
+    }
+
+    .car-item {
+        padding: 5px 10px;
+        width: 250px;
+    }
+
+    .prev_event {
+        left: -8px;
+    }
+
+    .next_event {
+        right: -8px;
     }
 }

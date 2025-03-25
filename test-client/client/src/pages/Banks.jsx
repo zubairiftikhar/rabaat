@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { fetchBanksByCityName } from "../services/api";
 import BankCard from "../components/BankCard";
@@ -6,6 +6,7 @@ import SkeletonBankCard from "../components/SkeletonBankCard";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 import "../components/mainsecsearch/mainsecsearch.css";
 import "../css/cityload.css";
+
 
 const Banks = () => {
   const { cityName } = useParams();
@@ -15,6 +16,7 @@ const Banks = () => {
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
   const [loading, setLoading] = useState(true);
   const [visibleBanks, setVisibleBanks] = useState(12); // Initially showing 2 rows (assuming 6 per row)
+  const sliderRef = useRef(null);
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -71,38 +73,77 @@ const Banks = () => {
       </div> */}
 
       {/* Bank Cards */}
-      <div className="card_outer_conainer">
-      <div className="container">
-        <div className="row text-center shopcontainerw85">
-        <h1>Banks in {cityName}</h1>
-        <p>Discover a variety of banking categories offering great savings and benefits!</p>
-          {loading ? (
-            <div className="row">
-              {[...Array(6)].map((_, index) => (
-                <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
-                  <SkeletonBankCard />
+      {/* <div className="card_outer_conainer">
+        <div className="container">
+          <div className="row text-center shopcontainerw85">
+            <h1>Banks in {cityName}</h1>
+            <p>Discover a variety of banking categories offering great savings and benefits!</p>
+            {loading ? (
+              <div className="row">
+                {[...Array(6)].map((_, index) => (
+                  <div key={index} className="col-lg-2 col-md-6 col-sm-12 mb-5">
+                    <SkeletonBankCard />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              filteredBanks.slice(0, visibleBanks).map((bank) => (
+                <div className="col-md-2 fade-in my-4" key={bank.id}>
+                  <BankCard bank={bank} cityId={cityId} cityName={cityName} />
+                </div>
+              ))
+            )}
+          </div>
+
+          
+          {visibleBanks < filteredBanks.length && (
+            <div className="text-center">
+              <button className="rabaat_login_btn" onClick={loadMore}>
+                <span>Load More</span>
+              </button>
+            </div>
+          )}
+        </div>
+      </div> */}
+      <div className="card_outer_container">
+        <div className="container category_outer_conainer">
+          <div className="row text-center shopcontainerw85">
+            <h1>Banks in {cityName}</h1>
+            <p>Discover a variety of banking categories offering great savings and benefits!</p>
+
+            {banks.length === 0 ? (
+              <p>No banks available.</p>
+            ) : (
+              <div className="desktop-view d-none d-lg-flex flex-wrap">
+                {banks.map((bank) => (
+                  <div className="col-md-2 fade-in my-4" key={bank.id}>
+                    <BankCard bank={bank} cityId={cityId} cityName={cityName} />
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Mobile Scrollable Slider */}
+            <div className="mobile-slider d-lg-none" ref={sliderRef}>
+              {banks.map((bank) => (
+                <div className="sli_der-item" key={bank.id}>
+                  <BankCard bank={bank} cityId={cityId} cityName={cityName} />
                 </div>
               ))}
             </div>
-          ) : (
-            filteredBanks.slice(0, visibleBanks).map((bank) => (
-              <div className="col-md-2 fade-in my-4" key={bank.id}>
-                <BankCard bank={bank} cityId={cityId} cityName={cityName} />
-              </div>
-            ))
-          )}
-        </div>
+          </div>
 
-        {/* Load More Button (Visible if more banks are available) */}
-        {visibleBanks < filteredBanks.length && (
+          {/* Load More Button */}
+          {/* {banks.length > 6 && (
           <div className="text-center">
-            <button className="rabaat_login_btn" onClick={loadMore}>
+            <button className="rabaat_login_btn">
               <span>Load More</span>
             </button>
           </div>
-        )}
+        )} */}
+        </div>
       </div>
-      </div>
+
     </>
   );
 };
