@@ -178,6 +178,9 @@ const BranchDetails = () => {
       </div>
 
       <div className="container">
+        <div className="row shopcontainerw85">
+
+       
         <Breadcrumbs />
         <Helmet>
           <title>{`Rabaat | ${merchant.name}`}</title>
@@ -247,6 +250,7 @@ const BranchDetails = () => {
             </button>
           </div>
         )}
+        </div>
       </div>
     </>
   );

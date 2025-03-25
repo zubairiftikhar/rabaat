@@ -136,10 +136,10 @@ const BranchToBankDetails = () => {
         </div>
       </div>
       <div className="container col-10">
-        <div className="banks-with-discounts">
+        <div className="banks-with-discounts shopcontainerw85">
           <Breadcrumbs />
           <h2>Banks Offering Discounts</h2>
-          <div className="container">
+          <div className="container pb-5 pt-4">
             {/* Search Input for Filtering Banks */}
             <div className="d-flex pt-3 pb-4 page_search">
               <div className="input-group" style={{ maxWidth: "300px" }}>
