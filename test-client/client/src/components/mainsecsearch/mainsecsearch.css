@@ -111,7 +111,7 @@
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   font-weight: 600;
   cursor: pointer;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.5rem;;
 }
 
 @media (max-width: 768px) {
@@ -130,6 +130,7 @@
     font-size: 35px;
   }
   .hero_animation{
+    display: none;
     width: 200px;
   }
 }
@@ -298,5 +299,8 @@
 
   .form-control {
     height: 36px;
+  }
+  .card_button {
+    margin: 0 auto;
   }
 }

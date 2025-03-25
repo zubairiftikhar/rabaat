@@ -82,7 +82,7 @@ const Banks = () => {
                 ))}
               </div>
             ) : (
-              <div className="row">
+              <div className="row pt-4">
                 {filteredBanks.slice(0, visibleBanks).map((bank) => (
                   <div className="col-lg-2 col-md-4 col-4 mb-4" key={bank.id}>
                     <BankCard bank={bank} cityId={cityId} cityName={cityName} />
