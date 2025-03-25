@@ -83,7 +83,7 @@ const Cards = () => {
         </div>
       </div>
       {/* Card Listing */}
-      <div className="container">
+      <div className="container py-5">
         <div className="row">
           {loading ? (
             <div className="row">

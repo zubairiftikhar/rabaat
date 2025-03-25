@@ -36,7 +36,7 @@ const Mainsecsearch = () => {
     }
   }, [cityID]);
 
-  const backgroundImageUrl = `../public/assets/img/cities/rabaat_bg.png`;
+  const backgroundImageUrl = `../public/assets/img/cities/rabaat_bg.jpg`;
 
   useEffect(() => {
     if (clicked) {

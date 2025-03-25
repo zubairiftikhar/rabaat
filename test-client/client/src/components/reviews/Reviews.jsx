@@ -7,28 +7,28 @@ const Reviews = () => {
   const reviews = [
     {
       id: 1,
-      img: "../../../public/assets/img/review/1.jpg",
+      img: "../../../public/assets/img/review/5.png",
       name: "John Doe",
       rating: 5,
       review: "Amazing service! Highly recommended.",
     },
     {
       id: 2,
-      img: "../../../public/assets/img/review/2.jpg",
+      img: "../../../public/assets/img/review/6.png",
       name: "Sarah Smith",
       rating: 4,
       review: "Great experience, will order again.",
     },
     {
       id: 3,
-      img: "../../../public/assets/img/review/4.jpg",
+      img: "../../../public/assets/img/review/7.png",
       name: "Michael Lee",
       rating: 5,
       review: "Best quality ever! Totally worth it.",
     },
     {
       id: 4,
-      img: "../../../public/assets/img/review/5.jpg",
+      img: "../../../public/assets/img/review/8.png",
       name: "Emily Brown",
       rating: 3,
       review: "Good service but a bit slow.",
