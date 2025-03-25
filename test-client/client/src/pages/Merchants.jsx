@@ -120,36 +120,36 @@ const Merchants = () => {
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
       <div className="card_outer_conainer">
-      <div className="container text-center">
-        <h1>Shops in {cityName}</h1>
+        <div className="container text-center">
+          <h1>Shops in {cityName}</h1>
 
-        {/* Category Scroller */}
-        <div className="category-scroller-wrapper">
-          <div className="static-all-button">
-            <button
-              className={`category-btn ${selectedCategory === "All" ? "active" : ""
-                }`}
-              onClick={() => setSelectedCategory("All")}
-            >
-              All
-            </button>
-          </div>
-          <div className="category-scroller" ref={scrollRef}>
-            {categories.map((category, index) => (
+          {/* Category Scroller */}
+          <div className="category-scroller-wrapper">
+            <div className="static-all-button">
               <button
-                key={index}
-                className={`category-btn ${selectedCategory === category ? "active" : ""
+                className={`category-btn ${selectedCategory === "All" ? "active" : ""
                   }`}
-                onClick={() => setSelectedCategory(category)}
+                onClick={() => setSelectedCategory("All")}
               >
-                {category}
+                All
               </button>
-            ))}
+            </div>
+            <div className="category-scroller" ref={scrollRef}>
+              {categories.map((category, index) => (
+                <button
+                  key={index}
+                  className={`category-btn ${selectedCategory === category ? "active" : ""
+                    }`}
+                  onClick={() => setSelectedCategory(category)}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Search Bar */}
-        {/* <div className="d-flex pt-4 pb-4 page_search">
+          {/* Search Bar */}
+          {/* <div className="d-flex pt-4 pb-4 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <span className="input-group-text">
               <FaSearch />
@@ -163,8 +163,8 @@ const Merchants = () => {
             />
           </div>
         </div> */}
-      </div>
-      
+        </div>
+
         <div className="container">
           {loading ? (
             <div className="row">

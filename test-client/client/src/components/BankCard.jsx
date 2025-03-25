@@ -26,7 +26,7 @@ const BankCard = ({ bank, cityName }) => {
         className="card-img-top std-img"
         alt={bank.name}
       />
-      <h3>{bank.name}</h3>
+      <h6>{bank.name}</h6>
     </div>
   );
 };
