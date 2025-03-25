@@ -99,7 +99,7 @@ app.get("/api/cards/:bankName", (req, res) => {
 app.get("/api/banks/:cityId", (req, res) => {
   const { cityId } = req.params;
   const query = `
-    SELECT b.BankID AS id, b.BankName AS name, b.image_path AS image 
+    SELECT b.BankID AS id, b.BankName AS name, b.image_path AS image, b.BankShortCode AS bank_short_code 
     FROM bank b
     JOIN citybanklink cbl ON b.BankID = cbl.BankID
     WHERE cbl.CityID = ?
@@ -113,7 +113,7 @@ app.get("/api/banks/:cityId", (req, res) => {
 app.get("/api/banksByCityName/:cityName", (req, res) => {
   const { cityName } = req.params;
   const query = `
-    SELECT DISTINCT b.BankID AS id, b.BankName AS name, b.image_path AS image
+    SELECT DISTINCT b.BankID AS id, b.BankName AS name, b.image_path AS image, b.BankShortCode AS bank_short_code
     FROM bank b
     JOIN citybanklink cb ON b.BankID = cb.BankID
     JOIN city c ON cb.CityID = c.CityID
