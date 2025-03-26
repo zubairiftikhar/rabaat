@@ -149,7 +149,7 @@ const Merchants = () => {
           </div>
 
           {/* Search Bar */}
-          {/* <div className="d-flex pt-4 pb-4 page_search">
+          <div className="d-flex pt-4 pb-4 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <span className="input-group-text">
               <FaSearch />
@@ -162,7 +162,7 @@ const Merchants = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-        </div> */}
+        </div>
         </div>
 
         <div className="container">
