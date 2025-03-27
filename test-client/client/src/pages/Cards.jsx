@@ -96,7 +96,7 @@ const Cards = () => {
           ) : (
             cardsToShow.map((card, index) => (
               <div
-                className={`col-md-3 fade-in ${loadingMore ? "loading" : ""}`}
+                className={`col-lg-3 col-md-4 col-6 merchant-card-spacing fade-in ${loadingMore ? "loading" : ""}`}
                 key={card.id || index} // Ensure a unique key
                 style={{ animationDelay: `${index * 0.1}s` }}
               >

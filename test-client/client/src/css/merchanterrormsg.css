@@ -21,5 +21,6 @@
 
 /* Add this to your CSS file to apply spacing */
 .merchant-card-spacing {
-  padding: 12px;
+  padding: 16px;
+  display: flex;
 }

@@ -163,7 +163,7 @@ const MerchantsByBankAndCard = () => {
         {loading ? (
           <div className="row">
             {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
-              <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
+              <div key={index} className="col-lg-2 col-md-4 col-6 pb-5">
                 <SkeletonMerchantCard />
               </div>
             ))}
@@ -174,7 +174,7 @@ const MerchantsByBankAndCard = () => {
               {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
                 <div
                   key={merchant.id}
-                  className="col-lg-2 col-md-6 col-sm-12 merchant-card-spacing"
+                  className="col-lg-2 col-md-3 col-6 merchant-card-spacing"
                 >
                   <MerchantBankCard
                     cityName={cityName}
@@ -191,7 +191,7 @@ const MerchantsByBankAndCard = () => {
             {loadingMore && (
               <div className="row">
                 {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
-                  <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                  <div key={index} className="col-lg-2 col-md-4 col-6 pb-5">
                     <SkeletonMerchantCard />
                   </div>
                 ))}
