@@ -24,3 +24,9 @@
   padding: 16px;
   display: flex;
 }
+
+@media only screen and (max-width: 600px) {
+  .merchant-card-spacing {
+    padding: 6px;
+  }
+}

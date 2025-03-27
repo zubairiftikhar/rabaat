@@ -180,7 +180,7 @@ const Merchants = () => {
                 {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
                   <div
                     key={merchant.id}
-                    className="col-lg-2 col-md-4 col-6 merchant-card-spacing"
+                    className="col-lg-2 col-md-4 col-4 merchant-card-spacing"
                   >
                     <MerchantCard
                       cityName={cityName}
