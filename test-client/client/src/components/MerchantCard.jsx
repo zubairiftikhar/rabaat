@@ -40,12 +40,12 @@ const MerchantCard = ({ cityName, merchant }) => {
       onClick={handleClick}
       style={{ cursor: "pointer" }}
     >
-        <div className="offer-discount">
-          <span className="discount-up">Up to</span>
-          <span className="discount-percent">
-            {maxDiscount !== null ? `${maxDiscount}%` : "Loading..."}
-          </span>
-        </div>
+      <div className="offer-discount">
+        <span className="discount-up">Up to</span>
+        <span className="discount-percent">
+          {maxDiscount !== null ? `${maxDiscount}%` : "Loading..."}
+        </span>
+      </div>
       <img
         src={`/public/assets/img/merchants/${merchant.image}`}
         className="card-img-top marchant_card_img"
@@ -55,11 +55,11 @@ const MerchantCard = ({ cityName, merchant }) => {
       <div className="offer-container">
         <div className="offer-details">
           <p className="offer-title">{merchant.name}</p>
-          <div className="d-flex justify-content-between">
-          <p className="offer-subtext">
-            <span>{cardCount !== null ? cardCount : "Loading..."}</span> Cards
-          </p>
-          <p style={{ fontSize: "12px" }}>Branches 5</p>
+          <div className="card_branch">
+            <p className="offer-subtext">
+              <span>{cardCount !== null ? cardCount : "Loading..."}</span> Cards
+            </p>
+            <p style={{ fontSize: "12px" }}>Branches 5</p>
           </div>
         </div>
       </div>
