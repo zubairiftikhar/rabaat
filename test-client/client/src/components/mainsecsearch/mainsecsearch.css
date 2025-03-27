@@ -50,7 +50,7 @@
 
 .form-control {
   flex: 1;
-  border: none !important;
+  border: none;
   font-size: 14px;
   padding: 10px;
   outline: none;

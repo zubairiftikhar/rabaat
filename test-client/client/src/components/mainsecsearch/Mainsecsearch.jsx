@@ -143,7 +143,7 @@ const Mainsecsearch = () => {
                   />
                   <input
                     type="text"
-                    className="form-control"
+                    className="form-control" style={{border: "none"}}
                     placeholder="Search by Shop / Branch"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
