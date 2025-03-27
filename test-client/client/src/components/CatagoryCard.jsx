@@ -18,7 +18,7 @@ const CatagoryCard = ({ catagory, cityName }) => {
   return (
     <div className="category-card" onClick={handleCategoryClick}>
       <img src={`../../../public/assets/img/categories/${formatCategoryImageName(catagory.CategoryName)}`} alt={catagory.CategoryName} className="category-image" />
-      <h2 className="category-title">{catagory.CategoryName}</h2>
+      <p className="category-title offer-title">{catagory.CategoryName}</p>
     </div>
   );
 };
