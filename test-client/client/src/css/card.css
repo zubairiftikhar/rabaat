@@ -290,17 +290,17 @@
 
   .offer-title {
     max-width: 150px;
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .offer-subtext {
-    font-size: 16px;
+    font-size: 11px;
   }
 
   .offer-discount {
-    font-size: 16px;
-    min-width: 60px;
-    min-height: 60px;
+    font-size: 12px;
+    min-width: 50px;
+    min-height: 50px;
   }
   .std-img {
     width: 100%;

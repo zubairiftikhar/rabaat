@@ -149,7 +149,7 @@ const Merchants = () => {
           </div>
 
           {/* Search Bar */}
-          {/* <div className="d-flex pt-4 pb-4 page_search">
+          <div className="d-flex pt-4 pb-4 page_search">
           <div className="input-group" style={{ maxWidth: "300px" }}>
             <span className="input-group-text">
               <FaSearch />
@@ -162,14 +162,14 @@ const Merchants = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-        </div> */}
+        </div>
         </div>
 
         <div className="container">
           {loading ? (
             <div className="row">
               {Array.from({ length: ROW_SIZE * 3 }).map((_, index) => (
-                <div key={index} className="col-lg-2 col-md-6 col-sm-12 pb-5">
+                <div key={index} className="col-lg-2 col-md-4 col-6 pb-5">
                   <SkeletonMerchantCard />
                 </div>
               ))}
@@ -180,7 +180,7 @@ const Merchants = () => {
                 {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
                   <div
                     key={merchant.id}
-                    className="col-lg-2 col-md-6 col-sm-6 merchant-card-spacing"
+                    className="col-lg-2 col-md-4 col-6 merchant-card-spacing"
                   >
                     <MerchantCard
                       cityName={cityName}
@@ -195,7 +195,7 @@ const Merchants = () => {
               {loadingMore && (
                 <div className="row">
                   {Array.from({ length: ROW_SIZE * 2 }).map((_, index) => (
-                    <div key={index} className="col-lg-2 col-md-6 col-sm-12">
+                    <div key={index} className="col-lg-2 col-md-4 col-6 pb-5">
                       <SkeletonMerchantCard />
                     </div>
                   ))}
