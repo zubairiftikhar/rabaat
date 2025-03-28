@@ -132,6 +132,10 @@
   cursor: pointer;
   transition: 1s;
 }
+.card_branch {
+  display: flex;
+  justify-content: space-between;
+}
 
 .offer-subtext {
   font-size: 12px;
@@ -298,12 +302,21 @@
   }
 
   .offer-discount {
-    font-size: 12px;
-    min-width: 50px;
-    min-height: 50px;
+    font-size: 10px;
+    min-width: 37px;
+    min-height: 37px;
+    width: 37px;
+    right: -5px;
+    top: -10px;
   }
   .std-img {
     width: 100%;
+  }
+  .card_branch {
+   flex-direction: column;
+  }
+  .offer-container {
+    padding: 0px 10px;
   }
 }
 

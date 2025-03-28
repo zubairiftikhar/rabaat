@@ -158,6 +158,7 @@ const Merchants = () => {
               type="text"
               className="form-control"
               placeholder="Search Merchant Here..."
+              style={{border: "none"}}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
