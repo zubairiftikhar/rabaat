@@ -74,6 +74,7 @@ const Cards = () => {
                   type="text"
                   className="form-control"
                   placeholder="Search Card Here..."
+                  style={{border: "none"}}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />

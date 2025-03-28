@@ -150,6 +150,7 @@ const BranchToBankDetails = () => {
                   type="text"
                   className="form-control"
                   placeholder="Search Banks..."
+                  style={{border: "none"}}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)} // Update search query
                 />

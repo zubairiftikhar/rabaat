@@ -200,6 +200,7 @@ const BranchDetails = () => {
               type="text"
               className="form-control"
               placeholder="Search Branch Here..."
+              style={{border: "none"}}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)} // Update search query
             />
@@ -209,7 +210,7 @@ const BranchDetails = () => {
         {banksWithDiscounts.length > 0 ? (
           <div className="row">
             {banksWithDiscounts.map((bank) => (
-              <div className="col-lg-2 col-md-4 col-4 merchant-card-spacing" key={bank.bank_id}>
+              <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={bank.bank_id}>
                 <BankWithMerchant
                   cityName={replaceUnderscoreWithSpaces(cityName)}
                   merchantName={replaceUnderscoreWithSpaces(merchantName)}
@@ -225,7 +226,7 @@ const BranchDetails = () => {
         {branchesToShow.length > 0 ? (
           <div className="row">
             {branchesToShow.map((branch) => (
-              <div className="col-md-2" key={branch.id}>
+              <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={branch.id}>
                 <BranchCard
                   cityName={cityName}
                   merchantName={merchantName}

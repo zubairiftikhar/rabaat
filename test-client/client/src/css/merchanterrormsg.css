@@ -22,7 +22,6 @@
 /* Add this to your CSS file to apply spacing */
 .merchant-card-spacing {
   padding: 15px 10px;
-  display: flex;
 }
 
 @media only screen and (max-width: 600px) {
