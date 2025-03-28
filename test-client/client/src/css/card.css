@@ -166,12 +166,12 @@
 }
 
 .offer-container {
-  padding: 5px 10px;
+  padding: 5px 7px;
   align-items: center;
   width: 100%;
   font-size: 11px;
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
 }
 
 /* END CSS START FOR MARCHACT */

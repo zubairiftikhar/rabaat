@@ -34,7 +34,7 @@ const BankCardCard = ({ card, cityID, cityName, bankName }) => {
           className="card-img-top marchant_card_img"
           alt={card.CardName}
         />
-        <p className="offer-container">{card.CardName}</p>
+        <p className="offer-container text-center">{card.CardName}</p>
       </div>
       {/* <div class="Atm_card" style={{ cursor: "pointer" }} onClick={handleBankClick}>
         <img
