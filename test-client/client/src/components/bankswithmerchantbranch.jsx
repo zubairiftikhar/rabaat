@@ -54,8 +54,8 @@ const BankWithMerchantBranch = ({
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../../../../public/assets/img/banks/${bank.bank_image}`}
-        className="card-img-top std-img"
+        src={`../../../../public/assets/img/banksquare/${bank.bank_image}`}
+        className="card-img-top"
         alt={bank.bank_name}
       />
       <div className="offer-container">
