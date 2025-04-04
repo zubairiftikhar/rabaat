@@ -66,11 +66,16 @@ const Merchants = () => {
           setCategories(uniqueCategories);
 
           // Automatically activate the category from the URL
-          if (categoryName && uniqueCategories.includes(categoryName)) {
-            setSelectedCategory(replaceUnderscoreWithSpaces(categoryName));
+          const formattedCategory = replaceUnderscoreWithSpaces(categoryName);
+          const matchedCategory = uniqueCategories.find(
+            (cat) => cat.toLowerCase() === formattedCategory.toLowerCase()
+          );
+          if (matchedCategory) {
+            setSelectedCategory(matchedCategory);
           } else {
             setSelectedCategory("All");
           }
+
         } catch (error) {
           console.error("Error fetching merchants:", error);
         }
@@ -150,20 +155,20 @@ const Merchants = () => {
 
           {/* Search Bar */}
           <div className="d-flex pt-4 pb-4 page_search">
-          <div className="input-group" style={{ maxWidth: "300px" }}>
-            <span className="input-group-text">
-              <FaSearch />
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Merchant Here..."
-              style={{border: "none"}}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <div className="input-group" style={{ maxWidth: "300px" }}>
+              <span className="input-group-text">
+                <FaSearch />
+              </span>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search Merchant Here..."
+                style={{ border: "none" }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
           </div>
-        </div>
         </div>
 
         <div className="container">
