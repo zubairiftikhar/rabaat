@@ -18,7 +18,7 @@ const AboutUs = () => {
         <div className="col-lg-12 col-sm-12">
           <div className="about_page">
             <p><span>Who We Are: </span>We are revolutionizing the way you discover discounts and exclusive deals offered by banks on your favorite brands. Our platform bridges the gap between banks and merchants, providing users with a seamless experience to explore the best offers available on their bank cards.</p>
-            <p><span>Our mission: </span>is to empower users by making it easier than ever to maximize their savings. Whether you own a credit card, debit card, or prepaid card, our platform helps you find the right discounts without any hassle</p>
+            <p><span>Our goal: </span>is to empower users by making it easier than ever to maximize their savings. Whether you own a credit card, debit card, or prepaid card, our platform helps you find the right discounts without any hassle</p>
           </div>
         </div>
       </div>
