@@ -23,8 +23,8 @@ const Catagory = () => {
 
   return (
     <div className="container category_outer_conainer text-center">
-        <h1>Categories</h1>
-        <p>Find everything you need across a variety of exciting categories!</p>
+        <h1>CATEGORIES</h1>
+        <p>Find The Best Brand Discount Offers!</p>
       <div className="category-container">
         <div className="category-scroll">
           {categories.map((category, index) => (

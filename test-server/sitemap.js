@@ -8,7 +8,7 @@ const BASE_URL = "https://rabaat.com";
 const API_BASE = "http://localhost:8081/api";
 const SITEMAP_DIR = path.join(__dirname, "../test-client/client/public");
 const SITEMAP_INDEX_PATH = path.join(SITEMAP_DIR, "sitemap.xml");
-const CHUNK_SIZE = 10000;
+const MAX_URLS_PER_FILE = 10000;
 
 const fetchData = async (endpoint) => {
   try {
@@ -23,21 +23,37 @@ const fetchData = async (endpoint) => {
 const replaceSpacesWithUnderscore = (str) => (str ? str.replace(/\s+/g, "_") : "");
 
 const generateSitemap = async () => {
-  let urls = [
+  // Create URL groups
+  const staticUrls = [
     `${BASE_URL}/`,
     `${BASE_URL}/AboutUs`,
     `${BASE_URL}/Contact`,
     `${BASE_URL}/TermOfUse`,
   ];
 
-  const cities = await fetchData("/cities");
-  const banks = await fetchData("/allbanks"); // Fetch all banks once
+  const cityUrls = [];
+  const categoryUrls = [];
+  const merchantUrls = [];
+  const branchUrls = [];
+  const bankUrls = [];
+  const cardUrls = [];
 
+  const cities = await fetchData("/cities");
+  const banks = await fetchData("/allbanks");
+  const categories = await fetchData("/categories");
+
+  // Generate city URLs
   for (const city of cities) {
     const cityName = replaceSpacesWithUnderscore(city.name);
-    urls.push(`${BASE_URL}/${cityName}`);
-    urls.push(`${BASE_URL}/${cityName}/Bank`);
-    urls.push(`${BASE_URL}/${cityName}/Search-By-Bank`);
+    cityUrls.push(`${BASE_URL}/${cityName}`);
+    cityUrls.push(`${BASE_URL}/${cityName}/Bank`);
+    cityUrls.push(`${BASE_URL}/${cityName}/Search-By-Bank`);
+    
+    // Add category URLs for each city
+    for (const category of categories) {
+      const categoryName = replaceSpacesWithUnderscore(category.CategoryName);
+      categoryUrls.push(`${BASE_URL}/${cityName}/category/${categoryName}`);
+    }
 
     // Fetch merchants in the city
     const merchantsResponse = await fetchData(`/merchants/${city.name}`);
@@ -46,30 +62,30 @@ const generateSitemap = async () => {
     // Generate URLs for merchants and their branches
     for (const merchant of merchants) {
       const merchantName = replaceSpacesWithUnderscore(merchant.name);
-      urls.push(`${BASE_URL}/${cityName}/${merchantName}`);
+      merchantUrls.push(`${BASE_URL}/${cityName}/${merchantName}`);
 
       // Fetch branches for this merchant in this city
       const branches = await fetchData(`/branches/${merchant.name}/${city.name}`);
       for (const branch of branches) {
         const branchAddress = replaceSpacesWithUnderscore(branch.address);
-        urls.push(`${BASE_URL}/${cityName}/${merchantName}/Branch/${branch.id}/${branchAddress}`);
+        branchUrls.push(`${BASE_URL}/${cityName}/${merchantName}/Branch/${branch.id}/${branchAddress}`);
       }
     }
 
     // Generate URLs for banks and their merchants in the city
     for (const bank of banks) {
       const bankName = replaceSpacesWithUnderscore(bank.name);
-      urls.push(`${BASE_URL}/${cityName}/Bank/${bankName}`);
+      bankUrls.push(`${BASE_URL}/${cityName}/Bank/${bankName}`);
 
       for (const merchant of merchants) {
         const merchantName = replaceSpacesWithUnderscore(merchant.name);
-        urls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}`);
+        bankUrls.push(`${BASE_URL}/${cityName}/${merchantName}/Bank/${bankName}`);
 
         // Fetch branches only once per merchant-city combination
         const branches = await fetchData(`/branches/${merchant.name}/${city.name}`);
         for (const branch of branches) {
           const branchAddress = replaceSpacesWithUnderscore(branch.address);
-          urls.push(`${BASE_URL}/${cityName}/${bankName}/${merchantName}/Branch/${branch.id}/${branchAddress}`);
+          branchUrls.push(`${BASE_URL}/${cityName}/${bankName}/${merchantName}/Branch/${branch.id}/${branchAddress}`);
         }
       }
     }
@@ -85,7 +101,7 @@ const generateSitemap = async () => {
       
       for (const city of cities) {
         const cityName = replaceSpacesWithUnderscore(city.name);
-        urls.push(`${BASE_URL}/${cityName}/Bank/${bankName}/${cardName}`);
+        cardUrls.push(`${BASE_URL}/${cityName}/Bank/${bankName}/${cardName}`);
 
         // Fetch merchants only once per city
         const merchantsResponse = await fetchData(`/merchants/${city.name}`);
@@ -93,34 +109,71 @@ const generateSitemap = async () => {
         
         for (const merchant of merchants) {
           const merchantName = replaceSpacesWithUnderscore(merchant.name);
-          urls.push(`${BASE_URL}/${cityName}/Bank/${bankName}/${cardName}/${merchantName}`);
+          cardUrls.push(`${BASE_URL}/${cityName}/Bank/${bankName}/${cardName}/${merchantName}`);
         }
       }
     }
   }
 
-  // Generate sitemap chunks
+  // Group all URL categories
+  const urlGroups = [
+    { name: "static", urls: staticUrls },
+    { name: "cities", urls: cityUrls },
+    { name: "categories", urls: categoryUrls },
+    { name: "merchants", urls: merchantUrls },
+    { name: "branches", urls: branchUrls },
+    { name: "banks", urls: bankUrls },
+    { name: "discounts", urls: cardUrls }
+  ];
+
+  // Generate sitemap files for each group, potentially splitting into chunks if too large
   let sitemapIndexContent = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
-  let chunkIndex = 1;
-
-  for (let i = 0; i < urls.length; i += CHUNK_SIZE) {
-    const chunkUrls = urls.slice(i, i + CHUNK_SIZE);
-    const sitemapFilename = `sitemap_${String(chunkIndex).padStart(3, "0")}.xml`;
-    const sitemapPath = path.join(SITEMAP_DIR, sitemapFilename);
-
-    const sitemapContent = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
-      chunkUrls.map(url => `<url><loc>${url.replace(/&/g, "&amp;")}</loc></url>`).join("\n") +
-      "\n</urlset>";
-
-    fs.writeFileSync(sitemapPath, sitemapContent);
-    console.log(`Generated ${sitemapFilename}`);
-    sitemapIndexContent += `<sitemap><loc>${BASE_URL}/${sitemapFilename}</loc></sitemap>\n`;
-    chunkIndex++;
+  
+  for (const group of urlGroups) {
+    if (group.urls.length === 0) continue;
+    
+    // Split the group into chunks if needed
+    if (group.urls.length <= MAX_URLS_PER_FILE) {
+      // Create a single file for this group
+      const filename = `sitemap_${group.name}.xml`;
+      const filePath = path.join(SITEMAP_DIR, filename);
+      
+      const content = generateSitemapContent(group.urls);
+      fs.writeFileSync(filePath, content);
+      
+      sitemapIndexContent += `<sitemap><loc>${BASE_URL}/${filename}</loc></sitemap>\n`;
+      console.log(`Generated ${filename} with ${group.urls.length} URLs`);
+    } else {
+      // Split into multiple files
+      const chunkCount = Math.ceil(group.urls.length / MAX_URLS_PER_FILE);
+      
+      for (let i = 0; i < chunkCount; i++) {
+        const startIdx = i * MAX_URLS_PER_FILE;
+        const endIdx = Math.min((i + 1) * MAX_URLS_PER_FILE, group.urls.length);
+        const chunkUrls = group.urls.slice(startIdx, endIdx);
+        
+        const filename = `sitemap_${group.name}_${String(i+1).padStart(3, "0")}.xml`;
+        const filePath = path.join(SITEMAP_DIR, filename);
+        
+        const content = generateSitemapContent(chunkUrls);
+        fs.writeFileSync(filePath, content);
+        
+        sitemapIndexContent += `<sitemap><loc>${BASE_URL}/${filename}</loc></sitemap>\n`;
+        console.log(`Generated ${filename} with ${chunkUrls.length} URLs`);
+      }
+    }
   }
 
   sitemapIndexContent += "</sitemapindex>";
   fs.writeFileSync(SITEMAP_INDEX_PATH, sitemapIndexContent);
   console.log("Sitemap index updated!");
+};
+
+// Helper function to generate sitemap XML content
+const generateSitemapContent = (urls) => {
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
+    urls.map(url => `<url><loc>${url.replace(/&/g, "&amp;")}</loc></url>`).join("\n") +
+    "\n</urlset>";
 };
 
 // Run sitemap generation periodically (every 24 hours)
