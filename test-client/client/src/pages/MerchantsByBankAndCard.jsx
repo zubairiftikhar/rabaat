@@ -152,6 +152,7 @@ const MerchantsByBankAndCard = () => {
               type="text"
               className="form-control"
               placeholder="Search Merchant Here..."
+              style={{ border: "none" }}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
@@ -170,7 +171,7 @@ const MerchantsByBankAndCard = () => {
           </div>
         ) : filteredMerchants.length > 0 ? (
           <>
-            <div className="row">
+            <div className="row shopcontainerw85">
               {filteredMerchants.slice(0, visibleMerchants).map((merchant) => (
                 <div
                   key={merchant.id}

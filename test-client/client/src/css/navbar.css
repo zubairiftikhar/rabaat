@@ -404,5 +404,9 @@ nav.fill ul li a {
     width: 180px;
   }
 }
-
+@media (max-width: 350px) {
+  .top_form-control{
+    width: 160px;
+  }
+}
 /* END FOOTER  CSS */

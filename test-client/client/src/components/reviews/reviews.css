@@ -154,3 +154,8 @@
         right: -8px;
     }
 }
+@media (max-width: 380px) {
+    .car-item {
+        width: 200px;
+    }
+}
