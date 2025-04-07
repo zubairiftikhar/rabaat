@@ -46,7 +46,7 @@ const BankWithMerchant = ({ cityName, merchantName, bank }) => {
       style={{ cursor: "pointer" }}
     >
       <img
-        src={`../../../public/assets/img/banksq/${bank.bank_image}`}
+        src={`../../../public/assets/img/banksquare/${bank.bank_image}`}
         className="card-img-top marchant_card_img"
         alt={bank.bank_name}
       />
