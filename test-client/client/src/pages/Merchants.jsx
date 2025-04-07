@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {
   fetchMerchantsByCity,
   fetchMaximumDiscountAnyBank,
@@ -14,6 +14,9 @@ import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 
 const ROW_SIZE = 6;
 
+// Create a session storage key for this component's state
+const getSessionKey = (cityName) => `merchantsPageState_${cityName}`;
+
 const Merchants = () => {
   const { cityName, categoryName } = useParams();
   const [merchants, setMerchants] = useState([]);
@@ -25,13 +28,56 @@ const Merchants = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3);
   const scrollRef = useRef(null);
+  const navigate = useNavigate();
+  const pageFullyLoaded = useRef(false);
+  const scrollPositionRef = useRef(0);
+
   const replaceUnderscoreWithSpaces = (name) => {
     return name.replace(/_/g, " ");
   };
 
+  // On mount, try to restore previous state
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    const restoreStateFromSession = () => {
+      try {
+        const savedState = sessionStorage.getItem(getSessionKey(cityName));
+        if (savedState) {
+          const parsedState = JSON.parse(savedState);
+          setSearchQuery(parsedState.searchQuery || "");
+          setSelectedCategory(parsedState.selectedCategory || "All");
+          setVisibleMerchants(parsedState.visibleMerchants || ROW_SIZE * 3);
+          // We'll handle scrollPosition separately after data loads
+          scrollPositionRef.current = parsedState.scrollPosition || 0;
+        }
+      } catch (error) {
+        console.error("Error restoring state:", error);
+      }
+    };
+
+    restoreStateFromSession();
+  }, [cityName]);
+
+  // Save state when component unmounts
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      const stateToSave = {
+        searchQuery,
+        selectedCategory,
+        visibleMerchants,
+        scrollPosition: window.scrollY,
+      };
+      sessionStorage.setItem(getSessionKey(cityName), JSON.stringify(stateToSave));
+    };
+
+    // Listen for page navigation/unload
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    // Also save state when navigating with React Router
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+      handleBeforeUnload();
+    };
+  }, [cityName, searchQuery, selectedCategory, visibleMerchants]);
 
   useEffect(() => {
     if (cityName) {
@@ -66,14 +112,16 @@ const Merchants = () => {
           setCategories(uniqueCategories);
 
           // Automatically activate the category from the URL
-          const formattedCategory = replaceUnderscoreWithSpaces(categoryName);
-          const matchedCategory = uniqueCategories.find(
-            (cat) => cat.toLowerCase() === formattedCategory.toLowerCase()
-          );
-          if (matchedCategory) {
-            setSelectedCategory(matchedCategory);
-          } else {
-            setSelectedCategory("All");
+          if (categoryName) {
+            const formattedCategory = replaceUnderscoreWithSpaces(categoryName);
+            const matchedCategory = uniqueCategories.find(
+              (cat) => cat.toLowerCase() === formattedCategory.toLowerCase()
+            );
+            if (matchedCategory) {
+              setSelectedCategory(matchedCategory);
+            } else {
+              setSelectedCategory("All");
+            }
           }
 
         } catch (error) {
@@ -81,10 +129,23 @@ const Merchants = () => {
         }
 
         setLoading(false);
+        pageFullyLoaded.current = true;
       };
       getMerchants();
     }
   }, [cityName, categoryName]);
+
+  // Restore scroll position after merchants load
+  useEffect(() => {
+    if (!loading && pageFullyLoaded.current && scrollPositionRef.current > 0) {
+      // Use a small timeout to ensure DOM has fully updated after loading state change
+      const timeoutId = setTimeout(() => {
+        window.scrollTo(0, scrollPositionRef.current);
+      }, 100);
+
+      return () => clearTimeout(timeoutId);
+    }
+  }, [loading, filteredMerchants]);
 
   useEffect(() => {
     let filtered = merchants;
@@ -102,7 +163,9 @@ const Merchants = () => {
     }
 
     setFilteredMerchants(filtered);
-    setVisibleMerchants(ROW_SIZE * 3);
+
+    // Don't reset visibleMerchants unless explicitly going to a new category
+    // This preserves "load more" state when returning to the page
   }, [selectedCategory, searchQuery, merchants]);
 
   const handleSeeMore = () => {
@@ -126,7 +189,7 @@ const Merchants = () => {
       </Helmet>
       <div className="card_outer_conainer">
         <div className="container text-center">
-          <h1>Shops in {cityName}</h1>
+          <h1 className="title_of_merchants">Shops in {cityName}</h1>
 
           {/* Category Scroller */}
           <div className="category-scroller-wrapper">
@@ -134,7 +197,10 @@ const Merchants = () => {
               <button
                 className={`category-btn ${selectedCategory === "All" ? "active" : ""
                   }`}
-                onClick={() => setSelectedCategory("All")}
+                onClick={() => {
+                  setSelectedCategory("All")
+                  navigate(`/${cityName}/Category/${"All"}`);
+                }}
               >
                 All
               </button>
@@ -145,7 +211,10 @@ const Merchants = () => {
                   key={index}
                   className={`category-btn ${selectedCategory === category ? "active" : ""
                     }`}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => {
+                    setSelectedCategory(category);
+                    navigate(`/${cityName}/Category/${category.replace(/\s+/g, "_")}`);
+                  }}
                 >
                   {category}
                 </button>

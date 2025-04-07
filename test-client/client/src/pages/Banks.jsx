@@ -70,8 +70,8 @@ const Banks = () => {
       <div className="card_outer_conainer">
         <div className="container">
           <div className="row text-center shopcontainerw85">
-            <h1>Banks in {cityName}</h1>
-            <p>Discover a variety of banking categories offering great savings and benefits!</p>
+            <h1>BANKS</h1>
+            <p>Find The Best Discount Offers On Your Bank Card!</p>
 
             {loading ? (
               <div className="row">

@@ -12,7 +12,7 @@ const CatagoryCard = ({ catagory, cityName }) => {
   };
 
   const handleCategoryClick = () => {
-    navigate(`/${cityName}/category/${replaceSpacesWithUnderscore(catagory.CategoryName)}`);
+    navigate(`/${cityName}/Category/${replaceSpacesWithUnderscore(catagory.CategoryName)}`);
   };
 
   return (

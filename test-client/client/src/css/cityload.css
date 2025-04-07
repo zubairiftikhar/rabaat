@@ -398,3 +398,7 @@
   flex-wrap: wrap;
   justify-content: center;
 }
+
+.title_of_merchants{
+  text-transform: uppercase;
+}
