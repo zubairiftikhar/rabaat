@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./mainsecsearch.css";
+import "@lottiefiles/lottie-player";
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
@@ -8,6 +9,7 @@ import Cookies from "js-cookie";
 import Rabaat_shop_img from "../../../public/assets/img/landing/rabaat_shops_icon.png";
 import Card_image from "../../../public/assets/img/landing/rabaat_card.png";
 import Rabbit from "../../../public/assets/img/landing/hero_animation.webm";
+
 
 const Mainsecsearch = () => {
   const replaceSpacesWithUnderscore = (name) => {
@@ -123,7 +125,7 @@ const Mainsecsearch = () => {
   return (
     <div
       className="hero-section text-white d-flex align-items-center"
-    style={{ backgroundImage: `url(${backgroundImageUrl})` }}
+      style={{ backgroundImage: `url(${backgroundImageUrl})` }}
     >
       <div className="container">
         <div className="row">
@@ -143,7 +145,7 @@ const Mainsecsearch = () => {
                   />
                   <input
                     type="text"
-                    className="form-control" style={{border: "none"}}
+                    className="form-control" style={{ border: "none" }}
                     placeholder="Search by Shop / Branch"
                     value={keyword}
                     onChange={(e) => setKeyword(e.target.value)}
@@ -186,6 +188,8 @@ const Mainsecsearch = () => {
               <source src={Rabbit} type="video/webm" />
               Your browser does not support the video tag.
             </video>
+            <div>
+            </div>
           </div>
         </div>
       </div>

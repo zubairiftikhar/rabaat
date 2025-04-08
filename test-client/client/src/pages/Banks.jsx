@@ -13,9 +13,15 @@ const Banks = () => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
-  const [visibleBanks, setVisibleBanks] = useState(12); // Default for desktop
+  const [visibleBanks, setVisibleBanks] = useState(() => {
+    const saved = sessionStorage.getItem("visibleBanks");
+    return saved ? parseInt(saved, 10) : 12; // default to 12
+  });
+  
   const [banksPerRow, setBanksPerRow] = useState(6); // Default for desktop
   const sliderRef = useRef(null);
+
+  
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -62,8 +68,15 @@ const Banks = () => {
 
   // Load More function to display additional rows
   const loadMore = () => {
-    setVisibleBanks((prevVisible) => prevVisible + banksPerRow * 2); // Load 2 more rows
+    const newVisible = visibleBanks + banksPerRow * 2;
+    setVisibleBanks(newVisible);
+    sessionStorage.setItem("visibleBanks", newVisible.toString());
   };
+
+  useEffect(() => {
+    sessionStorage.removeItem("visibleBanks");
+  }, [cityName]);
+  
 
   return (
     <>
