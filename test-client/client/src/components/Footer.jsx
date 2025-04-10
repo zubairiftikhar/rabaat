@@ -19,9 +19,9 @@ const handleTermOfUse = () => {
   return (
     <footer className="footer">
       <div className="footer-content">
-        <h1>About Rabaat</h1>
+        <h1>Rabaat</h1>
         <p style={{ color: "#fff", padding: "20px 0" }}>
-        Tired of overpaying? Effortlessly unlock unbeatable deals, top discounts, and big offers, match your cards with the best deals, and maximize your savings daily!
+        Tired of overpaying? Quickly discover winning deals, the best discounts, and great offers, have your cards to the best offers, and start saving money every day!
         </p>
       </div>
       <div className="footer_bottom">
