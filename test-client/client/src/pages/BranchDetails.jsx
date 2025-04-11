@@ -147,13 +147,13 @@ const BranchDetails = () => {
             <h1 className="brand-title">{merchant.name}</h1>
             <p className="brand-description">
               {`
-              Explore unbeatable deals and discounts exclusively available at
-              ${merchant.name}, brought to you by various leading banks in
-              Pakistan. Whether you're dining at a restaurant, shopping for
-              trendy clothes, or planning a fun day out, enjoy incredible
-              savings with your bank's offers. Stay up-to-date with the latest
-              discounts and make the most of your bank cards. With rabaat.com,
-              accessing discounts is just a click away!`}
+              Enjoy exclusive bank offers and special discounts tailored for you.
+              Use your credit or debit card to enjoy exclusive offers in ${merchant.name}
+              and take advantage of valuable savings on a variety of services.
+              Whether you're handling routine payments or planning.
+              Keep up with the latest offers and gain quick access to selected discounts.
+              Don't miss out; discover current bank offers today and experience
+              the benefits that come with every transaction`}
             </p>
           </div>
 
@@ -180,77 +180,77 @@ const BranchDetails = () => {
       <div className="container">
         <div className="row shopcontainerw85">
 
-       
-        <Breadcrumbs />
-        <Helmet>
-          <title>{`Rabaat | ${merchant.name}`}</title>
-          <meta
-            name="description"
-            content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${merchant.name}!`}
-          />
-          <meta name="keywords" content="React, SEO, React Helmet" />
-        </Helmet>
-        {/* Search Input for Filtering Branches */}
-        <div className="d-flex mt-5 page_search">
-          <div className="input-group" style={{ maxWidth: "300px" }}>
-            <span className="input-group-text">
-              <FaSearch />
-            </span>
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Search Branch Here..."
-              style={{border: "none"}}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+
+          <Breadcrumbs />
+          <Helmet>
+            <title>{`Rabaat | ${merchant.name}`}</title>
+            <meta
+              name="description"
+              content={`Discover the best deals and discounts near you with Rabaat. Save on shopping, dining, and more with exclusive offers in ${merchant.name}!`}
             />
+            <meta name="keywords" content="React, SEO, React Helmet" />
+          </Helmet>
+          {/* Search Input for Filtering Branches */}
+          <div className="d-flex mt-5 page_search">
+            <div className="input-group" style={{ maxWidth: "300px" }}>
+              <span className="input-group-text">
+                <FaSearch />
+              </span>
+              <input
+                type="text"
+                className="form-control"
+                placeholder="Search Branch Here..."
+                style={{ border: "none" }}
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)} // Update search query
+              />
+            </div>
           </div>
-        </div>
-        <h2 className="mt-5">Banks</h2>
-        {banksWithDiscounts.length > 0 ? (
-          <div className="row">
-            {banksWithDiscounts.map((bank) => (
-              <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={bank.bank_id}>
-                <BankWithMerchant
-                  cityName={replaceUnderscoreWithSpaces(cityName)}
-                  merchantName={replaceUnderscoreWithSpaces(merchantName)}
-                  bank={bank}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No banks available for this merchant.</p>
-        )}
-        <h2 className="mt-5">Branches</h2>
-        {branchesToShow.length > 0 ? (
-          <div className="row">
-            {branchesToShow.map((branch) => (
-              <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={branch.id}>
-                <BranchCard
-                  cityName={cityName}
-                  merchantName={merchantName}
-                  branch={branch}
-                />
-              </div>
-            ))}
-          </div>
-        ) : (
-          <p>No branches available for this merchant.</p>
-        )}
-        {/* Load More Button for Branches */}
-        {filteredBranches.length > branchesToShow.length && (
-          <div className="text-center mt-4">
-            <button
-              className="btn rabaat_login_btn"
-              style={{ background: "transparent", color: "black" }}
-              onClick={loadMoreBranches}
-              disabled={isLoadMoreDisabled} // Disable if all branches are loaded
-            >
-              <span>{loadingMore ? "Loading..." : "Load More"}</span>
-            </button>
-          </div>
-        )}
+          <h2 className="mt-5">Banks</h2>
+          {banksWithDiscounts.length > 0 ? (
+            <div className="row">
+              {banksWithDiscounts.map((bank) => (
+                <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={bank.bank_id}>
+                  <BankWithMerchant
+                    cityName={replaceUnderscoreWithSpaces(cityName)}
+                    merchantName={replaceUnderscoreWithSpaces(merchantName)}
+                    bank={bank}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No banks available for this merchant.</p>
+          )}
+          <h2 className="mt-5">Branches</h2>
+          {branchesToShow.length > 0 ? (
+            <div className="row">
+              {branchesToShow.map((branch) => (
+                <div className="col-lg-2 col-md-4 col-6 merchant-card-spacing" key={branch.id}>
+                  <BranchCard
+                    cityName={cityName}
+                    merchantName={merchantName}
+                    branch={branch}
+                  />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p>No branches available for this merchant.</p>
+          )}
+          {/* Load More Button for Branches */}
+          {filteredBranches.length > branchesToShow.length && (
+            <div className="text-center mt-4">
+              <button
+                className="btn rabaat_login_btn"
+                style={{ background: "transparent", color: "black" }}
+                onClick={loadMoreBranches}
+                disabled={isLoadMoreDisabled} // Disable if all branches are loaded
+              >
+                <span>{loadingMore ? "Loading..." : "Load More"}</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

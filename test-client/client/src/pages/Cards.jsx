@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getCardsByBank } from "../services/api";
+import { getCardsByBank, fetchBankByBankName } from "../services/api";
 import BankCardCard from "../components/BankCardCard";
 import { FaSearch } from "react-icons/fa"; // Import the search icon
 import "../components/mainsecsearch/mainsecsearch.css";
@@ -10,6 +10,7 @@ import SkeletonBankCard from "../components/SkeletonBankCard";
 const Cards = () => {
   const { cityName, bankName, cityID } = useParams();
   const [cards, setCards] = useState([]);
+  const [Bank, setBank] = useState([]);
   const [visibleCards, setVisibleCards] = useState(8); // State for visible cards
   const [loadingMore, setLoadingMore] = useState(false); // State for animation delay
   const [searchQuery, setSearchQuery] = useState(""); // State for search query
@@ -28,12 +29,23 @@ const Cards = () => {
         );
         setCards(data || []);
       } catch (error) {
-        console.error("Error fetching banks:", error);
+        console.error("Error fetching Cards:", error);
       } finally {
         setLoading(false);
       }
     };
+    const getBank = async () => {
+      try {
+        const data = await fetchBankByBankName(
+          replaceUnderscoreWithSpaces(bankName)
+        );
+        setBank(data || []);
+      } catch (error) {
+        console.error("Error fetching bank:", error);
+      }
+    };
     getCards();
+    getBank();
   }, [bankName]);
 
   const loadMore = () => {
@@ -57,7 +69,7 @@ const Cards = () => {
         <div className="row">
           <div className="col-lg-12 col-sm">
             <h1>
-              Cards of {replaceUnderscoreWithSpaces(bankName)}
+              Cards Of {Bank.short_code}
             </h1>
             {/* <div className="side_border_dots pt-3 pb-5">
               <span className="line"></span>
@@ -74,7 +86,7 @@ const Cards = () => {
                   type="text"
                   className="form-control"
                   placeholder="Search Card Here..."
-                  style={{border: "none"}}
+                  style={{ border: "none" }}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -120,7 +132,7 @@ const Cards = () => {
               onClick={loadMore}
               disabled={isLoadMoreDisabled}
             >
-            <span>{loadingMore ? "Loading..." : "Load More"}</span>
+              <span>{loadingMore ? "Loading..." : "Load More"}</span>
             </button>
           </div>
         )}

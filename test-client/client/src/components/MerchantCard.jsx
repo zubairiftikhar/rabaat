@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchMaximumDiscountAnyBank } from "../services/api"; // Import the function
+import { fetchMaximumDiscountAnyBank, fetchBranchCount } from "../services/api"; // Import the function
 
 const MerchantCard = ({ cityName, merchant }) => {
   const replaceSpacesWithUnderscore = (name) => {
@@ -8,7 +8,8 @@ const MerchantCard = ({ cityName, merchant }) => {
   };
 
   const navigate = useNavigate();
-  const [maxDiscount, setMaxDiscount] = useState(null); // State to store the maximum discount
+  const [maxDiscount, setMaxDiscount] = useState(null);  // State to store the maximum discount
+  const [branchCount, setBranchCount] = useState(null);
   const [cardCount, setCardCount] = useState(null); // State to store the total card count
 
   useEffect(() => {
@@ -21,6 +22,20 @@ const MerchantCard = ({ cityName, merchant }) => {
           setCardCount(data.total_card_count); // Set the fetched total card count
         }
       };
+      const getBranchCount = async () => {
+        try {
+          const data = await fetchBranchCount(merchant.name, cityName);
+          if (data && data.branch_count !== undefined) {
+            setBranchCount(data);
+          } else {
+            setBranchCount({ branch_count: 0 }); // Fallback value
+          }
+        } catch (error) {
+          console.error("Error fetching Branch Count:", error);
+          setBranchCount({ branch_count: 0 }); // Prevent null access
+        }
+      };
+      getBranchCount();
       getMaxDiscount();
     }
   }, [merchant.name, cityName]);
@@ -59,7 +74,9 @@ const MerchantCard = ({ cityName, merchant }) => {
             <p className="offer-subtext">
               <span>{cardCount !== null ? cardCount : "Loading..."}</span> Cards
             </p>
-            <p style={{ fontSize: "12px" }}>Branches 5</p>
+            <p style={{ fontSize: "12px" }}>
+              Branches {branchCount !== null ? branchCount.branch_count : "Loading..."}
+            </p>
           </div>
         </div>
       </div>
