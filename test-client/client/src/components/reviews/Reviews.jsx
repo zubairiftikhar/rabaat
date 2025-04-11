@@ -60,7 +60,7 @@ const Reviews = () => {
 
   return (
     <div className="container mt-5">
-        <h1 className="text-center">Latest reviews</h1>
+        <h1 className="text-center">Latest Reviews</h1>
       <div className="slider-container position-relative d-flex justify-content-center align-items-center">
         <button className="prev_event" onClick={prevSlide}>&#10094;</button>
         <div className="slider_event d-flex justify-content-center align-items-center">

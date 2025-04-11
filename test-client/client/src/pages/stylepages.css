@@ -248,6 +248,35 @@
 /* END CARD PAGE */
 
 /* START ABOUT PAGE CSS */
+.about_page img {
+  width: 100%;
+  border-radius: 15px;
+}
+
+.about_cards {
+  border: 1px solid #ffebeb;
+  padding: 30px 20px;
+  text-align: center;
+  margin: 20px;
+  border-radius: 10px;
+  box-shadow: rgb(255 96 96 / 20%) 0px 2px 8px 0px;
+}
+
+.about_cards_icon {
+  font-size: 30px;
+  margin: 10px 0;
+  color: var(--primary-color);
+}
+.about_gradient{
+  background: linear-gradient(39deg, rgba(48,0,0,1) 18%, rgba(195,16,0,1) 94%);
+  height: 35vh;
+  align-items: center;
+  display: flex;
+  margin-top: 3rem;
+}
+.about_gradient h5{
+  text-align: center;
+}
 .about_bg {
   width: 100%;
   background-size: cover;
@@ -259,21 +288,11 @@
   width: 15%;
 }
 
-.cont_about {
-  /* background-color: #cc472c; */
-  text-align: center;
-}
-
 .about_page p {
   color: #000000;
   padding: 10px 0;
 }
 
-.about_page {
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .about_page p span {
   color: #b30000;
@@ -405,9 +424,10 @@
 
 
 @media only screen and (max-width: 600px) {
-  .banner-image{
+  .banner-image {
     height: 25vh;
   }
+
   .brand-header {
     flex-direction: column;
     max-width: 100%;
@@ -445,6 +465,7 @@
   .breadcrumb {
     margin: 20px 0;
   }
+
   .hospital-info {
     padding: 0px;
   }
@@ -454,4 +475,22 @@
     border-radius: 10px;
     height: 12vh;
   } */
+}
+
+@media (min-width: 768px) and (max-width: 990px) {
+  .brand-header {
+    display: block;
+  }
+
+  .brand-logo {
+    bottom: 60px;
+  }
+
+  .brand-images img {
+    height: 25vh;
+  }
+
+  .banner-image {
+    height: 25vh;
+  }
 }
