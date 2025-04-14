@@ -266,6 +266,7 @@ nav.fill ul li a {
   top: -60px;
   right: 50px;
   width: 215px;
+  z-index: 1;
 }
 
 .footer_bottom {

@@ -76,7 +76,7 @@ const ContactUs = () => {
           <div className="contact-card">
             <h2>Scan QR Code</h2>
             <img
-              src={"../../public/assets/img/landing/rabaatqr.png"}
+              src={"../../public/assets/img/landing/qrrabaat1.jpg"}
               alt="QR Code"
               className="qr-code"
             />

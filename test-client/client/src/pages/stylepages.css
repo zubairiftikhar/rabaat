@@ -267,16 +267,19 @@
   margin: 10px 0;
   color: var(--primary-color);
 }
-.about_gradient{
-  background: linear-gradient(39deg, rgba(48,0,0,1) 18%, rgba(195,16,0,1) 94%);
+
+.about_gradient {
+  background: linear-gradient(39deg, rgba(48, 0, 0, 1) 18%, rgba(195, 16, 0, 1) 94%);
   height: 35vh;
   align-items: center;
   display: flex;
   margin-top: 3rem;
 }
-.about_gradient h5{
+
+.about_gradient h5 {
   text-align: center;
 }
+
 .about_bg {
   width: 100%;
   background-size: cover;
@@ -302,6 +305,25 @@
 
 
 /* CONATCT PAGE CSS */
+
+/* START CSS TERM OF USE */
+.termofuse {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: justify;
+}
+
+.termofuse p {
+  color: black;
+  font-weight: 500;
+  font-size: 16px;
+  padding-bottom: 6px;
+}
+
+/* END CSS TERM OF USE */
+
+
 /* Background Image with Red Shade */
 .contact-page {
   position: relative;
@@ -351,6 +373,9 @@
   color: #ffffff;
   min-width: 250px;
   flex: 1;
+}
+.contact-card h2{
+  color: #fff;
 }
 
 /* Email Button */
