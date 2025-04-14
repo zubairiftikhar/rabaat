@@ -132,7 +132,7 @@ const Mainsecsearch = () => {
           <div className="col-lg-12 col-md-12 col-sm-12 py-5 hero_col">
             <div>
               <h1 className="first_main_heading pt-5">
-                HAR OFFER KA PTA, HAMEN PATA HA!
+                HAR OFFER KA PATA, HAMEN PATA HA!
               </h1>
               <h5>Save Big with Rabaat – Exclusive Bank Discounts & Deals Around You!</h5>
               {/* <h5>Unlock the Best Offers on Dining, Shopping, Travel & More!</h5> */}
