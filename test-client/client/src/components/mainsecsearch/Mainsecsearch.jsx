@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./mainsecsearch.css";
-import "@lottiefiles/lottie-player";
+// import "@lottiefiles/lottie-player";
 import { BiSearch } from "react-icons/bi";
 import { IoIosArrowDroprightCircle } from "react-icons/io";
 import { fetchMerchantSearchResults, fetchCityById } from "../../services/api";
