@@ -187,6 +187,7 @@ const Merchants = () => {
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
+      
       <div className="card_outer_conainer">
         <div className="container text-center">
           <h1 className="title_of_merchants">Shops in {cityName}</h1>
