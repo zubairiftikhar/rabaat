@@ -180,10 +180,10 @@ const Merchants = () => {
     <>
       <Breadcrumbs />
       <Helmet>
-        <title>{`Ramadan 2025 Deals & Discounts in ${cityName} Save More with Rabaat`}</title>
+        <title>{`Top ${categoryName} Deals & Discounts in ${cityName} | Rabaat`}</title>
         <meta
           name="description"
-          content={`Uncover the best Ramadan 2025 deals and discounts in ${cityName}! Shop, dine, and enjoy exclusive offers. Get special discounts with your bank card only on Rabaat!`}
+          content={`Discover the best ${categoryName} offers, promotions, and exclusive discounts in ${cityName} on Rabaat.`}
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
