@@ -141,7 +141,7 @@ const generateSitemap = async () => {
       const content = generateSitemapContent(group.urls);
       fs.writeFileSync(filePath, content);
       
-      sitemapIndexContent += `<sitemap><loc>${BASE_URL}/${filename}</loc></sitemap>\n`;
+      sitemapIndexContent += `<sitemap><loc>${BASE_URL}/sitemap/${filename}</loc></sitemap>\n`;
       console.log(`Generated ${filename} with ${group.urls.length} URLs`);
     } else {
       // Split into multiple files
