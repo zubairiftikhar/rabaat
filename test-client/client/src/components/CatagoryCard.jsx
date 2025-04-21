@@ -15,9 +15,18 @@ const CatagoryCard = ({ catagory, cityName }) => {
     navigate(`/${cityName}/Category/${replaceSpacesWithUnderscore(catagory.CategoryName)}`);
   };
 
+  // Determine the image source
+  const getImageSource = () => {
+    if (catagory.CategoryName === "All") {
+      // Use a default "all" image or any other image for the "All" category
+      return "../../../public/assets/img/categories/all.jpg";
+    }
+    return `../../../public/assets/img/categories/${formatCategoryImageName(catagory.CategoryName)}`;
+  };
+
   return (
     <div className="category-card" onClick={handleCategoryClick}>
-      <img src={`../../../public/assets/img/categories/${formatCategoryImageName(catagory.CategoryName)}`} alt={catagory.CategoryName} className="category-image" />
+      <img src={getImageSource()} alt={catagory.CategoryName} className="category-image" />
       <h2 className="category-title offer-title">{catagory.CategoryName}</h2>
     </div>
   );
