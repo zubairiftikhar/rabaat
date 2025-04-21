@@ -15,7 +15,6 @@ import SkeletonMerchantCard from "../components/SkeletonMerchantCard";
 const ROW_SIZE = 6;
 
 const MerchantsByBankAndCard = () => {
-
   const { cityName, bankName, cardName } = useParams();
   const [merchants, setMerchants] = useState([]);
   const [filteredMerchants, setFilteredMerchants] = useState([]);
@@ -26,6 +25,12 @@ const MerchantsByBankAndCard = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3);
   const scrollRef = useRef(null);
+  
+  // New refs for manual scrolling functionality
+  const isScrolling = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+
   const replaceUnderscoreWithSpaces = (name) => {
     return name.replace(/_/g, " ");
   };
@@ -73,7 +78,7 @@ const MerchantsByBankAndCard = () => {
       };
       getMerchants();
     }
-  }, [cityName]);
+  }, [cityName, bankName, cardName]);
 
   useEffect(() => {
     let filtered = merchants;
@@ -94,6 +99,65 @@ const MerchantsByBankAndCard = () => {
     setVisibleMerchants(ROW_SIZE * 3);
   }, [selectedCategory, searchQuery, merchants]);
 
+  // Add horizontal scrolling event handlers
+  const handleMouseDown = (e) => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = true;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    
+    // Add cursor styling to indicate grabbing
+    scrollRef.current.style.cursor = 'grabbing';
+    scrollRef.current.style.userSelect = 'none';
+  };
+
+  const handleMouseUp = () => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = false;
+    
+    // Reset cursor styling
+    scrollRef.current.style.cursor = 'grab';
+    scrollRef.current.style.userSelect = '';
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isScrolling.current || !scrollRef.current) return;
+    
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5; // Scroll speed multiplier
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleMouseLeave = () => {
+    if (isScrolling.current) {
+      handleMouseUp();
+    }
+  };
+
+  // Touch event handlers for mobile devices
+  const handleTouchStart = (e) => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = true;
+    startX.current = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isScrolling.current || !scrollRef.current) return;
+    
+    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleTouchEnd = () => {
+    isScrolling.current = false;
+  };
+
   const handleSeeMore = () => {
     setLoadingMore(true);
     setTimeout(() => {
@@ -102,18 +166,28 @@ const MerchantsByBankAndCard = () => {
     }, 1000);
   };
 
+  // Add CSS directly in the component for scrollable functionality
+  const scrollerStyle = {
+    cursor: 'grab',
+    overflowX: 'auto',
+    scrollBehavior: 'smooth',
+    whiteSpace: 'nowrap',
+    WebkitOverflowScrolling: 'touch',  // For smoother scrolling on iOS
+    msOverflowStyle: 'none',  // Hide scrollbar in IE/Edge
+    scrollbarWidth: 'none',   // Hide scrollbar in Firefox
+  };
+
   return (
     <>
       <Breadcrumbs />
       <Helmet>
-        <title>{`Ramadan 2025 Deals & Discounts in ${cityName} Save More with Rabaat`}</title>
+        <title>{`Top Deals & Discounts in ${cityName} | Rabaat`}</title>
         <meta
           name="description"
-          content={`Uncover the best Ramadan 2025 deals and discounts in ${cityName}! Shop, dine, and enjoy exclusive offers. Get special discounts with your bank card only on Rabaat!`}
+          content={`Discover the best offers, promotions, and exclusive discounts in ${cityName} on Rabaat.`}
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
-
       <div className="container">
         <h1 className="main_heading">Shops in {cityName}</h1>
 
@@ -121,19 +195,28 @@ const MerchantsByBankAndCard = () => {
         <div className="category-scroller-wrapper">
           <div className="static-all-button">
             <button
-              className={`category-btn ${selectedCategory === "All" ? "active" : ""
-                }`}
+              className={`category-btn ${selectedCategory === "All" ? "active" : ""}`}
               onClick={() => setSelectedCategory("All")}
             >
               All
             </button>
           </div>
-          <div className="category-scroller" ref={scrollRef}>
+          <div 
+            className="category-scroller" 
+            ref={scrollRef}
+            style={scrollerStyle}
+            onMouseDown={handleMouseDown}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             {categories.map((category, index) => (
               <button
                 key={index}
-                className={`category-btn ${selectedCategory === category ? "active" : ""
-                  }`}
+                className={`category-btn ${selectedCategory === category ? "active" : ""}`}
                 onClick={() => setSelectedCategory(category)}
               >
                 {category}
@@ -214,6 +297,18 @@ const MerchantsByBankAndCard = () => {
           </div>
         )}
       </div>
+
+      {/* Add style to hide scrollbar in Webkit browsers */}
+      <style>
+        {`
+          .category-scroller::-webkit-scrollbar {
+            display: none;
+          }
+          .category-scroller {
+            scrollbar-width: none; /* Firefox */
+          }
+        `}
+      </style>
     </>
   );
 };

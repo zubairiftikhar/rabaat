@@ -5,7 +5,7 @@ import AuthModal from "./AuthModal";
 import LocationModal from "./LocationModal";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../css/navbar.css";
-import rabaat_logo from "../../public/assets/img/landing/Rabaat (3).png";
+import rabaat_logo from "../../public/assets/img/landing/rabaat_logo.png";
 import Cookies from "js-cookie";
 import City from "../../public/assets/img/landing/city.png";
 import { IoMdArrowDropdown } from "react-icons/io";
