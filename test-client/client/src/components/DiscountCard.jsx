@@ -12,6 +12,7 @@ const DiscountCard = ({ discount }) => {
           {discount_amount}% {discount_type}
         </h5>
       </div>
+      
       <div className="discount-card-body">
         <div className="discount-card-grid">
           {cards.length > 0 ? (

@@ -16,7 +16,6 @@ const MerchantBankCardDiscount = () => {
   const replaceUnderscoreWithSpaces = (name) => {
     return name.replace(/_/g, " ");
   };
-
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);

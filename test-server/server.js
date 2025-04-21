@@ -68,8 +68,6 @@ app.get("/api/categories", (req, res) => {
 });
 
 
-
-
 // 1. Fetch all Banks
 app.get("/api/allbanks", (req, res) => {
   const query = "SELECT BankID AS id, BankName AS name, BankShortCode AS bank_short_code, image_path AS image FROM bank"; // Updated table and column names
