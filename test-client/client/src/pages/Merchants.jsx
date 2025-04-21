@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import {
   fetchMerchantsByCity,
   fetchMaximumDiscountAnyBank,
+  fetchCategories
 } from "../services/api";
 import MerchantCard from "../components/MerchantCard";
 import { FaSearch } from "react-icons/fa";
@@ -25,25 +26,31 @@ const Merchants = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const [loadingCategories, setLoadingCategories] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const [visibleMerchants, setVisibleMerchants] = useState(ROW_SIZE * 3);
   const scrollRef = useRef(null);
   const navigate = useNavigate();
   const pageFullyLoaded = useRef(false);
   const scrollPositionRef = useRef(0);
+  
+  // New refs for manual scrolling functionality
+  const isScrolling = useRef(false);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
 
   const replaceUnderscoreWithSpaces = (name) => {
     return name.replace(/_/g, " ");
   };
 
-  // On mount, try to restore previous state
+  // On mount, try to restore previous state - but not search query
   useEffect(() => {
     const restoreStateFromSession = () => {
       try {
         const savedState = sessionStorage.getItem(getSessionKey(cityName));
         if (savedState) {
           const parsedState = JSON.parse(savedState);
-          setSearchQuery(parsedState.searchQuery || "");
+          // Removed searchQuery restoration
           setSelectedCategory(parsedState.selectedCategory || "All");
           setVisibleMerchants(parsedState.visibleMerchants || ROW_SIZE * 3);
           // We'll handle scrollPosition separately after data loads
@@ -61,6 +68,7 @@ const Merchants = () => {
   useEffect(() => {
     const handleBeforeUnload = () => {
       const stateToSave = {
+        // Still saving searchQuery, but not restoring it on load
         searchQuery,
         selectedCategory,
         visibleMerchants,
@@ -79,8 +87,42 @@ const Merchants = () => {
     };
   }, [cityName, searchQuery, selectedCategory, visibleMerchants]);
 
+  // Fetch all categories separately
   useEffect(() => {
-    if (cityName) {
+    const getAllCategories = async () => {
+      setLoadingCategories(true);
+      try {
+        const categoriesData = await fetchCategories();
+        if (categoriesData && Array.isArray(categoriesData)) {
+          // Extract category names from the response
+          const categoryNames = categoriesData.map(cat => cat.CategoryName);
+          setCategories(categoryNames);
+          
+          // Set selected category from URL if available
+          if (categoryName) {
+            const formattedCategory = replaceUnderscoreWithSpaces(categoryName);
+            const matchedCategory = categoryNames.find(
+              (cat) => cat.toLowerCase() === formattedCategory.toLowerCase()
+            );
+            if (matchedCategory) {
+              setSelectedCategory(matchedCategory);
+            } else {
+              setSelectedCategory("All");
+            }
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+      setLoadingCategories(false);
+    };
+    
+    getAllCategories();
+  }, [categoryName]);
+
+  // Fetch merchants after categories and selected category are established
+  useEffect(() => {
+    if (cityName && !loadingCategories) {
       const getMerchants = async () => {
         setLoading(true);
         try {
@@ -104,26 +146,23 @@ const Merchants = () => {
           );
 
           setMerchants(merchantsWithDiscounts);
-          setFilteredMerchants(merchantsWithDiscounts);
-
-          const uniqueCategories = [
-            ...new Set(merchantsWithDiscounts.map((m) => m.category)),
-          ];
-          setCategories(uniqueCategories);
-
-          // Automatically activate the category from the URL
-          if (categoryName) {
-            const formattedCategory = replaceUnderscoreWithSpaces(categoryName);
-            const matchedCategory = uniqueCategories.find(
-              (cat) => cat.toLowerCase() === formattedCategory.toLowerCase()
+          
+          // Apply category filter immediately when setting merchants
+          let filtered = merchantsWithDiscounts;
+          if (selectedCategory !== "All") {
+            filtered = filtered.filter(
+              (merchant) => merchant.category === selectedCategory
             );
-            if (matchedCategory) {
-              setSelectedCategory(matchedCategory);
-            } else {
-              setSelectedCategory("All");
-            }
           }
-
+          
+          // Apply search query if exists
+          if (searchQuery) {
+            filtered = filtered.filter((merchant) =>
+              merchant.name.toLowerCase().includes(searchQuery.toLowerCase())
+            );
+          }
+          
+          setFilteredMerchants(filtered);
         } catch (error) {
           console.error("Error fetching merchants:", error);
         }
@@ -131,9 +170,10 @@ const Merchants = () => {
         setLoading(false);
         pageFullyLoaded.current = true;
       };
+      
       getMerchants();
     }
-  }, [cityName, categoryName]);
+  }, [cityName, selectedCategory, loadingCategories, searchQuery]);
 
   // Restore scroll position after merchants load
   useEffect(() => {
@@ -147,26 +187,64 @@ const Merchants = () => {
     }
   }, [loading, filteredMerchants]);
 
-  useEffect(() => {
-    let filtered = merchants;
+  // Add horizontal scrolling event handlers
+  const handleMouseDown = (e) => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = true;
+    startX.current = e.pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+    
+    // Add cursor styling to indicate grabbing
+    scrollRef.current.style.cursor = 'grabbing';
+    scrollRef.current.style.userSelect = 'none';
+  };
 
-    if (selectedCategory !== "All") {
-      filtered = filtered.filter(
-        (merchant) => merchant.category === selectedCategory
-      );
+  const handleMouseUp = () => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = false;
+    
+    // Reset cursor styling
+    scrollRef.current.style.cursor = 'grab';
+    scrollRef.current.style.userSelect = '';
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isScrolling.current || !scrollRef.current) return;
+    
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5; // Scroll speed multiplier
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
+
+  const handleMouseLeave = () => {
+    if (isScrolling.current) {
+      handleMouseUp();
     }
+  };
 
-    if (searchQuery) {
-      filtered = filtered.filter((merchant) =>
-        merchant.name.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    }
+  // Touch event handlers for mobile devices
+  const handleTouchStart = (e) => {
+    if (!scrollRef.current) return;
+    
+    isScrolling.current = true;
+    startX.current = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    scrollLeft.current = scrollRef.current.scrollLeft;
+  };
 
-    setFilteredMerchants(filtered);
+  const handleTouchMove = (e) => {
+    if (!isScrolling.current || !scrollRef.current) return;
+    
+    const x = e.touches[0].pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX.current) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft.current - walk;
+  };
 
-    // Don't reset visibleMerchants unless explicitly going to a new category
-    // This preserves "load more" state when returning to the page
-  }, [selectedCategory, searchQuery, merchants]);
+  const handleTouchEnd = () => {
+    isScrolling.current = false;
+  };
 
   const handleSeeMore = () => {
     setLoadingMore(true);
@@ -176,14 +254,30 @@ const Merchants = () => {
     }, 1000);
   };
 
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    navigate(`/${cityName}/Category/${category === "All" ? "All" : category.replace(/\s+/g, "_")}`);
+  };
+
+  // Add CSS directly in the component for scrollable functionality
+  const scrollerStyle = {
+    cursor: 'grab',
+    overflowX: 'auto',
+    scrollBehavior: 'smooth',
+    whiteSpace: 'nowrap',
+    WebkitOverflowScrolling: 'touch',  // For smoother scrolling on iOS
+    msOverflowStyle: 'none',  // Hide scrollbar in IE/Edge
+    scrollbarWidth: 'none',   // Hide scrollbar in Firefox
+  };
+
   return (
     <>
       <Breadcrumbs />
       <Helmet>
-        <title>{`Top ${categoryName} Deals & Discounts in ${cityName} | Rabaat`}</title>
+        <title>{`Top ${categoryName || "All"} Deals & Discounts in ${cityName} | Rabaat`}</title>
         <meta
           name="description"
-          content={`Discover the best ${categoryName} offers, promotions, and exclusive discounts in ${cityName} on Rabaat.`}
+          content={`Discover the best ${categoryName || "All"} offers, promotions, and exclusive discounts in ${cityName} on Rabaat.`}
         />
         <meta name="keywords" content="React, SEO, React Helmet" />
       </Helmet>
@@ -196,30 +290,46 @@ const Merchants = () => {
           <div className="category-scroller-wrapper">
             <div className="static-all-button">
               <button
-                className={`category-btn ${selectedCategory === "All" ? "active" : ""
-                  }`}
-                onClick={() => {
-                  setSelectedCategory("All")
-                  navigate(`/${cityName}/Category/${"All"}`);
-                }}
+                className={`category-btn ${selectedCategory === "All" ? "active" : ""}`}
+                onClick={() => handleCategoryChange("All")}
               >
                 All
               </button>
             </div>
-            <div className="category-scroller" ref={scrollRef}>
-              {categories.map((category, index) => (
-                <button
-                  key={index}
-                  className={`category-btn ${selectedCategory === category ? "active" : ""
-                    }`}
-                  onClick={() => {
-                    setSelectedCategory(category);
-                    navigate(`/${cityName}/Category/${category.replace(/\s+/g, "_")}`);
-                  }}
-                >
-                  {category}
-                </button>
-              ))}
+            <div 
+              className="category-scroller" 
+              ref={scrollRef}
+              style={scrollerStyle}
+              onMouseDown={handleMouseDown}
+              onMouseUp={handleMouseUp}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
+            >
+              {loadingCategories ? (
+                // Show skeleton buttons for categories while loading
+                Array.from({ length: 6 }).map((_, index) => (
+                  <button
+                    key={index}
+                    className="category-btn skeleton-btn"
+                    disabled
+                  >
+                    <span className="skeleton-text"></span>
+                  </button>
+                ))
+              ) : (
+                categories.map((category, index) => (
+                  <button
+                    key={index}
+                    className={`category-btn ${selectedCategory === category ? "active" : ""}`}
+                    onClick={() => handleCategoryChange(category)}
+                  >
+                    {category}
+                  </button>
+                ))
+              )}
             </div>
           </div>
 
