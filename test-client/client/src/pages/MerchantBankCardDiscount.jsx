@@ -62,6 +62,7 @@ const MerchantBankCardDiscount = () => {
               acc[key] = {
                 discount_amount: discount.discount_amount,
                 discount_type: discount.discount_type,
+                day_name: discount.day_name, // ⬅️ Include day_name here
                 cards: new Map(
                   discount.cards?.map(({ cardName, cardImage }) => [
                     cardName,
@@ -77,18 +78,19 @@ const MerchantBankCardDiscount = () => {
             }
             return acc;
           }, {});
+          
 
-          let formattedDiscounts = Object.values(groupedDiscounts).map(
-            (group) => ({
-              discount_amount: group.discount_amount,
-              discount_type: group.discount_type,
-              cards: Array.from(group.cards, ([cardName, cardImage]) => ({
-                cardName,
-                cardImage,
-              })),
-              branches: group.branches,
-            })
-          );
+          let formattedDiscounts = Object.values(groupedDiscounts).map((group) => ({
+            discount_amount: group.discount_amount,
+            discount_type: group.discount_type,
+            day_name: group.day_name, // ⬅️ Pass it to DiscountCard
+            cards: Array.from(group.cards, ([cardName, cardImage]) => ({
+              cardName,
+              cardImage,
+            })),
+            branches: group.branches,
+          }));
+          
 
           // Sort discounts in descending order
           formattedDiscounts = formattedDiscounts.sort(
