@@ -1,10 +1,16 @@
 import axios from "axios";
 
-const api = axios.create({
-    baseURL: "http://localhost:8081/api", // Update with your server's base URL
-});
+const API_URL = "http://localhost:8081"; // Update with your server's base URL
 
+const api = axios.create({
+    baseURL: API_URL + "/api",
+});
 // https://api.rabaat.com/api
+
+export const loginWithGoogle = async (credential) => {
+  const res = await axios.post(`${API_URL}/auth/google-login`, { credential });
+  return res.data;
+};
 
 // Fetch all cities
 export const fetchCities = async () => {

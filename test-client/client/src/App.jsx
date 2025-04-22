@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useNavigate, useLocation } from "react-router-dom";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import ReactPixel from "react-facebook-pixel";
+import Cookies from "js-cookie";
 import Home from "./pages/Home";
 import Banks from "./pages/Banks";
 import Merchants from "./pages/Merchants";
@@ -16,32 +18,27 @@ import LocationModal from "./components/LocationModal";
 import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/contactus";
 import TermOfUse from "./pages/termsofuse";
-import Cookies from "js-cookie";
 import SearchByBank from "./pages/SearchByBank";
 import MerchantsByBankAndCard from "./pages/MerchantsByBankAndCard";
 import MerchantBankCardDiscount from "./pages/MerchantBankCardDiscount";
 import Cards from "./pages/Cards";
 
-const App = () => {
+const AppContent = () => {
   const [selectedCity, setSelectedCity] = useState(null);
   const [showLocationModal, setShowLocationModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
   useEffect(() => {
-    // Check cookies for city
     const cityId = Cookies.get("selectedCityId");
     const cityName = Cookies.get("selectedCityName");
 
     if (cityName) {
-      // If data exists, set state and redirect
       setSelectedCity({ id: cityId, name: cityName });
-
       if (location.pathname === "/") {
         navigate(`/${cityName}`);
       }
     } else {
-      // Show location modal for new users
       setShowLocationModal(true);
     }
   }, [navigate, location]);
@@ -51,13 +48,11 @@ const App = () => {
       autoConfig: true,
       debug: false,
     };
-
-    ReactPixel.init("3828318167481588", null, options); // Replace with your actual Pixel ID
-    ReactPixel.pageView(); // Track initial page view
+    ReactPixel.init("3828318167481588", null, options);
+    ReactPixel.pageView();
   }, []);
 
   const handleCitySelection = (city) => {
-    // Save selected city to state and cookies
     setSelectedCity(city);
     Cookies.set("selectedCityId", city.id);
     Cookies.set("selectedCityName", city.name);
@@ -112,6 +107,15 @@ const App = () => {
       </Routes>
       <Footer />
     </div>
+  );
+};
+
+// ✅ Wrap the entire app with GoogleOAuthProvider
+const App = () => {
+  return (
+    <GoogleOAuthProvider clientId="732221825209-6tr387f7msb2ldjofft7ik49k4vg1fhs.apps.googleusercontent.com">
+      <AppContent />
+    </GoogleOAuthProvider>
   );
 };
 

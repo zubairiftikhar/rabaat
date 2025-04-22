@@ -4,8 +4,11 @@ const mysql = require("mysql");
 const cors = require("cors");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const bodyParser = require("body-parser");
+const { OAuth2Client } = require("google-auth-library");
 const app = express();
 app.use(cors());
+app.use(bodyParser.json());
 app.use(express.json());
 // const sitemapRoutes = require("./sitemap");
 // app.use("/", sitemapRoutes);
@@ -19,6 +22,8 @@ const db = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
+const client = new OAuth2Client("732221825209-6tr387f7msb2ldjofft7ik49k4vg1fhs.apps.googleusercontent.com");
+const JWT_SECRET = process.env.JWT_SECRET;
 
 db.connect((err) => {
     if (err) throw err;
@@ -789,7 +794,7 @@ app.get("/api/branch-details/:cityName/:merchantName", (req, res) => {
 
 // User Authentication Routes
 app.post("/api/signup", async (req, res) => {
-  const { name, email, password, confirm_password, city, bank_card } = req.body;
+  const { name, email, password, confirm_password, city, user_card } = req.body;
 
   // Check if all required fields are provided
   if (!name || !email || !password || !confirm_password) {
@@ -819,7 +824,7 @@ app.post("/api/signup", async (req, res) => {
         INSERT INTO users (name, email, password, confirm_password, city, user_card) 
         VALUES (?, ?, ?, ?, ?, ?)
       `;
-      db.query(query, [name, email, hashedPassword, confirm_password, city, bank_card], (err) => {
+      db.query(query, [name, email, hashedPassword, confirm_password, city, user_card], (err) => {
         if (err) return res.status(500).json({ error: "Database error during signup." });
 
         // Generate JWT token after successful signup
@@ -881,9 +886,74 @@ app.post("/api/login", (req, res) => {
 });
 
 
+app.post("/auth/google-login", async (req, res) => {
+  const { credential } = req.body;
+  
+  try {
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: "732221825209-6tr387f7msb2ldjofft7ik49k4vg1fhs.apps.googleusercontent.com",
+    });
+    
+    if (!credential) {
+      return res.status(400).json({ error: "Missing credential" });
+    }
 
 
+    const payload = ticket.getPayload();
+    const { email, name } = payload;
 
+    // Use query instead of execute
+    db.query("SELECT * FROM users WHERE email = ?", [email], async (err, rows) => {
+      if (err) {
+        return res.status(500).json({ error: "Database error" });
+      }
+      
+      let user = rows[0];
+
+      if (!user) {
+        // Insert new user
+        db.query(
+          "INSERT INTO users (name, email, password, city, user_card) VALUES (?, ?, ?, ?, ?)",
+          [name, email, "", "", ""],
+          (err, result) => {
+            if (err) {
+              return res.status(500).json({ error: "Failed to create user" });
+            }
+            
+            // Get the newly created user
+            db.query("SELECT * FROM users WHERE email = ?", [email], (err, newUserRows) => {
+              if (err) {
+                return res.status(500).json({ error: "Failed to retrieve new user" });
+              }
+              
+              user = newUserRows[0];
+              const token = jwt.sign(
+                { id: user.ID, email: user.email }, 
+                JWT_SECRET || "default_secret_key", 
+                { expiresIn: "7d" }
+              );
+              
+              res.json({ token, name: user.name });
+            });
+          }
+        );
+      } else {
+        // User exists, create token
+        const token = jwt.sign(
+          { id: user.ID, email: user.email }, 
+          JWT_SECRET || "default_secret_key", 
+          { expiresIn: "7d" }
+        );
+        
+        res.json({ token, name: user.name });
+      }
+    });
+  } catch (err) {
+    console.error("Google login error:", err);
+    res.status(401).json({ error: "Google login failed" });
+  }
+});
 
 
 // Start Server

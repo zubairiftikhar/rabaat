@@ -11,9 +11,12 @@
   },
   "dependencies": {
     "@lottiefiles/lottie-player": "^2.0.12",
+    "@react-oauth/google": "^0.12.1",
     "axios": "^1.7.7",
     "bootstrap": "^5.3.3",
+    "google-auth-library": "^9.15.1",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "lodash.throttle": "^4.1.1",
     "lottie-react": "^2.4.1",
     "react": "^18.3.1",
@@ -24,7 +27,7 @@
     "react-icons": "^5.4.0",
     "react-router-dom": "^7.0.1",
     "react-select": "^5.10.0",
-    "react-snap": "^1.23.0",
+    "react-snap": "^1.13.1",
     "sitemap": "^8.0.0",
     "sweetalert2": "^11.6.13",
     "swiper": "^11.2.5"

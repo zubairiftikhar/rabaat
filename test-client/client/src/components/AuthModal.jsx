@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { GoogleLogin } from "@react-oauth/google";
 import { Modal, Button, Form } from "react-bootstrap";
-import { loginUser, signupUser } from "../services/api";
+import { loginUser, signupUser, loginWithGoogle } from "../services/api";
 import Cookies from "js-cookie"; // Import js-cookie to manage cookies
 import Swal from "sweetalert2";
 import rabaat_logo from "../../public/assets/img/landing/rabaatlogopng.png";
@@ -105,10 +106,31 @@ const AuthModal = ({
     setType(type === "login" ? "signup" : "login");
   };
 
+  const handleGoogleLogin = async (credentialResponse) => {
+    try {
+      const response = await loginWithGoogle(credentialResponse.credential);
+      Cookies.set("authToken", response.token);
+      handleSuccess(response.name);
+      handleClose();
+
+      Swal.fire({
+        title: "Welcome via Google!",
+        text: `Hi ${response.name}, enjoy personalized discounts on Rabaat.`,
+        icon: "success",
+        confirmButtonText: "Explore",
+        customClass: { confirmButton: "btn btn-primary" },
+        buttonsStyling: false,
+      });
+    } catch {
+      Swal.fire("Google Login Failed", "Please try again later.", "error");
+    }
+  };
+
+
   return (
     <Modal show={show} onHide={handleClose}>
       <img src={rabaat_logo} className="login_logo_img" alt="Rabaat" style={{ width: "75px" }} />
-      <Modal.Header style={{textAlign: 'center'}}>
+      <Modal.Header style={{ textAlign: 'center' }}>
         <Modal.Title>{type === "login" ? "Login" : "Signup"}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -183,11 +205,11 @@ const AuthModal = ({
           )}
           <div className="text-center">
 
-          <button className="rabaat_proc_city_btn px-5 my-4" type="submit">
-            <span>
-            {type === "login" ? "Login" : "Signup"}
-            </span>
-          </button>
+            <button className="rabaat_proc_city_btn px-5 my-4" type="submit">
+              <span>
+                {type === "login" ? "Login" : "Signup"}
+              </span>
+            </button>
           </div>
         </Form>
         <div className="mt-3 text-center">
@@ -206,6 +228,15 @@ const AuthModal = ({
               </Button>
             </p>
           )}
+        </div>
+        <div className="text-center mb-3">
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() =>
+              Swal.fire("Google Login Failed", "Please try again later.", "error")
+            }
+          />
+          <p className="my-2">or continue using</p>
         </div>
       </Modal.Body>
     </Modal>
