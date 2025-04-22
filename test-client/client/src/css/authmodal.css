@@ -84,6 +84,25 @@
   .text-center {
     text-align: center;
   }
+  .custom-swal-popup {
+    border: 2px solid red;
+    border-radius: 20px !important;
+  }
+  
+  .custom-swal-title {
+    color: green;
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+  
+  .custom-swal-button {
+    background: radial-gradient(circle, rgba(232, 84, 83, 1) 23%, rgba(253, 42, 78, 1) 79%);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-weight: bold;
+  }
   
   @media only screen and (max-width: 600px) {
     .form-control {

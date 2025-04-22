@@ -114,11 +114,14 @@ const AuthModal = ({
       handleClose();
 
       Swal.fire({
-        title: "Welcome via Google!",
-        text: `Hi ${response.name}, enjoy personalized discounts on Rabaat.`,
+        title: `<span class="custom-swal-title">Welcome via Google!</span>`,
+        html: `Hi <strong>${response.name},</strong> enjoy personalized discounts on Rabaat.`,
         icon: "success",
         confirmButtonText: "Explore",
-        customClass: { confirmButton: "btn btn-primary" },
+        customClass: {
+          popup: "custom-swal-popup",
+          confirmButton: "custom-swal-button",
+        },
         buttonsStyling: false,
       });
     } catch {
@@ -181,7 +184,7 @@ const AuthModal = ({
                   required
                 />
               </Form.Group>
-              <Form.Group className="mb-3">
+              {/* <Form.Group className="mb-3">
                 <Form.Label>City</Form.Label>
                 <Form.Control
                   type="text"
@@ -200,7 +203,7 @@ const AuthModal = ({
                   value={formData.bank_card}
                   onChange={handleChange}
                 />
-              </Form.Group>
+              </Form.Group> */}
             </>
           )}
           <div className="text-center">
@@ -212,6 +215,15 @@ const AuthModal = ({
             </button>
           </div>
         </Form>
+        <div className="text-center mb-3">
+          <GoogleLogin
+            onSuccess={handleGoogleLogin}
+            onError={() =>
+              Swal.fire("Google Login Failed", "Please try again later.", "error")
+            }
+          />
+          {/* <p className="my-2">or continue using</p> */}
+        </div>
         <div className="mt-3 text-center">
           {type === "login" ? (
             <p>
@@ -229,15 +241,7 @@ const AuthModal = ({
             </p>
           )}
         </div>
-        <div className="text-center mb-3">
-          <GoogleLogin
-            onSuccess={handleGoogleLogin}
-            onError={() =>
-              Swal.fire("Google Login Failed", "Please try again later.", "error")
-            }
-          />
-          <p className="my-2">or continue using</p>
-        </div>
+        
       </Modal.Body>
     </Modal>
   );
