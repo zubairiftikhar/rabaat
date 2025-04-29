@@ -35,18 +35,25 @@ const Navbar = ({ selectedCity, onLocationChange }) => {
     setLoggedInUser(userName);
     Cookies.set("loggedInUser", userName, { expires: 7 });
   };
-  
+
   useEffect(() => {
     const handleOutsideClick = (event) => {
       if (isToggled && !event.target.closest(".navbar")) {
         setIsToggled(false);
       }
     };
-  
+
     document.addEventListener("click", handleOutsideClick);
     return () => document.removeEventListener("click", handleOutsideClick);
   }, [isToggled]);
-  
+
+  useEffect(() => {
+    window.setShowAuthModal = setShowAuthModal;
+    return () => {
+      delete window.setShowAuthModal;
+    };
+  }, []);
+
 
   useEffect(() => {
     const user = Cookies.get("loggedInUser");

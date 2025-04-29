@@ -5,7 +5,7 @@ const API_URL = "http://localhost:8081"; // Update with your server's base URL
 const api = axios.create({
     baseURL: API_URL + "/api",
 });
-// https://api.rabaat.com/api
+// https://api.rabaat.com
 
 export const loginWithGoogle = async (credential) => {
   const res = await axios.post(`${API_URL}/auth/google-login`, { credential });
