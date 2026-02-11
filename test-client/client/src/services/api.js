@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:8081"; // Update with your server's base URL
+const API_URL = "https://api.rabaat.com"; // Update with your server's base URL
 
 const api = axios.create({
     baseURL: API_URL + "/api",

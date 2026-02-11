@@ -134,7 +134,7 @@ const Mainsecsearch = () => {
               <h1 className="first_main_heading pt-5">
                 HAR OFFER KA PATA, HAMEN PATA HA!
               </h1>
-              <h5>Save Big with Rabaat – Exclusive Bank Discounts & Deals Around You!</h5>
+              <h5>Save Big with Rabaat – Exclusive Bank Discount & Deals Around You!</h5>
               {/* <h5>Unlock the Best Offers on Dining, Shopping, Travel & More!</h5> */}
               <div className="search_bar">
                 <div className="search_container">
